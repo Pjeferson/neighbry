@@ -4,7 +4,7 @@ name: neighbry
 
 x-neighbry-api-base: &neighbry-api-base
   build:
-    context: services/neighbry-api
+    context: neighbry-api
   environment:
     DATABASE_URL: postgresql://neighbry:neighbry@postgres:5432/neighbry_api_development
     REDIS_URL: redis://redis:6379/0
@@ -18,7 +18,7 @@ x-neighbry-api-base: &neighbry-api-base
     redis:
       condition: service_healthy
   volumes:
-    - ./services/neighbry-api:/app
+    - ./neighbry-api:/app
     - bundle-neighbry-api:/usr/local/bundle
 
 services:
@@ -67,18 +67,18 @@ services:
 
   # ── Frontend ────────────────────────────────────────────────────────────────
 
-  frontend:
+  neighbry-frontend:
     build:
-      context: frontend
+      context: neighbry-frontend
     ports:
       - "5173:5173"
     environment:
       VITE_API_URL: http://localhost:3001
     volumes:
-      - ./frontend:/app
-      - node_modules-frontend:/app/node_modules
+      - ./neighbry-frontend:/app
+      - node_modules-neighbry-frontend:/app/node_modules
 
 volumes:
   pgdata:
   bundle-neighbry-api:
-  node_modules-frontend:
+  node_modules-neighbry-frontend:

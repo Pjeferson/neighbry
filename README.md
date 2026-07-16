@@ -63,10 +63,9 @@ Ver `CLAUDE.md` para o guia completo de comandos, convenções e gotchas de dese
 neighbry/
 ├── CLAUDE.md
 ├── docker-compose.yml
-├── services/
-│   └── neighbry-api/    # backend Rails único (monolito modular)
-├── frontend/             # React 19 + Vite 6 SPA
-└── openspec/             # planejamento de mudanças e especificação do domínio
+├── neighbry-api/          # backend Rails único (monolito modular)
+├── neighbry-frontend/     # React 19 + Vite 6 SPA
+└── openspec/              # planejamento de mudanças e especificação do domínio
 ```
 
 ---

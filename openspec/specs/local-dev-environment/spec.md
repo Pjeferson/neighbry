@@ -14,8 +14,8 @@ sem suíte E2E Playwright.
 O ambiente local SHALL rodar um único serviço de aplicação Rails (`neighbry-api`), substituindo os três serviços independentes herdados do esqueleto anterior.
 
 #### Scenario: Backend consolidado
-- **WHEN** o diretório `services/` é inspecionado
-- **THEN** existe apenas `services/neighbry-api/` como aplicação Rails; `services/payment-service/` e `services/receivables-service/` não existem
+- **WHEN** a raiz do repositório é inspecionada
+- **THEN** existe apenas `neighbry-api/` como aplicação Rails, na raiz do monorepo (sem diretório `services/` intermediário); `payment-service/` e `receivables-service/` não existem
 
 ### Requirement: Banco de dados único
 O ambiente local SHALL usar uma única instância PostgreSQL para o `neighbry-api`, em vez de um banco isolado por serviço.
@@ -50,7 +50,7 @@ O frontend SHALL fazer requisições HTTP diretamente para `neighbry-api`, sem p
 
 #### Scenario: Sem gateway
 - **WHEN** o repositório é inspecionado
-- **THEN** o diretório `api-gateway/` não existe, e `frontend/src/lib/api.ts` aponta `baseURL` para a porta do `neighbry-api`
+- **THEN** o diretório `api-gateway/` não existe, e `neighbry-frontend/src/lib/api.ts` aponta `baseURL` para a porta do `neighbry-api`
 
 ### Requirement: Sem infraestrutura de e-mail
 O ambiente local SHALL NOT incluir infraestrutura de envio/inspeção de e-mail (Mailhog) neste estágio do projeto.
@@ -64,7 +64,7 @@ O ambiente local SHALL NOT incluir a suíte de testes E2E via Playwright herdada
 
 #### Scenario: Ausência de infraestrutura Playwright
 - **WHEN** o repositório é inspecionado
-- **THEN** não existem `docker-compose.e2e.yml`, `frontend/playwright.config.ts`, arquivos `*.e2e.ts`, nem o controller/rotas de seed E2E (`/internal/e2e/seed`) no backend
+- **THEN** não existem `docker-compose.e2e.yml`, `neighbry-frontend/playwright.config.ts`, arquivos `*.e2e.ts`, nem o controller/rotas de seed E2E (`/internal/e2e/seed`) no backend
 
 ### Requirement: Autenticação preservada
 A infraestrutura de autenticação (Devise + devise-jwt, model `User`, `JwtDenylist`) SHALL ser preservada como parte da migração, por não ser específica do domínio CredFlow.

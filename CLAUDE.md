@@ -36,10 +36,9 @@ aggregates, invariantes, fluxos principais).
 neighbry/
 ├── CLAUDE.md
 ├── docker-compose.yml
-├── services/
-│   └── neighbry-api/          # backend Rails único (monolito modular)
-├── frontend/                  # React 19 + Vite 6 SPA
-└── openspec/                  # planejamento de mudanças (ver project.md)
+├── neighbry-api/               # backend Rails único (monolito modular)
+├── neighbry-frontend/          # React 19 + Vite 6 SPA
+└── openspec/                   # planejamento de mudanças (ver project.md)
 ```
 
 `neighbry-api` é a única aplicação Rails do projeto. Bounded contexts (Registry,
@@ -54,8 +53,8 @@ de código de um módulo no modelo de outro. Ver `@openspec/project.md` seção 
 
 | Serviço          | Porta  |
 |------------------|--------|
-| neighbry-api     | 3001   |
-| frontend (Vite)  | 5173   |
+| neighbry-api        | 3001   |
+| neighbry-frontend (Vite) | 5173   |
 | postgres         | 5442 (host) → 5432 (container) |
 | redis            | 6389 (host) → 6379 (container) |
 
@@ -77,14 +76,14 @@ docker compose build neighbry-api
 docker compose run --rm neighbry-api bundle exec rails generate <gerador>
 ```
 
-### Workflow de pacotes npm (frontend)
+### Workflow de pacotes npm (neighbry-frontend)
 
 ```bash
 # 1. Adicionar pacote
-docker compose run --rm frontend npm install <pacote>
+docker compose run --rm neighbry-frontend npm install <pacote>
 
 # 2. Rebuildar a imagem
-docker compose build frontend
+docker compose build neighbry-frontend
 ```
 
 ### Permissões de arquivo
@@ -93,7 +92,7 @@ Geradores e `docker compose run` criam arquivos como **root**. Após qualquer
 gerador, corrija com:
 
 ```bash
-docker run --rm -v $(pwd)/services/neighbry-api:/app ruby:3.4-slim chown -R 1000:1000 /app
+docker run --rm -v $(pwd)/neighbry-api:/app ruby:3.4-slim chown -R 1000:1000 /app
 ```
 
 ### Bancos de dados
@@ -127,11 +126,11 @@ docker compose run --rm -e RAILS_ENV=test neighbry-api bundle exec rspec
 docker compose logs -f neighbry-api
 
 # Frontend — testes unitários e de componente (Vitest + MSW)
-docker compose run --rm frontend npm run test        # modo watch
-docker compose run --rm frontend npm run test -- --run  # CI / execução única
+docker compose run --rm neighbry-frontend npm run test        # modo watch
+docker compose run --rm neighbry-frontend npm run test -- --run  # CI / execução única
 
 # Frontend — build de produção
-docker compose run --rm frontend npm run build
+docker compose run --rm neighbry-frontend npm run build
 ```
 
 ### Validações rápidas
