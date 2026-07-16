@@ -3,7 +3,7 @@ import { RegisterPage } from "@/features/auth/RegisterPage";
 
 export const Route = createFileRoute("/register")({
   beforeLoad: () => {
-    if (localStorage.getItem("credflow_token")) {
+    if (localStorage.getItem("neighbry_token")) {
       throw redirect({ to: "/" });
     }
   },

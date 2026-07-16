@@ -1,5 +1,5 @@
 {
-  "name": "credflow-frontend",
+  "name": "neighbry-frontend",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,8 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest",
-    "test:ui": "vitest --ui",
-    "test:e2e": "playwright test"
+    "test:ui": "vitest --ui"
   },
   "dependencies": {
     "@tabler/icons-react": "^3.44.0",
@@ -28,7 +27,6 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@playwright/test": "^1.60.0",
     "@tailwindcss/vite": "^4.1.10",
     "@tanstack/react-query-devtools": "^5.80.0",
     "@tanstack/router-devtools": "^1.121.0",

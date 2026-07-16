@@ -7,7 +7,7 @@ import { server } from "@/test/server";
 import { RegisterPage } from "@/features/auth/RegisterPage";
 import { useAuthStore } from "@/store/authStore";
 
-const API = "http://localhost:8080";
+const API = "http://localhost:3001";
 
 beforeEach(() => {
   localStorage.clear();
@@ -32,7 +32,7 @@ describe("RegisterPage", () => {
     server.use(
       http.post(`${API}/api/v1/auth/sign_up`, () =>
         HttpResponse.json(
-          { message: "Signed up successfully", user: { id: "u-2", email: "new@credflow.com", name: "Novo" } },
+          { message: "Signed up successfully", user: { id: "u-2", email: "new@neighbry.com", name: "Novo" } },
           { headers: { Authorization: "Bearer new-jwt-token" } }
         )
       )
@@ -41,14 +41,14 @@ describe("RegisterPage", () => {
     render(<RegisterPage />);
 
     await user.type(screen.getByLabelText(/nome/i), "Novo Usuário");
-    await user.type(screen.getByLabelText(/email/i), "new@credflow.com");
+    await user.type(screen.getByLabelText(/email/i), "new@neighbry.com");
     await user.type(screen.getByLabelText(/senha/i), "password123");
     await user.click(screen.getByRole("button", { name: /criar conta/i }));
 
     await waitFor(() => {
       expect(useAuthStore.getState().isAuthenticated).toBe(true);
     });
-    expect(localStorage.getItem("credflow_token")).toBe("new-jwt-token");
+    expect(localStorage.getItem("neighbry_token")).toBe("new-jwt-token");
   });
 
   it("shows error message when registration fails", async () => {
@@ -61,7 +61,7 @@ describe("RegisterPage", () => {
     render(<RegisterPage />);
 
     await user.type(screen.getByLabelText(/nome/i), "Alguém");
-    await user.type(screen.getByLabelText(/email/i), "existente@credflow.com");
+    await user.type(screen.getByLabelText(/email/i), "existente@neighbry.com");
     await user.type(screen.getByLabelText(/senha/i), "password123");
     await user.click(screen.getByRole("button", { name: /criar conta/i }));
 

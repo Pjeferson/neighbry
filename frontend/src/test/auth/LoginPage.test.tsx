@@ -7,11 +7,11 @@ import { server } from "@/test/server";
 import { LoginPage } from "@/features/auth/LoginPage";
 import { useAuthStore } from "@/store/authStore";
 
-const API = "http://localhost:8080";
+const API = "http://localhost:3001";
 
 const successHandler = http.post(`${API}/api/v1/auth/sign_in`, () =>
   HttpResponse.json(
-    { message: "Logged in successfully", user: { id: "u-1", email: "demo@credflow.com", name: "Demo" } },
+    { message: "Logged in successfully", user: { id: "u-1", email: "demo@neighbry.com", name: "Demo" } },
     { headers: { Authorization: "Bearer fake-jwt-token" } }
   )
 );
@@ -43,15 +43,15 @@ describe("LoginPage", () => {
     const user = userEvent.setup();
     render(<LoginPage />);
 
-    await user.type(screen.getByLabelText(/email/i), "demo@credflow.com");
+    await user.type(screen.getByLabelText(/email/i), "demo@neighbry.com");
     await user.type(screen.getByLabelText(/senha/i), "password123");
     await user.click(screen.getByRole("button", { name: /entrar/i }));
 
     await waitFor(() => {
       expect(useAuthStore.getState().isAuthenticated).toBe(true);
     });
-    expect(useAuthStore.getState().user?.email).toBe("demo@credflow.com");
-    expect(localStorage.getItem("credflow_token")).toBe("fake-jwt-token");
+    expect(useAuthStore.getState().user?.email).toBe("demo@neighbry.com");
+    expect(localStorage.getItem("neighbry_token")).toBe("fake-jwt-token");
   });
 
   it("shows error message on invalid credentials", async () => {
@@ -73,7 +73,7 @@ describe("LoginPage", () => {
     const user = userEvent.setup();
     render(<LoginPage />);
 
-    await user.type(screen.getByLabelText(/email/i), "demo@credflow.com");
+    await user.type(screen.getByLabelText(/email/i), "demo@neighbry.com");
     await user.type(screen.getByLabelText(/senha/i), "password123");
 
     const button = screen.getByRole("button", { name: /entrar/i });

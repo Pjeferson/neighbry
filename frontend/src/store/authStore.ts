@@ -19,7 +19,7 @@ export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       user: null,
-      isAuthenticated: !!localStorage.getItem("credflow_token"),
+      isAuthenticated: !!localStorage.getItem("neighbry_token"),
       setUser: (user) => set({ user, isAuthenticated: true }),
       logout: () => {
         clearToken();
@@ -27,7 +27,7 @@ export const useAuthStore = create<AuthState>()(
       },
     }),
     {
-      name: "credflow_auth",
+      name: "neighbry_auth",
       partialize: (state) => ({ user: state.user, isAuthenticated: state.isAuthenticated }),
     }
   )

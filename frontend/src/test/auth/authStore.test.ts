@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { useAuthStore } from "@/store/authStore";
 
-const user = { id: "u-1", email: "demo@credflow.com", name: "Demo" };
+const user = { id: "u-1", email: "demo@neighbry.com", name: "Demo" };
 
 beforeEach(() => {
   localStorage.clear();
@@ -22,12 +22,12 @@ describe("authStore", () => {
 
   it("logout clears user and isAuthenticated", () => {
     useAuthStore.getState().setUser(user);
-    localStorage.setItem("credflow_token", "tok");
+    localStorage.setItem("neighbry_token", "tok");
 
     useAuthStore.getState().logout();
 
     expect(useAuthStore.getState().isAuthenticated).toBe(false);
     expect(useAuthStore.getState().user).toBeNull();
-    expect(localStorage.getItem("credflow_token")).toBeNull();
+    expect(localStorage.getItem("neighbry_token")).toBeNull();
   });
 });
