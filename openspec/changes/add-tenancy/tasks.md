@@ -1,7 +1,7 @@
 ## 1. Estrutura do módulo
 
-- [ ] 1.1 Criar `app/domains/tenancy/` como primeiro namespace de bounded context do projeto (models, services, policies dentro do namespace `Tenancy::`)
-- [ ] 1.2 Confirmar convenção de autoload do Rails 8 para `app/domains/**` (adicionar em `config/application.rb` se necessário)
+- [x] 1.1 Criar `app/domains/tenancy/` como primeiro namespace de bounded context do projeto (models, services, policies dentro do namespace `Tenancy::`)
+- [x] 1.2 Confirmar convenção de autoload do Rails 8 para `app/domains/**` (adicionar em `config/application.rb` se necessário)
 
 ## 2. Migrations
 
