@@ -88,7 +88,7 @@
 
 ## 13. Validação final
 
-- [ ] 13.1 `bundle exec rspec` roda sem falhas
-- [ ] 13.2 `docker compose up`/`restart` sobe sem erro com as novas migrations aplicadas
-- [ ] 13.3 Fluxo manual de ponta a ponta: admin cadastra dono com acesso → dono loga → dono delega responsible → responsible cadastra morador comum → aceite de convite reconcilia `Person.user_id` corretamente (não por email)
-- [ ] 13.4 Atualizar `CLAUDE.md` se necessário (mesmo padrão de módulos já documentado em `add-tenancy` deve cobrir Registry sem mudança adicional — só confirmar)
+- [x] 13.1 `bundle exec rspec` roda sem falhas — 149 exemplos, 0 falhas
+- [x] 13.2 `docker compose restart` sobe sem erro com as novas migrations aplicadas — confirmado, `GET /up` retorna 200
+- [x] 13.3 Fluxo manual de ponta a ponta validado via curl contra o servidor real (`*.localhost:3001`): admin cadastra dono com acesso → convite aceito → `Person.user_id` reconciliado via evento (confirmado no banco, não por email) → dono loga → dono delega responsible com acesso → responsible aceita e loga → responsible cadastra morador comum → owner tenta encerrar a própria titularidade → 422 (rejeitado corretamente)
+- [x] 13.4 `CLAUDE.md` já cobre o padrão de módulos genericamente (já cita "Registry" na regra 8) — confirmado, nenhuma mudança necessária
