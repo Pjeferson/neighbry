@@ -10,9 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_17_000003) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_17_000007) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "buildings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "condominium_id", null: false
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+    t.index ["condominium_id"], name: "index_buildings_on_condominium_id"
+  end
 
   create_table "condominiums", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -52,6 +60,48 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_17_000003) do
     t.index ["user_id"], name: "index_memberships_on_user_id", unique: true
   end
 
+  create_table "occupancies", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "condominium_id", null: false
+    t.datetime "created_at", null: false
+    t.date "end_date"
+    t.boolean "owner", default: false, null: false
+    t.uuid "person_id", null: false
+    t.boolean "responsible", default: false, null: false
+    t.date "start_date", null: false
+    t.uuid "unit_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["condominium_id"], name: "index_occupancies_on_condominium_id"
+    t.index ["person_id", "unit_id"], name: "index_occupancies_on_person_id_and_unit_id_active", unique: true, where: "(end_date IS NULL)"
+    t.index ["person_id"], name: "index_occupancies_on_person_id"
+    t.index ["unit_id"], name: "index_occupancies_on_unit_id"
+    t.index ["unit_id"], name: "index_occupancies_on_unit_id_active_owner", unique: true, where: "((owner = true) AND (end_date IS NULL))"
+    t.index ["unit_id"], name: "index_occupancies_on_unit_id_active_responsible", unique: true, where: "((responsible = true) AND (end_date IS NULL))"
+  end
+
+  create_table "people", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "condominium_id", null: false
+    t.string "cpf", null: false
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.uuid "pending_invitation_id"
+    t.string "type", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "user_id"
+    t.index ["condominium_id", "cpf"], name: "index_people_on_condominium_id_and_cpf", unique: true
+    t.index ["condominium_id"], name: "index_people_on_condominium_id"
+    t.index ["user_id"], name: "index_people_on_user_id"
+  end
+
+  create_table "units", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "building_id", null: false
+    t.uuid "condominium_id", null: false
+    t.datetime "created_at", null: false
+    t.string "identification", null: false
+    t.datetime "updated_at", null: false
+    t.index ["building_id"], name: "index_units_on_building_id"
+    t.index ["condominium_id"], name: "index_units_on_condominium_id"
+  end
+
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email", default: "", null: false
@@ -61,7 +111,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_17_000003) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "buildings", "condominiums"
   add_foreign_key "invitations", "condominiums"
   add_foreign_key "memberships", "condominiums"
   add_foreign_key "memberships", "users"
+  add_foreign_key "occupancies", "condominiums"
+  add_foreign_key "occupancies", "people"
+  add_foreign_key "occupancies", "units"
+  add_foreign_key "people", "condominiums"
+  add_foreign_key "people", "users"
+  add_foreign_key "units", "buildings"
+  add_foreign_key "units", "condominiums"
 end

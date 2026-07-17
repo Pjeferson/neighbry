@@ -5,12 +5,12 @@
 
 ## 2. Migrations
 
-- [ ] 2.1 Migration `buildings` (id uuid, condominium_id FK, name, timestamps)
-- [ ] 2.2 Migration `units` (id uuid, condominium_id FK, building_id FK, identification, timestamps)
-- [ ] 2.3 Migration `people` (id uuid, condominium_id FK, user_id FK nullable, name, cpf, type enum, pending_invitation_id nullable, timestamps; índice único em `(condominium_id, cpf)`)
-- [ ] 2.4 Migration `occupancies` (id uuid, condominium_id FK, unit_id FK, person_id FK, owner boolean default false, responsible boolean default false, start_date, end_date nullable, timestamps)
-- [ ] 2.5 Índices parciais únicos: `occupancies` com no máx. 1 linha `owner: true` ativa por `unit_id`, no máx. 1 linha `responsible: true` ativa por `unit_id` (considerar `unique index ... where (owner = true AND end_date IS NULL)`, idem para `responsible`)
-- [ ] 2.6 Rodar migrations em development e test
+- [x] 2.1 Migration `buildings` (id uuid, condominium_id FK, name, timestamps)
+- [x] 2.2 Migration `units` (id uuid, condominium_id FK, building_id FK, identification, timestamps)
+- [x] 2.3 Migration `people` (id uuid, condominium_id FK, user_id FK nullable, name, cpf, type enum, pending_invitation_id nullable, timestamps; índice único em `(condominium_id, cpf)`)
+- [x] 2.4 Migration `occupancies` (id uuid, condominium_id FK, unit_id FK, person_id FK, owner boolean default false, responsible boolean default false, start_date, end_date nullable, timestamps)
+- [x] 2.5 Índices parciais únicos: `occupancies` com no máx. 1 linha `owner: true` ativa por `unit_id`, no máx. 1 linha `responsible: true` ativa por `unit_id` — e também no máx. 1 `Occupancy` ativa por `(person_id, unit_id)` (Decisão 10)
+- [x] 2.6 Rodar migrations em development e test
 
 ## 3. Building
 
