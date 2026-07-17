@@ -7,12 +7,34 @@ O sistema SHALL representar cada bloco/torre de um condomínio como um `Building
 - **WHEN** um `Building` é criado sem `condominium_id`
 - **THEN** a criação falha com erro de validação
 
+### Requirement: Cadastro de Building é restrito a admin
+Um `Building` SHALL ser criado apenas por um `User` com `Tenancy::Membership` de `role: admin` no `Condominium`.
+
+#### Scenario: Admin cadastra um Building
+- **WHEN** um `User` com `Membership(role: admin)` no `Condominium` cadastra um `Building` nesse condomínio
+- **THEN** a operação é permitida
+
+#### Scenario: Não-admin não cadastra Building
+- **WHEN** um `User` sem `Membership(role: admin)` no `Condominium` (incluindo owner/responsible de alguma Unit) tenta cadastrar um `Building`
+- **THEN** a operação é rejeitada
+
 ### Requirement: Unit pertence a exatamente um Building
 O sistema SHALL representar cada unidade como um `Unit`, pertencente a exatamente um `Building`.
 
 #### Scenario: Unit sem Building é rejeitado
 - **WHEN** um `Unit` é criado sem `building_id`
 - **THEN** a criação falha com erro de validação
+
+### Requirement: Cadastro de Unit é restrito a admin
+Uma `Unit` SHALL ser criada apenas por um `User` com `Tenancy::Membership` de `role: admin` no `Condominium` do `Building` correspondente.
+
+#### Scenario: Admin cadastra uma Unit
+- **WHEN** um `User` com `Membership(role: admin)` no `Condominium` cadastra uma `Unit` num `Building` desse condomínio
+- **THEN** a operação é permitida
+
+#### Scenario: Não-admin não cadastra Unit
+- **WHEN** um `User` sem `Membership(role: admin)` no `Condominium` (incluindo owner/responsible de alguma Unit) tenta cadastrar uma `Unit`
+- **THEN** a operação é rejeitada
 
 ### Requirement: Person é reconciliada por CPF dentro do condomínio
 O sistema SHALL representar cada pessoa conhecida pelo condomínio como uma `Person`, única por `(condominium_id, cpf)`. Cadastrar uma pessoa já existente (mesmo CPF, mesmo condomínio) SHALL reaproveitar o registro existente em vez de criar um duplicado. `Person.type` SHALL ser fixo desde a criação — não SHALL existir fluxo para mudar o `type` de uma `Person` já cadastrada (v1; possível v2).

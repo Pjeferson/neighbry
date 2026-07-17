@@ -92,3 +92,19 @@
 - [x] 13.2 `docker compose restart` sobe sem erro com as novas migrations aplicadas — confirmado, `GET /up` retorna 200
 - [x] 13.3 Fluxo manual de ponta a ponta validado via curl contra o servidor real (`*.localhost:3001`): admin cadastra dono com acesso → convite aceito → `Person.user_id` reconciliado via evento (confirmado no banco, não por email) → dono loga → dono delega responsible com acesso → responsible aceita e loga → responsible cadastra morador comum → owner tenta encerrar a própria titularidade → 422 (rejeitado corretamente)
 - [x] 13.4 `CLAUDE.md` já cobre o padrão de módulos genericamente (já cita "Registry" na regra 8) — confirmado, nenhuma mudança necessária
+
+## 14. Cadastro de Building e Unit (gap encontrado após a primeira validação — ver design.md Decisão 11)
+
+- [ ] 14.1 `Registry::AdminCheckable` — módulo compartilhado com a checagem "é admin desse condomínio" (extraído de `OccupancyPolicy`/`ServiceProviderPolicy`, que passam a incluí-lo também, sem mudar comportamento)
+- [ ] 14.2 `Registry::BuildingPolicy(user, condominium)` — `create?`: só admin
+- [ ] 14.3 `Registry::UnitPolicy(user, building)` — `create?`: só admin do condomínio do Building
+- [ ] 14.4 Service `Registry::RegisterBuilding(actor:, condominium:, name:)` (Dry::Monads::Result)
+- [ ] 14.5 Service `Registry::RegisterUnit(actor:, building:, identification:)` (Dry::Monads::Result)
+- [ ] 14.6 Rotas: `POST /api/v1/buildings` (condomínio resolvido por subdomínio, mesmo padrão de `service_providers`), `POST /api/v1/buildings/:building_id/units`
+- [ ] 14.7 Controllers finos usando os serializers já existentes (`BuildingSerializer`, `UnitSerializer`)
+- [ ] 14.8 Testes: admin cadastra Building; não-admin (incluindo owner/responsible) rejeitado; admin cadastra Unit num Building do próprio condomínio; Building de outro condomínio retorna 404 (mesmo padrão de escopo por tenant já usado em `units/:unit_id/occupancies`)
+
+## 15. Validação final (pós-Grupo 14)
+
+- [ ] 15.1 `bundle exec rspec` roda sem falhas
+- [ ] 15.2 Fluxo manual: admin cria Building + Unit pela API (sem precisar de `rails console`) → segue o mesmo fluxo de ponta a ponta já validado no Grupo 13 a partir daí

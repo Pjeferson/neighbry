@@ -82,6 +82,14 @@ Separadamente, `Tenancy::InviteMember` (não `Registry`) passa a invalidar qualq
 
 **Decisão**: `RegisterOccupant` chamado duas vezes pra mesma `Person`+`Unit` (com uma `Occupancy` ativa já existente pra esse par) retorna erro de validação — não cria uma segunda `Occupancy`, não é idempotente silenciosamente.
 
+### 11. Cadastro de `Building`/`Unit` é admin-only, e existe via API — gap encontrado pós-implementação
+
+**Decisão**: só `User` com `Tenancy::Membership(role: admin)` no condomínio cadastra `Building` e `Unit`. Nenhum `owner`/`responsible` participa disso — estrutura física é administrativa, diferente de cadastrar pessoas dentro de uma unidade já existente.
+
+**Contexto**: esta decisão só existe porque a primeira rodada de implementação desta change esqueceu de mapear "quem cria o Bloco e a Unidade em si" — só mapeamos os fluxos de cadastro de *pessoas* (dono, responsável, morador, prestador), nunca o da estrutura que elas ocupam. Sem endpoint, a única forma de criar `Building`/`Unit` seria `rails console` — inviável pra uma aplicação com frontend real. Corrigido dentro da mesma change, antes de arquivar.
+
+**Decisão técnica adicional**: a checagem "é admin desse condomínio" já se repetia em `OccupancyPolicy` e `ServiceProviderPolicy` antes desta adição; com mais dois lugares precisando da mesma checagem (`BuildingPolicy`, `UnitPolicy`), foi extraída pra um módulo compartilhado (`Registry::AdminCheckable`), incluído pelos quatro — reduz duplicação sem mudar comportamento de nenhuma policy já testada.
+
 ## Risks / Trade-offs
 
 - **[Risco]** `condominium_id` denormalizado em 4 tabelas (`Building`, `Unit`, `Person`, `Occupancy`) em vez de só `Building` — mais colunas/índices a manter. → **Mitigação**: já é requirement obrigatório da spec de `tenancy` (`Isolamento de dado por tenant`), não uma escolha nova; o ganho (índice direto, RLS futuro viável, defesa contra join esquecido) já foi justificado e aceito na exploração anterior.

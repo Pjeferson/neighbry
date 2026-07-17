@@ -11,6 +11,7 @@
 - `Person` com `type: service_provider` nunca tem `Occupancy` — prestador não ocupa unidade.
 - Três service objects centrais, cada um coberto por policy de autorização: `RegisterOccupant` (cadastra Person+Occupancy, concede acesso opcionalmente), `RegisterServiceProvider` (cadastra prestador, sem Occupancy), `EndOccupancy` (encerra uma Occupancy — quem pode encerrar depende do tipo: `owner` só admin, `responsible` só o `owner`, morador comum o `responsible`/`owner`/admin).
 - Concessão de acesso (login) reaproveita `Tenancy::InviteMember`/`AcceptInvitation` já existentes — chamada síncrona direta ao service público de `Tenancy` (padrão Open Host Service / Customer-Supplier do Context Map de DDD, não Shared Kernel nem acesso a model interno). `Registry` nunca chama de volta `Tenancy`; a reconciliação (`Person.user_id`) acontece via evento publicado por `Tenancy`, correlacionado por `invitation_id` armazenado em `Person` (nunca por email).
+- Cadastro de `Building` e `Unit` — admin-only. Sem isso, a estrutura física do condomínio só existiria se criada manualmente via console, o que não é um caminho real pra uma aplicação com frontend (gap encontrado depois da primeira rodada de implementação, corrigido ainda dentro desta mesma change).
 - **BREAKING**: nenhuma — `Tenancy` ganha capacidade nova (publicar evento), não remove nem quebra nada existente.
 
 ## Capabilities
@@ -23,6 +24,6 @@
 
 ## Impact
 
-- **Backend**: novo namespace `app/domains/registry/` (Building, Unit, Person, Occupancy), `app/services/registry/`, `app/policies/registry/`; novas migrations com `condominium_id` denormalizado nas 4 tabelas (conforme requirement já vigente na spec de `tenancy`); pequena adição em `app/services/tenancy/accept_invitation.rb` pra publicar o evento.
-- **Frontend**: telas de cadastro de morador/dono/responsável/prestador por unidade; nenhuma mudança em telas de Tenancy já existentes.
+- **Backend**: novo namespace `app/domains/registry/` (Building, Unit, Person, Occupancy), `app/services/registry/`, `app/policies/registry/`; novas migrations com `condominium_id` denormalizado nas 4 tabelas (conforme requirement já vigente na spec de `tenancy`); pequena adição em `app/services/tenancy/accept_invitation.rb` pra publicar o evento; endpoints `POST /api/v1/buildings` e `POST /api/v1/buildings/:building_id/units` (admin-only).
+- **Frontend**: telas de cadastro de morador/dono/responsável/prestador por unidade, e de cadastro de bloco/unidade (admin); nenhuma mudança em telas de Tenancy já existentes.
 - **Sem impacto** em Billing/Notice/Access/CommonArea — ainda não existem.
