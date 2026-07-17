@@ -51,8 +51,8 @@
 
 ## 9. Autorização
 
-- [ ] 9.1 Policy Pundit para `Membership` (quem pode convidar, quem pode revogar) — inicialmente restrito a `role: admin`
-- [ ] 9.2 Testes de policy
+- [x] 9.1 Policy Pundit para `Membership` (quem pode convidar, quem pode revogar) — inicialmente restrito a `role: admin`
+- [x] 9.2 Testes de policy
 
 ## 10. Rotas
 
