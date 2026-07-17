@@ -30,12 +30,12 @@
 
 ## 6. Occupancy
 
-- [ ] 6.1 Model `Registry::Occupancy` — `belongs_to :unit`, `belongs_to :person`, `condominium_id` denormalizado, flags `owner`/`responsible`
-- [ ] 6.2 Validação: `owner` e `responsible` nunca `true` simultaneamente na mesma Occupancy
-- [ ] 6.3 Validação/constraint: no máx. 1 `owner` ativo por Unit, no máx. 1 `responsible` ativo por Unit (nível de aplicação + índice parcial do banco, defesa em profundidade — mesmo padrão de `add-tenancy`)
-- [ ] 6.4 Método pra encerrar (`end_date = hoje`) sem apagar o registro (append-only, histórico preservado)
-- [ ] 6.5 Validação: rejeitar segunda `Occupancy` ativa pra mesma `Person`+`Unit` (não idempotente, erro de validação — ver design.md Decisão 10)
-- [ ] 6.6 Factory + testes: segundo owner/responsible ativo rejeitado, mesma Person em várias Unit do mesmo condomínio sem conflito, cadastro duplicado da mesma Person na mesma Unit rejeitado
+- [x] 6.1 Model `Registry::Occupancy` — `belongs_to :unit`, `belongs_to :person`, `condominium_id` denormalizado, flags `owner`/`responsible` — também valida que `person.condominium_id == unit.condominium_id` (invariante implícito, não listado originalmente, mas necessário)
+- [x] 6.2 Validação: `owner` e `responsible` nunca `true` simultaneamente na mesma Occupancy
+- [x] 6.3 Validação/constraint: no máx. 1 `owner` ativo por Unit, no máx. 1 `responsible` ativo por Unit (nível de aplicação + índice parcial do banco, defesa em profundidade — mesmo padrão de `add-tenancy`)
+- [x] 6.4 Método `#end!` pra encerrar (`end_date = hoje`) sem apagar o registro (append-only, histórico preservado)
+- [x] 6.5 Validação: rejeitar segunda `Occupancy` ativa pra mesma `Person`+`Unit` (não idempotente, erro de validação — ver design.md Decisão 10)
+- [x] 6.6 Factory + testes: segundo owner/responsible ativo rejeitado, mesma Person em várias Unit do mesmo condomínio sem conflito, cadastro duplicado da mesma Person na mesma Unit rejeitado
 
 ## 7. Autorização (Pundit)
 
