@@ -72,4 +72,4 @@ neighbry/
 
 ## Status atual
 
-Projeto em fase inicial: infraestrutura base migrada de um esqueleto anterior para a arquitetura de monolito descrita acima (auth via Devise/JWT funcional). Nenhum bounded context de domínio foi implementado ainda — acompanhar `openspec/changes/` para o histórico de mudanças em andamento.
+Projeto em fase inicial: infraestrutura base migrada de um esqueleto anterior para a arquitetura de monolito descrita acima (auth via Devise/JWT funcional). `Tenancy` é o primeiro bounded context implementado (multi-tenant: `Condominium`, `Membership`, `Invitation`, login por subdomínio). `Registry` (Building/Unit/Person/Occupancy) é o próximo planejado — acompanhar `openspec/changes/` para o histórico de mudanças em andamento.

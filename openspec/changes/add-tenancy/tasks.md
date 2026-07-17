@@ -61,7 +61,7 @@
 
 ## 11. Validação final
 
-- [ ] 11.1 `bundle exec rspec` roda sem falhas
-- [ ] 11.2 `docker compose up` sobe sem erro com as novas migrations aplicadas
-- [ ] 11.3 Fluxo manual de ponta a ponta: criar condomínio → convidar membro → aceitar convite (token retornado na resposta) → login no subdomínio correto → login rejeitado no subdomínio errado
-- [ ] 11.4 Atualizar `CLAUDE.md` se a convenção de módulos (`app/domains/`) precisar de documentação adicional
+- [x] 11.1 `bundle exec rspec` roda sem falhas — 59 exemplos, 0 falhas
+- [x] 11.2 `docker compose up` sobe sem erro com as novas migrations aplicadas — `docker compose restart neighbry-api sidekiq` confirmado limpo, `GET /up` retorna 200
+- [x] 11.3 Fluxo manual de ponta a ponta: criar condomínio → convidar membro → aceitar convite (token retornado na resposta) → login no subdomínio correto → login rejeitado no subdomínio errado — validado via curl contra o servidor real (`*.localhost:3001`), todos os passos OK, subdomínio errado retorna 404
+- [x] 11.4 Atualizar `CLAUDE.md` se a convenção de módulos (`app/domains/`) precisar de documentação adicional — seção "Convenções de código — Rails" atualizada com o padrão real em uso (app/domains, app/services, app/policies, app/serializers por bounded context); README.md "Status atual" também atualizado

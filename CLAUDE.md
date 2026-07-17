@@ -186,8 +186,13 @@ docker compose run --rm neighbry-api bundle exec rails runner \
 - Toda rota prefixada com `/api/v1/`
 - `frozen_string_literal: true` em todos os arquivos Ruby
 - Módulos de domínio (bounded contexts) organizados como namespaces explícitos,
-  não `app/models` genérico — ver `@openspec/project.md` seção 8 para a estrutura
-  de pastas sugerida quando o primeiro módulo for implementado
+  não `app/models` genérico. Padrão em uso desde `add-tenancy` (primeiro
+  bounded context implementado — ver `@openspec/project.md` seção 8):
+  - Models do domínio em `app/domains/<context>/` (ex: `app/domains/tenancy/condominium.rb` → `Tenancy::Condominium`)
+  - Service objects em `app/services/<context>/` (ex: `app/services/tenancy/invite_member.rb` → `Tenancy::InviteMember`)
+  - Policies em `app/policies/<context>/`, serializers em `app/serializers/<context>/` — mesmo padrão
+  - Rails/Zeitwerk já registra `app/domains`, `app/services`, `app/policies`, `app/serializers` como raízes de autoload automaticamente (todo subdiretório direto de `app/`) — nenhuma configuração extra em `config/application.rb` é necessária ao criar um bounded context novo
+  - `User` (Devise) fica **fora** de qualquer namespace de bounded context — é generic subdomain (autenticação), não domínio. A dependência flui sempre de um bounded context para `User` (`belongs_to`), nunca o contrário
 
 ---
 
