@@ -14,8 +14,8 @@
 
 ## 3. Building
 
-- [ ] 3.1 Model `Registry::Building` — `belongs_to :condominium`, validação de `name`
-- [ ] 3.2 Factory + testes de invariante (Building sem Condominium é rejeitado)
+- [x] 3.1 Model `Registry::Building` — `belongs_to :condominium`, validação de `name`
+- [x] 3.2 Factory + testes de invariante (Building sem Condominium é rejeitado)
 
 ## 4. Unit
 
