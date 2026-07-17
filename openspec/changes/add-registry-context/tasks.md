@@ -24,9 +24,9 @@
 
 ## 5. Person
 
-- [ ] 5.1 Model `Registry::Person` — `belongs_to :condominium`, `belongs_to :user, optional: true`, enum `type: resident | service_provider`, validação de CPF (formato/dígito verificador)
-- [ ] 5.2 Unicidade `(condominium_id, cpf)`
-- [ ] 5.3 Factory + testes: CPF duplicado no mesmo condomínio não cria Person nova; CPF duplicado em condomínios diferentes cria Person distintas
+- [x] 5.1 Model `Registry::Person` — `belongs_to :condominium`, `belongs_to :user, optional: true`, enum `type: resident | service_provider`, validação de CPF (formato/dígito verificador) — `self.inheritance_column = nil` pra desligar STI, já que `type` é nome de coluna reservado do Rails
+- [x] 5.2 Unicidade `(condominium_id, cpf)`
+- [x] 5.3 Factory (com gerador de CPF válido) + testes de validação (formato, dígito verificador, unicidade por condomínio, mesmo CPF permitido em condomínio diferente). A reutilização de Person por CPF em `RegisterOccupant` é testada no Grupo 8, não aqui (é comportamento do service, não do model)
 
 ## 6. Occupancy
 
