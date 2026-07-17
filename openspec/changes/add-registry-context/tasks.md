@@ -39,11 +39,11 @@
 
 ## 7. Autorização (Pundit)
 
-- [ ] 7.1 Policy que decide quem pode chamar `RegisterOccupant`/`EndOccupancy` pra qual Unit: admin (via `Tenancy::Membership`) pode qualquer Unit e qualquer papel (owner/responsible/morador comum); `owner` só a própria Unit (e só define `responsible` ou morador comum); `responsible` só a própria Unit (e só morador comum)
-- [ ] 7.2 Regra explícita: encerrar Occupancy de `owner` é admin-only, mesmo o próprio `owner` não pode
-- [ ] 7.3 Regra explícita: `responsible` não revoga a si mesmo — só `owner` da Unit revoga/troca `responsible`
-- [ ] 7.4 Policy que decide quem pode chamar `RegisterServiceProvider`: admin (qualquer condomínio) ou qualquer `Person` com `owner`/`responsible` ativo em alguma Unit do condomínio; morador comum sem flag é rejeitado
-- [ ] 7.5 Testes de policy cobrindo os cenários acima, incluindo: admin cadastra owner, admin cadastra responsible direto (sem passar por owner), owner não mexe em Unit alheia
+- [x] 7.1 `Registry::OccupancyPolicy(user, unit)` — `create_owner?`/`create_responsible?`/`create_occupant?` e `end_owner?`/`end_responsible?`/`end_occupant?`. admin (via `Tenancy::Membership`) sempre permitido; `owner` só a própria Unit (e só `responsible`/morador comum); `responsible` só a própria Unit (e só morador comum)
+- [x] 7.2 Regra explícita: `end_owner?` só admin — mesmo o próprio `owner` não pode
+- [x] 7.3 Regra explícita: `end_responsible?` não é permitido pro próprio `responsible` — só admin ou `owner` da Unit
+- [x] 7.4 `Registry::ServiceProviderPolicy(user, condominium)` — `create?`: admin (qualquer unidade do condomínio) ou qualquer `Person` com `owner`/`responsible` ativo em alguma Unit desse condomínio; sem nenhum dos dois é rejeitado
+- [x] 7.5 Testes de policy cobrindo os cenários acima, incluindo: admin permite tudo, owner não mexe em Unit alheia, responsible só cadastra morador comum, sem role nenhuma rejeita tudo, sem user rejeita tudo
 
 ## 8. RegisterOccupant
 
