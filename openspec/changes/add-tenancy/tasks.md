@@ -25,13 +25,13 @@
 
 ## 5. Invitation
 
-- [ ] 5.1 Model `Tenancy::Invitation` com token seguro (ex: `has_secure_token` ou equivalente) e `expires_at`
-- [ ] 5.2 Service object `Tenancy::InviteMember` (Dry::Monads::Result) — cria `Invitation` para um email+role num `Condominium`
-- [ ] 5.3 Service object `Tenancy::AcceptInvitation` (Dry::Monads::Result) — valida token não expirado, cria/vincula `User` a partir do email do convite com a senha definida pela própria pessoa convidada, ativa o `Membership`
-- [ ] 5.4 Garantir que nenhum endpoint/parâmetro permita que quem convida defina a senha de outra pessoa
-- [ ] 5.5 Canal de entrega isolado: em desenvolvimento, retornar o link/token do convite na resposta da API em vez de enviar email (documentar o ponto de troca para produção)
-- [ ] 5.6 `AcceptInvitation` rejeita aceite se o email do convite corresponder a um `User` que já possui `Membership` (1:1, v1)
-- [ ] 5.7 Factory + testes: convite expira, convite aceito ativa Membership, convite não pode ser aceito duas vezes, aceite rejeitado se User já tem Membership
+- [x] 5.1 Model `Tenancy::Invitation` com token seguro (ex: `has_secure_token` ou equivalente) e `expires_at`
+- [x] 5.2 Service object `Tenancy::InviteMember` (Dry::Monads::Result) — cria `Invitation` para um email+role num `Condominium`
+- [x] 5.3 Service object `Tenancy::AcceptInvitation` (Dry::Monads::Result) — valida token não expirado, cria/vincula `User` a partir do email do convite com a senha definida pela própria pessoa convidada, ativa o `Membership`
+- [x] 5.4 Garantir que nenhum endpoint/parâmetro permita que quem convida defina a senha de outra pessoa — garantido estruturalmente: `InviteMember#call` não tem parâmetro `password` (testado)
+- [ ] 5.5 Canal de entrega isolado: em desenvolvimento, retornar o link/token do convite na resposta da API em vez de enviar email (documentar o ponto de troca para produção) — adiado para o Grupo 10, quando o endpoint existir
+- [x] 5.6 `AcceptInvitation` rejeita aceite se o email do convite corresponder a um `User` que já possui `Membership` (1:1, v1)
+- [x] 5.7 Factory + testes: convite expira, convite aceito ativa Membership, convite não pode ser aceito duas vezes, aceite rejeitado se User já tem Membership
 
 ## 6. Resolução de tenant por subdomínio
 
