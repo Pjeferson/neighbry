@@ -95,16 +95,16 @@
 
 ## 14. Cadastro de Building e Unit (gap encontrado após a primeira validação — ver design.md Decisão 11)
 
-- [ ] 14.1 `Registry::AdminCheckable` — módulo compartilhado com a checagem "é admin desse condomínio" (extraído de `OccupancyPolicy`/`ServiceProviderPolicy`, que passam a incluí-lo também, sem mudar comportamento)
-- [ ] 14.2 `Registry::BuildingPolicy(user, condominium)` — `create?`: só admin
-- [ ] 14.3 `Registry::UnitPolicy(user, building)` — `create?`: só admin do condomínio do Building
-- [ ] 14.4 Service `Registry::RegisterBuilding(actor:, condominium:, name:)` (Dry::Monads::Result)
-- [ ] 14.5 Service `Registry::RegisterUnit(actor:, building:, identification:)` (Dry::Monads::Result)
-- [ ] 14.6 Rotas: `POST /api/v1/buildings` (condomínio resolvido por subdomínio, mesmo padrão de `service_providers`), `POST /api/v1/buildings/:building_id/units`
-- [ ] 14.7 Controllers finos usando os serializers já existentes (`BuildingSerializer`, `UnitSerializer`)
-- [ ] 14.8 Testes: admin cadastra Building; não-admin (incluindo owner/responsible) rejeitado; admin cadastra Unit num Building do próprio condomínio; Building de outro condomínio retorna 404 (mesmo padrão de escopo por tenant já usado em `units/:unit_id/occupancies`)
+- [x] 14.1 `Registry::AdminCheckable` — módulo compartilhado com a checagem "é admin desse condomínio" (extraído de `OccupancyPolicy`/`ServiceProviderPolicy`, que passam a incluí-lo também, sem mudar comportamento — confirmado pelos 12 testes de policy já existentes continuando verdes)
+- [x] 14.2 `Registry::BuildingPolicy(user, condominium)` — `create?`: só admin
+- [x] 14.3 `Registry::UnitPolicy(user, building)` — `create?`: só admin do condomínio do Building
+- [x] 14.4 Service `Registry::RegisterBuilding(actor:, condominium:, name:)` (Dry::Monads::Result)
+- [x] 14.5 Service `Registry::RegisterUnit(actor:, building:, identification:)` (Dry::Monads::Result)
+- [x] 14.6 Rotas: `POST /api/v1/buildings` (condomínio resolvido por subdomínio, mesmo padrão de `service_providers`), `POST /api/v1/buildings/:building_id/units`
+- [x] 14.7 Controllers finos usando os serializers já existentes (`BuildingSerializer`, `UnitSerializer`)
+- [x] 14.8 Testes: admin cadastra Building; não-admin (incluindo owner/responsible) rejeitado; admin cadastra Unit num Building do próprio condomínio; Building de outro condomínio retorna 404 (mesmo padrão de escopo por tenant já usado em `units/:unit_id/occupancies`)
 
 ## 15. Validação final (pós-Grupo 14)
 
-- [ ] 15.1 `bundle exec rspec` roda sem falhas
-- [ ] 15.2 Fluxo manual: admin cria Building + Unit pela API (sem precisar de `rails console`) → segue o mesmo fluxo de ponta a ponta já validado no Grupo 13 a partir daí
+- [x] 15.1 `bundle exec rspec` roda sem falhas — 165 exemplos, 0 falhas
+- [x] 15.2 Fluxo manual validado contra o servidor real (`*.localhost:3001`): admin loga → cria Building via `POST /api/v1/buildings` → cria Unit via `POST /api/v1/buildings/:building_id/units` — sem `rails console` em nenhum passo, gap fechado de verdade

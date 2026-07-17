@@ -26,6 +26,10 @@ Rails.application.routes.draw do
         patch :revoke, on: :member
       end
 
+      resources :buildings, only: [:create] do
+        resources :units, only: [:create]
+      end
+
       resources :units, only: [] do
         resources :occupancies, only: [:create]
       end

@@ -5,6 +5,8 @@ module Registry
   # "pode cadastrar", decide "pode cadastrar/encerrar ESSE papel nessa Unit".
   # Ver design.md (add-registry-context) Decisões 3 e 5.
   class OccupancyPolicy
+    include AdminCheckable
+
     attr_reader :user, :unit
 
     def initialize(user, unit)
@@ -39,9 +41,7 @@ module Registry
     private
 
     def admin?
-      return false unless user
-
-      Tenancy::Membership.active.admin.exists?(user_id: user.id, condominium_id: unit.condominium_id)
+      admin_of?(user, unit.condominium_id)
     end
 
     def owner_of_unit?

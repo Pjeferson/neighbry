@@ -5,6 +5,8 @@ module Registry
   # ocupa unidade), é por Condominium: admin, ou qualquer Person com
   # owner/responsible ativo em alguma Unit desse condomínio.
   class ServiceProviderPolicy
+    include AdminCheckable
+
     attr_reader :user, :condominium
 
     def initialize(user, condominium)
@@ -19,9 +21,7 @@ module Registry
     private
 
     def admin?
-      return false unless user
-
-      Tenancy::Membership.active.admin.exists?(user_id: user.id, condominium_id: condominium.id)
+      admin_of?(user, condominium.id)
     end
 
     def owner_or_responsible_somewhere?
