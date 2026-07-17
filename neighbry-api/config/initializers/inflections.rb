@@ -14,3 +14,9 @@
 # ActiveSupport::Inflector.inflections(:en) do |inflect|
 #   inflect.acronym "RESTful"
 # end
+
+# Rails pluraliza "condominium" para "condominia" (regra latina -um/-a) por
+# padrão; forçamos o plural em inglês comum usado no domínio (Tenancy::Condominium).
+ActiveSupport::Inflector.inflections(:en) do |inflect|
+  inflect.irregular "condominium", "condominiums"
+end

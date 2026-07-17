@@ -5,10 +5,10 @@
 
 ## 2. Migrations
 
-- [ ] 2.1 Migration `condominiums` (id uuid, name, slug único, timestamps)
-- [ ] 2.2 Migration `memberships` (id uuid, user_id FK, condominium_id FK, role enum, status enum `active|revoked`, timestamps; índice único em `user_id` — v1 é 1:1, ver `design.md` Decisão 6)
-- [ ] 2.3 Migration `invitations` (id uuid, condominium_id FK, email, role, token único, expires_at, accepted_at nullable, timestamps)
-- [ ] 2.4 Rodar migrations em development e test (`RAILS_ENV=test`)
+- [x] 2.1 Migration `condominiums` (id uuid, name, slug único, timestamps)
+- [x] 2.2 Migration `memberships` (id uuid, user_id FK, condominium_id FK, role enum, status enum `active|revoked`, timestamps; índice único em `user_id` — v1 é 1:1, ver `design.md` Decisão 6)
+- [x] 2.3 Migration `invitations` (id uuid, condominium_id FK, email, role, token único, expires_at, accepted_at nullable, timestamps)
+- [x] 2.4 Rodar migrations em development e test (`RAILS_ENV=test`)
 
 ## 3. Condominium
 
