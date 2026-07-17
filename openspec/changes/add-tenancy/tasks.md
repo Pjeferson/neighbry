@@ -46,8 +46,8 @@
 
 ## 8. Onboarding de condomínio
 
-- [ ] 8.1 Endpoint `POST /api/v1/condominiums` (fora da lógica de subdomínio) que cria `Condominium` + `User` + `Membership(role: admin, status: active)` numa única transação
-- [ ] 8.2 Testes: criação bem-sucedida cria os três registros atomicamente; falha em qualquer etapa não deixa registro parcial
+- [x] 8.1 Endpoint `POST /api/v1/condominiums` (fora da lógica de subdomínio) que cria `Condominium` + `User` + `Membership(role: admin, status: active)` numa única transação
+- [x] 8.2 Testes: criação bem-sucedida cria os três registros atomicamente; falha em qualquer etapa não deixa registro parcial
 
 ## 9. Autorização
 
