@@ -63,9 +63,9 @@
 
 ## 9. RegisterServiceProvider
 
-- [ ] 9.1 Service `Registry::RegisterServiceProvider(person_attributes:, grant_access:, email: nil)` — busca/cria `Person(type: service_provider)` por CPF (mesmo padrão de reconciliação do Grupo 8), sem `Unit`/`Occupancy`
-- [ ] 9.2 Mesma checagem do 8.2 (email já com Membership rejeita antes de convidar)
-- [ ] 9.3 Testes: prestador nunca gera Occupancy; concessão de acesso opcional segue o mesmo caminho do Grupo 8.2; admin cadastra prestador; owner cadastra prestador; morador comum sem flag tentando cadastrar prestador é rejeitado (policy do Grupo 7.4); email já com Membership rejeitado
+- [x] 9.1 Service `Registry::RegisterServiceProvider(actor:, condominium:, person_attributes:, grant_access:, email: nil)` — busca/cria `Person(type: service_provider)` por CPF (mesmo padrão de reconciliação do Grupo 8, incluindo rejeição se o CPF já é `resident`), sem `Unit`/`Occupancy`
+- [x] 9.2 Mesma checagem do 8.2 (email já com Membership rejeita antes de convidar)
+- [x] 9.3 Testes: prestador nunca gera Occupancy; concessão de acesso opcional segue o mesmo caminho do Grupo 8.2; admin cadastra prestador; owner cadastra prestador; morador comum sem flag tentando cadastrar prestador é rejeitado (policy do Grupo 7.4); email já com Membership rejeitado; CPF já `resident` rejeitado
 
 ## 10. EndOccupancy
 
