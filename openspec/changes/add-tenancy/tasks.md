@@ -18,10 +18,10 @@
 
 ## 4. Membership
 
-- [ ] 4.1 Model `Tenancy::Membership` com enum `role: admin | manager | doorman | resident` e enum `status: active | revoked`
-- [ ] 4.2 Validação de unicidade em `user_id` (um `User` tem no máximo um `Membership`, v1)
-- [ ] 4.3 Factory (`spec/factories/tenancy/memberships.rb`)
-- [ ] 4.4 Testes de invariante: segundo membership pro mesmo User rejeitado, role inválido rejeitado, membership revogado não autentica
+- [x] 4.1 Model `Tenancy::Membership` com enum `role: admin | manager | doorman | resident` e enum `status: active | revoked`
+- [x] 4.2 Validação de unicidade em `user_id` (um `User` tem no máximo um `Membership`, v1)
+- [x] 4.3 Factory (`spec/factories/tenancy/memberships.rb`)
+- [x] 4.4 Testes de invariante: segundo membership pro mesmo User rejeitado, role inválido rejeitado (checagem "membership revogado não autentica" fica no Grupo 7, depende do login existir)
 
 ## 5. Invitation
 
