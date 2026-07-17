@@ -159,6 +159,11 @@ docker compose run --rm neighbry-api bundle exec rails runner \
 - Roda como processo separado (serviço `sidekiq` no compose), não dentro do Puma
 - `config/initializers/sidekiq.rb` aponta para `REDIS_URL`
 
+**Login por subdomínio (Tenancy):**
+- Cada `Condominium` é acessado via `<slug>.neighbry.com` em produção; em dev local, `<slug>.localhost:3001` — navegadores modernos resolvem `*.localhost` para `127.0.0.1` automaticamente, sem precisar editar `/etc/hosts`
+- `config.action_dispatch.tld_length` é `0` só em `development` (`config/environments/development.rb`) — `localhost` tem 1 label só, diferente de `neighbry.com` (2 labels); sem isso, `request.subdomain` não resolve nada em `acme.localhost`
+- Em produção o padrão (`tld_length = 1`) já funciona sem ajuste, porque `neighbry.com` tem a forma normal domínio+TLD
+
 **Testes de frontend:**
 - `npm run test` → Vitest (unitários + componente com MSW). Roda isolado, sem stack.
 - Não há suíte E2E neste estágio do projeto (Playwright foi avaliado e removido —

@@ -35,9 +35,9 @@
 
 ## 6. Resolução de tenant por subdomínio
 
-- [ ] 6.1 Middleware/concern que resolve `Condominium` a partir do subdomínio da requisição (ex: `ActiveSupport::CurrentAttributes`)
-- [ ] 6.2 Requisição sem subdomínio correspondente a nenhum `Condominium` retorna erro apropriado (404/400)
-- [ ] 6.3 Validar `*.localhost` funcionando em ambiente de desenvolvimento local (documentar no `CLAUDE.md` se precisar de configuração extra)
+- [x] 6.1 Middleware/concern que resolve `Condominium` a partir do subdomínio da requisição (ex: `ActiveSupport::CurrentAttributes`)
+- [x] 6.2 Requisição sem subdomínio correspondente a nenhum `Condominium` retorna erro apropriado (404/400)
+- [x] 6.3 Validar `*.localhost` funcionando em ambiente de desenvolvimento local (documentar no `CLAUDE.md` se precisar de configuração extra) — precisou de `config.action_dispatch.tld_length = 0` em development; documentado
 
 ## 7. Login escopado ao tenant
 
