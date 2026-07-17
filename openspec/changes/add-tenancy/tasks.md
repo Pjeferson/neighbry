@@ -41,8 +41,8 @@
 
 ## 7. Login escopado ao tenant
 
-- [ ] 7.1 Integrar autenticação Devise/JWT existente com a resolução de tenant: login só é aceito se `User` tiver `Membership` `active` no `Condominium` resolvido pelo subdomínio
-- [ ] 7.2 Testes: login aceito com Membership ativo no tenant correto; login rejeitado sem Membership; login rejeitado com Membership revogado
+- [x] 7.1 Integrar autenticação Devise/JWT existente com a resolução de tenant: login só é aceito se `User` tiver `Membership` `active` no `Condominium` resolvido pelo subdomínio
+- [x] 7.2 Testes: login aceito com Membership ativo no tenant correto; login rejeitado sem Membership; login rejeitado com Membership revogado
 
 ## 8. Onboarding de condomínio
 

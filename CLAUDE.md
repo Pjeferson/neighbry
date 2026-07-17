@@ -154,6 +154,7 @@ docker compose run --rm neighbry-api bundle exec rails runner \
 - `respond_to_on_destroy` deve ser sobrescrito com `(**)` para evitar 401 vazio
 - `devise_for` deve ficar **fora** de qualquer bloco `namespace` — usar `path: "api/v1/auth"` diretamente
 - Revogação de token é responsabilidade do middleware, não do controller
+- `SessionsController#create` é **totalmente reescrito** (não usa `warden.authenticate!`/`super`) para checar `Tenancy::Membership` ativo antes de qualquer `sign_in` — isso garante que o JWT nunca é emitido pra um par User+Condominium sem Membership. `sign_out` (`destroy`) usa `skip_before_action :resolve_tenant!` porque logout não depende de subdomínio válido.
 
 **Sidekiq:**
 - Roda como processo separado (serviço `sidekiq` no compose), não dentro do Puma
