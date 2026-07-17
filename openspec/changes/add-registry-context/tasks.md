@@ -69,8 +69,8 @@
 
 ## 10. EndOccupancy
 
-- [ ] 10.1 Service `Registry::EndOccupancy(occupancy:)` — encerra (`end_date`), respeitando a policy do Grupo 7
-- [ ] 10.2 Testes: admin encerra owner; owner encerra responsible; responsible/owner/admin encerram morador comum; cada violação de hierarquia rejeitada
+- [x] 10.1 Service `Registry::EndOccupancy(actor:, occupancy:)` — encerra (`end_date`) via `Occupancy#end!`, respeitando a policy do Grupo 7 (varia conforme owner/responsible/morador comum da Occupancy sendo encerrada)
+- [x] 10.2 Testes: admin encerra owner; owner não encerra a própria titularidade; owner encerra responsible; responsible não encerra a si mesmo; responsible encerra morador comum; outro morador comum não encerra Occupancy alheia
 
 ## 11. Ajustes em Tenancy — evento de aceite e convite pendente substituído
 
