@@ -47,10 +47,10 @@
 
 ## 8. RegisterOccupant
 
-- [ ] 8.1 Service `Registry::RegisterOccupant(unit:, person_attributes:, owner:, responsible:, grant_access:, email: nil)` (Dry::Monads::Result) — busca `Person` por CPF no condomínio, reaproveita ou cria; cria `Occupancy`. `email:` obrigatório apenas quando `grant_access: true` (ver design.md Decisão 8 — nunca persistido em `Person`)
-- [ ] 8.2 Quando `grant_access: true`: checa antes se o `email` já corresponde a `User` com `Membership` ativo — se sim, rejeita sem criar `Invitation` (design.md Decisão 9); senão, chama `Tenancy::InviteMember` (service público, chamada síncrona direta — ver design.md Decisão 6); guarda o `invitation.id` retornado em `Person.pending_invitation_id`
-- [ ] 8.3 Quando `grant_access: false`: nenhum convite é criado, `email` não é exigido
-- [ ] 8.4 Factory + testes cobrindo os fluxos mapeados (um teste por fluxo, verificando Occupancy criada com os flags certos e a policy do Grupo 7 respeitada):
+- [x] 8.1 Service `Registry::RegisterOccupant(actor:, unit:, person_attributes:, owner:, responsible:, grant_access:, email: nil)` (Dry::Monads::Result) — busca `Person` por CPF no condomínio, reaproveita ou cria; cria `Occupancy`. `email:` obrigatório apenas quando `grant_access: true` (ver design.md Decisão 8 — nunca persistido em `Person`). Também rejeita (`:person_type_mismatch`) reaproveitar um CPF já cadastrado como `service_provider` (Decisão do `Person.type` fixo)
+- [x] 8.2 Quando `grant_access: true`: checa antes se o `email` já corresponde a `User` com `Membership` ativo — se sim, rejeita sem criar `Invitation` (design.md Decisão 9); senão, chama `Tenancy::InviteMember` **antes** de tocar no banco de Registry (assim uma falha no convite não deixa Person/Occupancy órfã) — service público, chamada síncrona direta, ver design.md Decisão 6; guarda o `invitation.id` retornado em `Person.pending_invitation_id`
+- [x] 8.3 Quando `grant_access: false`: nenhum convite é criado, `email` não é exigido
+- [x] 8.4 Factory + testes cobrindo os fluxos mapeados (um teste por fluxo, verificando Occupancy criada com os flags certos e a policy do Grupo 7 respeitada):
   - admin cadastra dono de uma Unit
   - admin cadastra responsible de uma Unit diretamente, sem dono cadastrado antes
   - owner delega responsible na própria Unit
@@ -58,6 +58,8 @@
   - responsible cadastra morador comum na própria Unit
   - morador comum tenta cadastrar alguém — rejeitado
   - `grant_access: true` com email que já tem Membership — rejeitado, nenhum Invitation criado
+  - CPF já existente no condomínio reaproveita a Person (não duplica)
+  - CPF já cadastrado como service_provider é rejeitado como ocupante
 
 ## 9. RegisterServiceProvider
 
