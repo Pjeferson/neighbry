@@ -74,12 +74,12 @@
 
 ## 11. Ajustes em Tenancy — evento de aceite e convite pendente substituído
 
-- [ ] 11.1 Em `Tenancy::AcceptInvitation` (change `add-tenancy`, já implementada): publicar evento de domínio (`Tenancy::InvitationAccepted` ou mecanismo equivalente já usado no projeto) com `invitation_id` e `user_id`, sem qualquer referência a `Registry`
-- [ ] 11.2 Testes em `Tenancy` confirmando que o evento é publicado no aceite, e que `Tenancy` não referencia `Registry` em nenhum ponto do código
-- [ ] 11.3 Em `Registry`: assinante do evento que busca `Person` por `pending_invitation_id == invitation_id` e preenche `Person.user_id`, limpando `pending_invitation_id`
-- [ ] 11.4 Testes: aceite de convite de uma Person cadastrada por `RegisterOccupant`/`RegisterServiceProvider` preenche `user_id` corretamente; evento de um convite não relacionado a nenhuma Person (fluxo de staff do Tenancy) não afeta nada em Registry
-- [ ] 11.5 Em `Tenancy::InviteMember` (change `add-tenancy`, já implementada): antes de criar um novo `Invitation`, buscar e invalidar qualquer `Invitation` pendente (não aceito) do mesmo email no mesmo `Condominium` — ver design.md Decisão 9 (substitui a ideia anterior de um service de reenvio dedicado)
-- [ ] 11.6 Testes: convidar de novo invalida o convite pendente anterior (token antigo para de funcionar); convite já aceito não é afetado por um novo convite; `Registry` sempre atualiza `Person.pending_invitation_id` pro novo id no mesmo request
+- [x] 11.1 Em `Tenancy::AcceptInvitation`: publica `ActiveSupport::Notifications.instrument("tenancy.invitation_accepted", invitation_id:, user_id:)` — sem qualquer referência a `Registry` no código
+- [x] 11.2 Testes em `Tenancy` confirmando que o evento é publicado no aceite (capturado via `ActiveSupport::Notifications.subscribed`), e teste estático (`isolation_spec.rb`) garantindo que nenhum arquivo de `app/*/tenancy/` menciona "Registry"
+- [x] 11.3 `Registry::ReconcilePersonUser` + assinatura em `config/initializers/domain_events.rb` — busca `Person` por `pending_invitation_id == invitation_id` e preenche `Person.user_id`, limpando `pending_invitation_id`. Idempotente (rodar duas vezes pro mesmo invitation_id não faz nada na segunda)
+- [x] 11.4 Testes: fluxo de ponta a ponta real (`spec/integration/`) — `RegisterOccupant` com `grant_access` → `AcceptInvitation` → `Person.user_id` preenchido; convite de staff (sem `Person` nenhuma envolvida) não afeta `Registry::Person.count`
+- [x] 11.5 Em `Tenancy::InviteMember`: antes de criar um novo `Invitation`, invalida (`expires_at` no passado) qualquer `Invitation` pendente do mesmo email no mesmo `Condominium` — reaproveita o mecanismo de expiração existente, sem coluna/estado novo (substitui a ideia anterior de um service de reenvio dedicado)
+- [x] 11.6 Testes: convidar de novo invalida o convite pendente anterior (novo id, antigo expirado); convite já aceito não é afetado por um novo convite pro mesmo email
 
 ## 12. Rotas e serializers
 

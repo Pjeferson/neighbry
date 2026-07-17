@@ -29,6 +29,15 @@ module Tenancy
 
         invitation.update!(accepted_at: Time.current)
 
+        # Publica sem saber (nem se importar) se alguém está ouvindo — nunca
+        # chama código de outro bounded context diretamente. Ver design.md
+        # (add-registry-context) Decisão 6.
+        ActiveSupport::Notifications.instrument(
+          "tenancy.invitation_accepted",
+          invitation_id: invitation.id,
+          user_id: user.id
+        )
+
         return Success(membership)
       end
     rescue ActiveRecord::RecordInvalid => e

@@ -65,4 +65,17 @@ RSpec.describe Tenancy::AcceptInvitation do
     expect(result).to be_failure
     expect(result.failure).to eq(:already_member)
   end
+
+  it "publishes tenancy.invitation_accepted with invitation_id and user_id" do
+    events = []
+    callback = ->(*, payload) { events << payload }
+
+    ActiveSupport::Notifications.subscribed(callback, "tenancy.invitation_accepted") do
+      service.call(token: invitation.token, password: "password123", name: "Convidado")
+    end
+
+    expect(events.size).to eq(1)
+    expect(events.first[:invitation_id]).to eq(invitation.id)
+    expect(events.first[:user_id]).to eq(User.find_by(email: "convidado@example.com").id)
+  end
 end

@@ -27,4 +27,25 @@ RSpec.describe Tenancy::InviteMember do
 
     expect(result).to be_failure
   end
+
+  describe "inviting the same email again while a pending invitation exists" do
+    it "invalidates the previous pending invitation and creates a new one" do
+      first = service.call(condominium: condominium, email: "duplicado@example.com", role: "resident").value!
+
+      second = service.call(condominium: condominium, email: "duplicado@example.com", role: "resident").value!
+
+      expect(second.id).not_to eq(first.id)
+      expect(first.reload).to be_expired
+      expect(second).not_to be_expired
+    end
+
+    it "does not affect an already-accepted invitation for the same email" do
+      accepted = create(:invitation, condominium: condominium, email: "aceito@example.com", accepted_at: 1.hour.ago)
+
+      new_invitation = service.call(condominium: condominium, email: "aceito@example.com", role: "resident").value!
+
+      expect(accepted.reload.expires_at).to be > Time.current
+      expect(new_invitation).not_to be_expired
+    end
+  end
 end
