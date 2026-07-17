@@ -64,6 +64,24 @@ Na direção contrária, `Tenancy` nunca chama nada de `Registry`: `AcceptInvita
 
 **Decisão**: prestador de serviço é uma `Person` sem nenhuma `Occupancy` — não ocupa unidade. `RegisterServiceProvider` é um service à parte de `RegisterOccupant`, sem conceito de `Unit` nenhum.
 
+### 8. `Person` não tem campo de email — email só existe como parâmetro de concessão de acesso
+
+**Decisão**: `email` nunca é persistido em `Person`. Quando `grant_access: true`, `email:` é um parâmetro obrigatório de `RegisterOccupant`/`RegisterServiceProvider`, repassado direto pra `Tenancy::InviteMember` — nunca salvo em `Registry`. Depois que o convite é aceito, o email de referência da pessoa passa a ser `person.user.email` (o `User`, via Devise, já tem esse campo).
+
+**Alternativa descartada**: adicionar uma coluna `email` em `Person`. Descartada porque criaria duas fontes de verdade pro mesmo dado (`Person.email` e `User.email`) que poderiam dessincronizar se a pessoa trocar de email depois de ter acesso — e pessoas sem acesso não têm hoje nenhum uso definido pra um email guardado (Registry não tem conceito de "dado de contato" separado de acesso ao sistema).
+
+### 9. Convite rejeitado de antemão se o email já tem Membership; convite pendente é substituído, não duplicado
+
+**Decisão**: `RegisterOccupant`/`RegisterServiceProvider` checam **antes** de chamar `InviteMember` se o email já corresponde a um `User` com `Membership` ativo — se sim, rejeitam com erro de validação, sem chegar a criar `Invitation` nenhum. Isso evita o caso de o cadastro "parecer" ter dado certo mas o convite nunca poder ser aceito (a checagem que já existia em `AcceptInvitation` só pegava isso na hora do aceite, tarde demais pra dar um feedback útil).
+
+Separadamente, `Tenancy::InviteMember` (não `Registry`) passa a invalidar qualquer `Invitation` pendente anterior do mesmo email no mesmo `Condominium` sempre que é chamado de novo — cobrindo tanto "reenviar convite expirado" quanto "convidar de novo antes do primeiro ser aceito" com uma única regra, sem precisar de um service dedicado de reenvio. `Registry` sempre atualiza `Person.pending_invitation_id` pro novo `id` no mesmo momento em que chama `InviteMember`, então nunca fica com uma referência morta.
+
+**Alternativa descartada**: um service `Tenancy::ResendInvitation` dedicado, regenerando token no mesmo registro (`id` preservado). Descartada por ser mais mecanismo do que o necessário — a regra "só um convite pendente por email por vez, o mais novo sempre vence" resolve o mesmo problema de forma mais simples, e não precisa de um segundo ponto de entrada.
+
+### 10. Cadastro duplicado da mesma Person na mesma Unit é rejeitado
+
+**Decisão**: `RegisterOccupant` chamado duas vezes pra mesma `Person`+`Unit` (com uma `Occupancy` ativa já existente pra esse par) retorna erro de validação — não cria uma segunda `Occupancy`, não é idempotente silenciosamente.
+
 ## Risks / Trade-offs
 
 - **[Risco]** `condominium_id` denormalizado em 4 tabelas (`Building`, `Unit`, `Person`, `Occupancy`) em vez de só `Building` — mais colunas/índices a manter. → **Mitigação**: já é requirement obrigatório da spec de `tenancy` (`Isolamento de dado por tenant`), não uma escolha nova; o ganho (índice direto, RLS futuro viável, defesa contra join esquecido) já foi justificado e aceito na exploração anterior.
