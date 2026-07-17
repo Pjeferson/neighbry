@@ -25,6 +25,16 @@ Rails.application.routes.draw do
       resources :memberships, only: [] do
         patch :revoke, on: :member
       end
+
+      resources :units, only: [] do
+        resources :occupancies, only: [:create]
+      end
+
+      resources :occupancies, only: [] do
+        patch :close, on: :member
+      end
+
+      resources :service_providers, only: [:create]
     end
   end
 

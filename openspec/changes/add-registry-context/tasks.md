@@ -83,8 +83,8 @@
 
 ## 12. Rotas e serializers
 
-- [ ] 12.1 Rotas em inglês sob `/api/v1/`: cadastro de ocupante numa unidade, cadastro de prestador, encerramento de ocupação (não precisa de rota nova pra "reenviar convite" — é a mesma rota de convite existente em Tenancy, chamada de novo)
-- [ ] 12.2 Serializers (`jsonapi-serializer`) para `Building`, `Unit`, `Person`, `Occupancy`
+- [x] 12.1 Rotas em inglês sob `/api/v1/`: `POST /units/:unit_id/occupancies` (cadastro de ocupante), `POST /service_providers` (cadastro de prestador), `PATCH /occupancies/:id/close` (encerramento — não pode ser `end`, palavra reservada do Ruby, `def end` não compila). Nenhuma rota nova pra "reenviar convite" — reusa a rota de convite existente em Tenancy
+- [x] 12.2 Serializers (`jsonapi-serializer`) para `Building`, `Unit`, `Person`, `Occupancy`. `ApplicationController` ganhou `rescue_from ActiveRecord::RecordNotFound` (404 json) — necessário pros controllers novos que buscam Unit/Occupancy escopados por tenant via `find_by!`
 
 ## 13. Validação final
 
