@@ -1,7 +1,7 @@
 ## 1. Estrutura do módulo
 
-- [ ] 1.1 Criar `app/domains/registry/`, `app/services/registry/`, `app/policies/registry/`, `app/serializers/registry/`
-- [ ] 1.2 Confirmar autoload via `Rails.autoloaders.main.dirs` (mesmo padrão validado em `add-tenancy`, não deve precisar de configuração extra)
+- [x] 1.1 Criar `app/domains/registry/`, `app/services/registry/`, `app/policies/registry/`, `app/serializers/registry/`
+- [x] 1.2 Confirmar autoload via `Rails.autoloaders.main.dirs` (mesmo padrão validado em `add-tenancy`, não deve precisar de configuração extra)
 
 ## 2. Migrations
 
