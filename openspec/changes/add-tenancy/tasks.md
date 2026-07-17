@@ -12,9 +12,9 @@
 
 ## 3. Condominium
 
-- [ ] 3.1 Model `Tenancy::Condominium` com validação de `slug` único, formato URL-safe
-- [ ] 3.2 Factory (`spec/factories/tenancy/condominiums.rb`)
-- [ ] 3.3 Testes de invariante: slug duplicado é rejeitado
+- [x] 3.1 Model `Tenancy::Condominium` com validação de `slug` único, formato URL-safe
+- [x] 3.2 Factory (`spec/factories/tenancy/condominiums.rb`)
+- [x] 3.3 Testes de invariante: slug duplicado é rejeitado
 
 ## 4. Membership
 
