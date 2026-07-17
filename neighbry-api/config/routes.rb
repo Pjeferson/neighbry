@@ -17,6 +17,14 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :condominiums, only: [:create]
+
+      resources :invitations, only: [:create] do
+        post :accept, on: :collection
+      end
+
+      resources :memberships, only: [] do
+        patch :revoke, on: :member
+      end
     end
   end
 

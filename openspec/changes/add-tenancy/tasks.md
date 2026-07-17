@@ -29,7 +29,7 @@
 - [x] 5.2 Service object `Tenancy::InviteMember` (Dry::Monads::Result) — cria `Invitation` para um email+role num `Condominium`
 - [x] 5.3 Service object `Tenancy::AcceptInvitation` (Dry::Monads::Result) — valida token não expirado, cria/vincula `User` a partir do email do convite com a senha definida pela própria pessoa convidada, ativa o `Membership`
 - [x] 5.4 Garantir que nenhum endpoint/parâmetro permita que quem convida defina a senha de outra pessoa — garantido estruturalmente: `InviteMember#call` não tem parâmetro `password` (testado)
-- [ ] 5.5 Canal de entrega isolado: em desenvolvimento, retornar o link/token do convite na resposta da API em vez de enviar email (documentar o ponto de troca para produção) — adiado para o Grupo 10, quando o endpoint existir
+- [x] 5.5 Canal de entrega isolado: em desenvolvimento, retornar o link/token do convite na resposta da API em vez de enviar email (documentar o ponto de troca para produção) — feito no Grupo 10 junto com o endpoint
 - [x] 5.6 `AcceptInvitation` rejeita aceite se o email do convite corresponder a um `User` que já possui `Membership` (1:1, v1)
 - [x] 5.7 Factory + testes: convite expira, convite aceito ativa Membership, convite não pode ser aceito duas vezes, aceite rejeitado se User já tem Membership
 
@@ -56,8 +56,8 @@
 
 ## 10. Rotas
 
-- [ ] 10.1 Adicionar rotas em inglês sob `/api/v1/`: `condominiums` (create), `invitations` (create/accept), ajustar rota de login existente para considerar o tenant resolvido
-- [ ] 10.2 Serializers (`jsonapi-serializer`) para `Condominium` e `Membership`
+- [x] 10.1 Adicionar rotas em inglês sob `/api/v1/`: `condominiums` (create), `invitations` (create/accept), ajustar rota de login existente para considerar o tenant resolvido — também adicionado `PATCH /api/v1/memberships/:id/revoke` (fora do escopo original desta task, mas necessário pra cumprir a Decisão 7 do design.md — status revoked precisa de algum jeito manual de ser setado, e a policy do Grupo 9 já previa isso)
+- [x] 10.2 Serializers (`jsonapi-serializer`) para `Condominium` e `Membership` — `Membership` sem relationship `belongs_to :user` (exigiria um `UserSerializer` fora do escopo desta change); expõe `user_id` como atributo simples
 
 ## 11. Validação final
 

@@ -23,6 +23,10 @@ module Tenancy
       admin?
     end
 
+    def revoke?
+      admin?
+    end
+
     private
 
     def admin?
