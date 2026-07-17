@@ -19,8 +19,8 @@
 
 ## 4. Unit
 
-- [ ] 4.1 Model `Registry::Unit` — `belongs_to :building`, `condominium_id` denormalizado e validado consistente com o `Building`
-- [ ] 4.2 Factory + testes de invariante (Unit sem Building é rejeitado)
+- [x] 4.1 Model `Registry::Unit` — `belongs_to :building`, `condominium_id` denormalizado e validado consistente com o `Building`
+- [x] 4.2 Factory + testes de invariante (Unit sem Building é rejeitado)
 
 ## 5. Person
 
