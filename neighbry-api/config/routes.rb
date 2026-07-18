@@ -42,6 +42,7 @@ Rails.application.routes.draw do
 
       namespace :billing do
         resources :taxas, only: [:create]
+        resource :settings, only: [:update]
       end
     end
   end

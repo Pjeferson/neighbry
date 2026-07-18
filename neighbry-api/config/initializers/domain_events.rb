@@ -6,3 +6,7 @@
 ActiveSupport::Notifications.subscribe("tenancy.invitation_accepted") do |*, payload|
   Registry::ReconcilePersonUser.new.call(invitation_id: payload[:invitation_id], user_id: payload[:user_id])
 end
+
+ActiveSupport::Notifications.subscribe("tenancy.condominium_onboarded") do |*, payload|
+  Billing::CreateDefaultBillingSetting.new.call(condominium_id: payload[:condominium_id])
+end

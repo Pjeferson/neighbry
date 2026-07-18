@@ -26,9 +26,9 @@
 
 ## 4. Configuração de dia de cobrança
 
-- [ ] 4.1 Subscriber de `tenancy.condominium_onboarded` em `config/initializers/domain_events.rb` — cria `Billing::CondominiumBillingSetting` padrão via `Billing::CreateDefaultBillingSetting` service
-- [ ] 4.2 `Billing::SetBillingDay` service object — upsert de `dia_cobranca`/`dias_para_vencimento`, restrito a admin (edição posterior à criação automática)
-- [ ] 4.3 `PUT /api/v1/billing/settings` — controller + rota
+- [x] 4.1 Subscriber de `tenancy.condominium_onboarded` em `config/initializers/domain_events.rb` — cria `Billing::CondominiumBillingSetting` padrão via `Billing::CreateDefaultBillingSetting` service
+- [x] 4.2 `Billing::SetBillingDay` service object — upsert de `dia_cobranca`/`dias_para_vencimento`, restrito a admin (edição posterior à criação automática)
+- [x] 4.3 `PUT /api/v1/billing/settings` — controller + rota
 
 ## 5. Geração mensal idempotente
 
