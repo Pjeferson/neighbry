@@ -14,10 +14,10 @@
 
 ## 4. Criação de Aviso (admin-only)
 
-- [ ] 4.1 `Notice::AvisoPolicy` — `create?` e `view_painel?` restritos a `Membership(role: admin)`
-- [ ] 4.2 `Notice::CreateAviso` service (`Dry::Monads::Result`) — valida policy, cria `Aviso` + uma `Leitura` por destinatário resolvido, numa única transação
-- [ ] 4.3 `Notice::AvisoSerializer`
-- [ ] 4.4 `POST /api/v1/notice/avisos` — controller + rota
+- [x] 4.1 `Notice::AvisoPolicy` — `create?` e `view_painel?` restritos a `Membership(role: admin)`
+- [x] 4.2 `Notice::CreateAviso` service (`Dry::Monads::Result`) — valida policy, cria `Aviso` + uma `Leitura` por destinatário resolvido, numa única transação
+- [x] 4.3 `Notice::AvisoSerializer`
+- [x] 4.4 `POST /api/v1/notice/avisos` — controller + rota
 
 ## 5. Desativação de Aviso (admin-only)
 

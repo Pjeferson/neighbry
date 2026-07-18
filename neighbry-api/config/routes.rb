@@ -52,6 +52,10 @@ Rails.application.routes.draw do
         post "mock_psp/simulate", to: "mock_psp#simulate"
         post "webhooks/payments", to: "webhooks/payments#create"
       end
+
+      namespace :notice do
+        resources :avisos, only: [:create]
+      end
     end
   end
 
