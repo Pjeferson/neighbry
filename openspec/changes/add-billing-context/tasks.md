@@ -32,9 +32,9 @@
 
 ## 5. Geração mensal idempotente
 
-- [ ] 5.1 `Billing::GenerateBillingCycle` service — cria `CicloCobranca` (`status: gerando`) para a competência corrente; idempotente via índice único (retorna Failure/no-op se já existe); ignora silenciosamente condomínios sem `CondominiumBillingSetting`
-- [ ] 5.2 `Billing::GenerateInvoicesForCycle` service — para cada `Unit` com ao menos uma `Registry::Occupancy` ativa (qualquer papel) e ainda sem `Fatura` nesse `CicloCobranca`, cria `Fatura` com uma `Cobrança` por `Taxa` aplicável na competência, valor rateado igualmente; ao concluir todas as unidades, marca `CicloCobranca` como `concluido`
-- [ ] 5.3 Job Sidekiq diário — itera condomínios com `CondominiumBillingSetting` onde `hoje >= dia_cobranca` e (não existe `CicloCobranca` na competência corrente OU existe um em `gerando`); chama os dois services acima, retomando ciclos incompletos
+- [x] 5.1 `Billing::GenerateBillingCycle` service — cria `CicloCobranca` (`status: gerando`) para a competência corrente; idempotente via índice único (retorna Failure/no-op se já existe); ignora silenciosamente condomínios sem `CondominiumBillingSetting`
+- [x] 5.2 `Billing::GenerateInvoicesForCycle` service — para cada `Unit` com ao menos uma `Registry::Occupancy` ativa (qualquer papel) e ainda sem `Fatura` nesse `CicloCobranca`, cria `Fatura` com uma `Cobrança` por `Taxa` aplicável na competência, valor rateado igualmente; ao concluir todas as unidades, marca `CicloCobranca` como `concluido`
+- [x] 5.3 `Billing::GenerateMonthlyInvoicesJob` (ActiveJob) — itera condomínios com `CondominiumBillingSetting` onde `hoje >= dia_cobranca`, chama os dois services acima, retomando ciclos incompletos. **Escopo**: implementa a lógica idempotente do job; o agendamento diário em si (cron/sidekiq-cron/scheduler da plataforma) não foi conectado nesta change — nenhuma gem nova foi adicionada sem validação explícita.
 
 ## 6. Confirmação manual de pagamento (admin)
 
