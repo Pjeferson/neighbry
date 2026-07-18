@@ -38,9 +38,9 @@
 
 ## 6. Confirmação manual de pagamento (admin)
 
-- [ ] 6.1 `Billing::ConfirmPayment` service — valida `valor == soma das Cobrança`, cria `Pagamento`, marca `Fatura` como `pago`, publica evento `FaturaPaga`; trata violação do índice único de `fatura_id` (segunda tentativa) como Failure sem levantar exceção não tratada
-- [ ] 6.2 `Billing::PagamentoPolicy` — restringe confirmação manual a `Membership(role: admin)`
-- [ ] 6.3 `PATCH /api/v1/billing/faturas/:id/confirm_payment` — controller + rota
+- [x] 6.1 `Billing::ConfirmPayment` service — valida `valor == soma das Cobrança` (via `Pagamento#valor_matches_fatura_total`), cria `Pagamento`, marca `Fatura` como `pago`, publica evento `FaturaPaga`; trata violação do índice único de `fatura_id` (segunda tentativa) como Failure sem levantar exceção não tratada
+- [x] 6.2 `Billing::PagamentoPolicy` — restringe confirmação manual a `Membership(role: admin)`
+- [x] 6.3 `PATCH /api/v1/billing/faturas/:id/confirm_payment` — controller + rota
 
 ## 7. Webhook de pagamento e simulador de PSP mockado
 
@@ -50,8 +50,8 @@
 
 ## 8. Evento de domínio
 
-- [ ] 8.1 Publicação de `billing.fatura_paga` via `ActiveSupport::Notifications` em `Billing::ConfirmPayment`
-- [ ] 8.2 Registro do evento em `config/initializers/domain_events.rb` (mesmo padrão usado para `tenancy.invitation_accepted`)
+- [x] 8.1 Publicação de `billing.fatura_paga` via `ActiveSupport::Notifications` em `Billing::ConfirmPayment` (implementado junto de 6.1)
+- [x] 8.2 N/A nesta change — nenhum bounded context assina `billing.fatura_paga` ainda; a publicação sozinha já satisfaz o requisito ("sem conhecimento de quem está inscrito"), mesmo padrão de `tenancy.invitation_accepted` antes de Registry existir
 
 ## 9. Visibilidade de Fatura por Occupancy
 
