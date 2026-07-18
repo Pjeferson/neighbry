@@ -39,4 +39,4 @@
 
 ## 7. Validação E2E
 
-- [ ] 7.1 Validação manual via curl contra o servidor rodando: dono cadastra `Booking` ✓ → segunda tentativa no mesmo espaço/data/turno é rejeitada ✓ → segunda tentativa da mesma unidade no mesmo espaço em turno/dia diferente do mesmo mês é rejeitada pelo limite mensal ✓ → dono cancela sua reserva ✓ → novo `Booking` no mesmo turno e no mesmo mês/espaço, agora liberado, é aceito ✓ → morador sem papel de dono/responsável tenta reservar → rejeitado ✓ → listagem consultada por morador qualquer ✓
+- [x] 7.1 Validação manual via curl contra o servidor rodando: dono cadastra `Booking` ✓ → segunda tentativa no mesmo espaço/data/turno é rejeitada ✓ → segunda tentativa da mesma unidade no mesmo espaço em turno/dia diferente do mesmo mês é rejeitada pelo limite mensal ✓ → morador sem papel de dono/responsável tenta reservar → rejeitado ✓ → outro morador tenta cancelar reserva alheia → rejeitado ✓ → dono cancela sua reserva ✓ → novo `Booking` no mesmo turno e no mesmo mês/espaço, agora liberado, é aceito ✓ → listagem consultada por morador qualquer ✓
