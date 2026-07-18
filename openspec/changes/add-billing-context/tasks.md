@@ -10,12 +10,12 @@
 
 ## 2. Domain models (app/domains/billing/)
 
-- [ ] 2.1 `Billing::Taxa` — validações de presença/valor positivo; callback ou validação que rejeita alteração de `valor`/`data_inicio`/`data_fim` em registro já persistido; escopo/método de aplicabilidade por competência (`ativo` + intervalo de datas)
-- [ ] 2.2 `Billing::CondominiumBillingSetting` — validação de `dia_cobranca` entre 0 e 15 e `dias_para_vencimento` positivo
-- [ ] 2.3 `Billing::CicloCobranca` — normalização de `competencia` para o primeiro dia do mês antes de salvar; enum `status: gerando/concluido`
-- [ ] 2.4 `Billing::Fatura` — enum `status: pendente/pago`; validação de presença de ao menos uma `Cobrança`; método que calcula "atrasado" em tempo de leitura (não persistido)
-- [ ] 2.5 `Billing::Cobranca` — pertence a `Fatura` e a `Taxa`
-- [ ] 2.6 `Billing::Pagamento` — pertence a `Fatura`; validação de `valor` igual à soma das `Cobrança` da `Fatura`
+- [x] 2.1 `Billing::Taxa` — validações de presença/valor positivo; callback ou validação que rejeita alteração de `valor`/`data_inicio`/`data_fim` em registro já persistido; escopo/método de aplicabilidade por competência (`ativo` + intervalo de datas)
+- [x] 2.2 `Billing::CondominiumBillingSetting` — validação de `dia_cobranca` entre 0 e 15 e `dias_para_vencimento` positivo
+- [x] 2.3 `Billing::CicloCobranca` — normalização de `competencia` para o primeiro dia do mês antes de salvar; enum `status: gerando/concluido`
+- [x] 2.4 `Billing::Fatura` — enum `status: pendente/pago`; validação de presença de ao menos uma `Cobrança`; método que calcula "atrasado" em tempo de leitura (não persistido)
+- [x] 2.5 `Billing::Cobranca` — pertence a `Fatura` e a `Taxa`
+- [x] 2.6 `Billing::Pagamento` — pertence a `Fatura`; validação de `valor` igual à soma das `Cobrança` da `Fatura`
 
 ## 3. Cadastro de Taxa (admin)
 
@@ -61,7 +61,7 @@
 
 ## 10. Testes
 
-- [ ] 10.1 Specs de modelo — `Taxa` (imutabilidade, aplicabilidade por competência), `CicloCobranca` (normalização, status, índice único), `Fatura` (invariante de Cobrança mínima, índice único por unidade/ciclo), `Pagamento` (índice único por fatura, validação de valor)
+- [x] 10.1 Specs de modelo — `Taxa` (imutabilidade, aplicabilidade por competência), `CicloCobranca` (normalização, status, índice único), `Fatura` (invariante de Cobrança mínima, índice único por unidade/ciclo), `Pagamento` (índice único por fatura, validação de valor)
 - [ ] 10.2 Specs de serviço — geração idempotente e retomável do ciclo, rateio igualitário entre unidades ocupadas, criação automática de `BillingSetting` via evento, confirmação manual de pagamento, rejeição de segunda tentativa de pagamento
 - [ ] 10.3 Specs de policy — `TaxaPolicy`, `PagamentoPolicy`, `FaturaPolicy` (admin/qualquer ocupante/sem ocupação)
 - [ ] 10.4 Request specs — cadastro de taxa, geração via job (incluindo retomada após falha simulada), confirmação manual, webhook com/sem segredo correto, mock_psp/simulate, listagem de faturas por ocupante
