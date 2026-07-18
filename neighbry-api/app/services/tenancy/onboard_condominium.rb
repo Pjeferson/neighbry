@@ -12,6 +12,8 @@ module Tenancy
         admin = User.create!(email: admin_email, password: admin_password, name: admin_name)
         membership = Membership.create!(user: admin, condominium: condominium, role: "admin", status: "active")
 
+        ActiveSupport::Notifications.instrument("tenancy.condominium_onboarded", condominium_id: condominium.id)
+
         return Success(membership)
       end
     rescue ActiveRecord::RecordInvalid => e

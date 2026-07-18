@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_17_000007) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_17_000013) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -22,12 +22,57 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_17_000007) do
     t.index ["condominium_id"], name: "index_buildings_on_condominium_id"
   end
 
+  create_table "ciclo_cobrancas", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.date "competencia", null: false
+    t.uuid "condominium_id", null: false
+    t.datetime "created_at", null: false
+    t.string "status", default: "gerando", null: false
+    t.datetime "updated_at", null: false
+    t.index ["condominium_id", "competencia"], name: "index_ciclo_cobrancas_on_condominium_id_and_competencia", unique: true
+    t.index ["condominium_id"], name: "index_ciclo_cobrancas_on_condominium_id"
+  end
+
+  create_table "cobrancas", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "condominium_id", null: false
+    t.datetime "created_at", null: false
+    t.uuid "fatura_id", null: false
+    t.uuid "taxa_id", null: false
+    t.datetime "updated_at", null: false
+    t.decimal "valor", precision: 12, scale: 2, null: false
+    t.index ["condominium_id"], name: "index_cobrancas_on_condominium_id"
+    t.index ["fatura_id"], name: "index_cobrancas_on_fatura_id"
+    t.index ["taxa_id"], name: "index_cobrancas_on_taxa_id"
+  end
+
+  create_table "condominium_billing_settings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "condominium_id", null: false
+    t.datetime "created_at", null: false
+    t.integer "dia_cobranca", null: false
+    t.integer "dias_para_vencimento", null: false
+    t.datetime "updated_at", null: false
+    t.index ["condominium_id"], name: "index_condominium_billing_settings_on_condominium_id", unique: true
+  end
+
   create_table "condominiums", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name", null: false
     t.string "slug", null: false
     t.datetime "updated_at", null: false
     t.index ["slug"], name: "index_condominiums_on_slug", unique: true
+  end
+
+  create_table "faturas", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "ciclo_cobranca_id", null: false
+    t.uuid "condominium_id", null: false
+    t.datetime "created_at", null: false
+    t.date "data_vencimento", null: false
+    t.string "status", default: "pendente", null: false
+    t.uuid "unit_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ciclo_cobranca_id", "unit_id"], name: "index_faturas_on_ciclo_cobranca_id_and_unit_id", unique: true
+    t.index ["ciclo_cobranca_id"], name: "index_faturas_on_ciclo_cobranca_id"
+    t.index ["condominium_id"], name: "index_faturas_on_condominium_id"
+    t.index ["unit_id"], name: "index_faturas_on_unit_id"
   end
 
   create_table "invitations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -78,6 +123,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_17_000007) do
     t.index ["unit_id"], name: "index_occupancies_on_unit_id_active_responsible", unique: true, where: "((responsible = true) AND (end_date IS NULL))"
   end
 
+  create_table "pagamentos", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "condominium_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "data", null: false
+    t.uuid "fatura_id", null: false
+    t.string "metodo", null: false
+    t.string "transaction_id"
+    t.datetime "updated_at", null: false
+    t.decimal "valor", precision: 12, scale: 2, null: false
+    t.index ["condominium_id"], name: "index_pagamentos_on_condominium_id"
+    t.index ["fatura_id"], name: "index_pagamentos_on_fatura_id", unique: true
+  end
+
   create_table "people", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "condominium_id", null: false
     t.string "cpf", null: false
@@ -90,6 +148,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_17_000007) do
     t.index ["condominium_id", "cpf"], name: "index_people_on_condominium_id_and_cpf", unique: true
     t.index ["condominium_id"], name: "index_people_on_condominium_id"
     t.index ["user_id"], name: "index_people_on_user_id"
+  end
+
+  create_table "taxas", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.boolean "ativo", default: true, null: false
+    t.uuid "condominium_id", null: false
+    t.datetime "created_at", null: false
+    t.date "data_fim"
+    t.date "data_inicio", null: false
+    t.string "descricao", null: false
+    t.datetime "updated_at", null: false
+    t.decimal "valor", precision: 12, scale: 2, null: false
+    t.index ["condominium_id"], name: "index_taxas_on_condominium_id"
   end
 
   create_table "units", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -112,14 +182,25 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_17_000007) do
   end
 
   add_foreign_key "buildings", "condominiums"
+  add_foreign_key "ciclo_cobrancas", "condominiums"
+  add_foreign_key "cobrancas", "condominiums"
+  add_foreign_key "cobrancas", "faturas"
+  add_foreign_key "cobrancas", "taxas"
+  add_foreign_key "condominium_billing_settings", "condominiums"
+  add_foreign_key "faturas", "ciclo_cobrancas"
+  add_foreign_key "faturas", "condominiums"
+  add_foreign_key "faturas", "units"
   add_foreign_key "invitations", "condominiums"
   add_foreign_key "memberships", "condominiums"
   add_foreign_key "memberships", "users"
   add_foreign_key "occupancies", "condominiums"
   add_foreign_key "occupancies", "people"
   add_foreign_key "occupancies", "units"
+  add_foreign_key "pagamentos", "condominiums"
+  add_foreign_key "pagamentos", "faturas"
   add_foreign_key "people", "condominiums"
   add_foreign_key "people", "users"
+  add_foreign_key "taxas", "condominiums"
   add_foreign_key "units", "buildings"
   add_foreign_key "units", "condominiums"
 end

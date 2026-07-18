@@ -1,12 +1,12 @@
 ## 1. Migrations
 
-- [ ] 1.1 `billing_taxas` (condominium_id, valor, descricao, data_inicio, data_fim nullable, ativo, default true)
-- [ ] 1.2 `billing_condominium_billing_settings` (condominium_id único, dia_cobranca 0–15, dias_para_vencimento)
-- [ ] 1.3 `billing_ciclo_cobrancas` (condominium_id, competencia, status: gerando/concluido) — índice único em (condominium_id, competencia)
-- [ ] 1.4 `billing_faturas` (condominium_id, unit_id, ciclo_cobranca_id, status: pendente/pago, data_vencimento) — índice único em (ciclo_cobranca_id, unit_id)
-- [ ] 1.5 `billing_cobrancas` (condominium_id, fatura_id, taxa_id, valor)
-- [ ] 1.6 `billing_pagamentos` (condominium_id, fatura_id, metodo, valor, data, transaction_id) — índice único em fatura_id
-- [ ] 1.7 `Tenancy::OnboardCondominium` — adicionar `ActiveSupport::Notifications.instrument("tenancy.condominium_onboarded", condominium_id:)` (sem migration; mudança de código aditiva)
+- [x] 1.1 `taxas` (condominium_id, valor, descricao, data_inicio, data_fim nullable, ativo, default true)
+- [x] 1.2 `condominium_billing_settings` (condominium_id único, dia_cobranca 0–15, dias_para_vencimento)
+- [x] 1.3 `ciclo_cobrancas` (condominium_id, competencia, status: gerando/concluido) — índice único em (condominium_id, competencia)
+- [x] 1.4 `faturas` (condominium_id, unit_id, ciclo_cobranca_id, status: pendente/pago, data_vencimento) — índice único em (ciclo_cobranca_id, unit_id)
+- [x] 1.5 `cobrancas` (condominium_id, fatura_id, taxa_id, valor)
+- [x] 1.6 `pagamentos` (condominium_id, fatura_id, metodo, valor, data, transaction_id) — índice único em fatura_id
+- [x] 1.7 `Tenancy::OnboardCondominium` — adicionar `ActiveSupport::Notifications.instrument("tenancy.condominium_onboarded", condominium_id:)` (sem migration; mudança de código aditiva)
 
 ## 2. Domain models (app/domains/billing/)
 

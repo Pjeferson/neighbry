@@ -91,7 +91,7 @@ Alternativa considerada: sem criação automática — admin configura manualmen
 
 ## Migration Plan
 
-Change aditiva, sem impacto em dados existentes: novas tabelas (`billing_taxas`, `billing_condominium_billing_settings`, `billing_ciclo_cobrancas` com `status`, `billing_faturas` com índice único `(ciclo_cobranca_id, unit_id)`, `billing_cobrancas`, `billing_pagamentos` com índice único `fatura_id` e coluna `transaction_id`), todas com `condominium_id` não-nulo. Nenhuma migração em `Registry`. Em `Tenancy`: nenhuma migração de schema, apenas um novo `ActiveSupport::Notifications.instrument("tenancy.condominium_onboarded", ...)` em `OnboardCondominium` — aditivo, sem quebrar comportamento existente. Sem necessidade de rollback especial além de reverter as migrations novas e o publish do evento.
+Change aditiva, sem impacto em dados existentes: novas tabelas (`taxas`, `condominium_billing_settings`, `ciclo_cobrancas` com `status`, `faturas` com índice único `(ciclo_cobranca_id, unit_id)`, `cobrancas`, `pagamentos` com índice único `fatura_id` e coluna `transaction_id`) — sem prefixo de módulo, seguindo a convenção já usada em `Tenancy`/`Registry` — todas com `condominium_id` não-nulo. Nenhuma migração em `Registry`. Em `Tenancy`: nenhuma migração de schema, apenas um novo `ActiveSupport::Notifications.instrument("tenancy.condominium_onboarded", ...)` em `OnboardCondominium` — aditivo, sem quebrar comportamento existente. Sem necessidade de rollback especial além de reverter as migrations novas e o publish do evento.
 
 ## Open Questions
 

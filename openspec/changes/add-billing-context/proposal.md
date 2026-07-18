@@ -30,7 +30,7 @@ Neighbry ainda não tem nenhum mecanismo de cobrança condominial — a terceira
 
 ## Impact
 
-- Novas tabelas: `billing_taxas`, `billing_condominium_billing_settings`, `billing_ciclo_cobrancas`, `billing_faturas`, `billing_cobrancas`, `billing_pagamentos` — todas com `condominium_id` denormalizado.
+- Novas tabelas: `taxas`, `condominium_billing_settings`, `ciclo_cobrancas`, `faturas`, `cobrancas`, `pagamentos` — todas com `condominium_id` denormalizado (nomes sem prefixo de módulo, seguindo a convenção já usada em `condominiums`/`buildings`/`units`/`occupancies`).
 - Novo job Sidekiq de geração mensal.
 - Novos endpoints em `/api/v1/billing/*` (taxas, faturas, mock_psp/simulate, webhooks/payments).
 - Novo mecanismo de autenticação por segredo estático, distinto do JWT de sessão, específico do endpoint de webhook.
