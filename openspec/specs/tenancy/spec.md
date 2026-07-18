@@ -116,3 +116,14 @@ Ao convidar um email que já possui um `Invitation` pendente (não aceito) no me
 #### Scenario: Convite já aceito não é afetado por um novo convite
 - **WHEN** um email cujo `Invitation` anterior já foi aceito é convidado novamente
 - **THEN** um novo `Invitation` é criado normalmente, sem qualquer efeito sobre o `Membership` já ativo
+
+### Requirement: Evento de domínio publicado ao onboardar condomínio
+Ao criar um `Condominium` através do fluxo de onboarding, o sistema SHALL publicar um evento de domínio contendo o identificador do `Condominium` criado, sem conhecimento de quem (se alguém) está inscrito para recebê-lo.
+
+#### Scenario: Onboarding publica evento com condominium_id
+- **WHEN** um `Condominium` é criado com sucesso através do fluxo de onboarding
+- **THEN** um evento de domínio é publicado contendo o identificador desse `Condominium`
+
+#### Scenario: Publicação do evento não depende de nenhum outro bounded context
+- **WHEN** o evento de onboarding de condomínio é publicado
+- **THEN** `Tenancy` não faz nenhuma chamada direta a código de outro bounded context — a publicação ocorre independentemente de existir algum assinante
