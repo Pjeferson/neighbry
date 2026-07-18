@@ -1,18 +1,18 @@
 ## 1. Migration
 
-- [ ] 1.1 `bookings` (condominium_id, common_area_id, occupancy_id, unit_id, data, competencia, turno, cancelada_em)
-- [ ] 1.2 Índice único parcial `[:common_area_id, :data, :turno]` `where: "(cancelada_em IS NULL)"`
-- [ ] 1.3 Índice único parcial `[:unit_id, :common_area_id, :competencia]` `where: "(cancelada_em IS NULL)"`
+- [x] 1.1 `bookings` (condominium_id, common_area_id, occupancy_id, unit_id, data, competencia, turno, cancelada_em)
+- [x] 1.2 Índice único parcial `[:common_area_id, :data, :turno]` `where: "(cancelada_em IS NULL)"`
+- [x] 1.3 Índice único parcial `[:unit_id, :common_area_id, :competencia]` `where: "(cancelada_em IS NULL)"`
 
 ## 2. Domain model
 
-- [ ] 2.1 `Reservation::Booking` — `belongs_to :condominium`, `:common_area` (`class_name: "CommonArea::CommonArea"`), `:occupancy` (`class_name: "Registry::Occupancy"`); `enum :turno, { manha:, tarde:, noite: }, validate: true`
-- [ ] 2.2 `before_validation` — preenche `unit_id` a partir de `occupancy.unit_id` e `competencia` a partir de `data.beginning_of_month` (mesmo idioma de `Registry::Unit#set_condominium_from_building`)
-- [ ] 2.3 Validação: `occupancy` ativa (`end_date: nil`) com `owner: true` ou `responsible: true`
-- [ ] 2.4 Validação: `data` não passada e no máximo 30 dias à frente da data atual
-- [ ] 2.5 Validação: `common_area.ativo?`
-- [ ] 2.6 Validação: unidade não tem outra `Booking` ativa pro mesmo `common_area` na mesma `competencia`
-- [ ] 2.7 `cancel!` — preenche `cancelada_em`
+- [x] 2.1 `Reservation::Booking` — `belongs_to :condominium`, `:common_area` (`class_name: "CommonArea::CommonArea"`), `:occupancy` (`class_name: "Registry::Occupancy"`); `enum :turno, { manha:, tarde:, noite: }, validate: true`
+- [x] 2.2 `before_validation` — preenche `unit_id` a partir de `occupancy.unit_id` e `competencia` a partir de `data.beginning_of_month` (mesmo idioma de `Registry::Unit#set_condominium_from_building`)
+- [x] 2.3 Validação: `occupancy` ativa (`end_date: nil`) com `owner: true` ou `responsible: true`
+- [x] 2.4 Validação: `data` não passada e no máximo 30 dias à frente da data atual
+- [x] 2.5 Validação: `common_area.ativo?`
+- [x] 2.6 Validação: unidade não tem outra `Booking` ativa pro mesmo `common_area` na mesma `competencia`
+- [x] 2.7 `cancel!` — preenche `cancelada_em`
 
 ## 3. Criação de reserva (dono/responsável)
 

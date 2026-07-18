@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_17_000016) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_18_000001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -29,6 +29,25 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_17_000016) do
     t.index ["condominium_id"], name: "index_avisos_on_condominium_id"
     t.index ["criado_por_id"], name: "index_avisos_on_criado_por_id"
     t.index ["unit_id"], name: "index_avisos_on_unit_id"
+  end
+
+  create_table "bookings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "cancelada_em"
+    t.uuid "common_area_id", null: false
+    t.date "competencia", null: false
+    t.uuid "condominium_id", null: false
+    t.datetime "created_at", null: false
+    t.date "data", null: false
+    t.uuid "occupancy_id", null: false
+    t.string "turno", null: false
+    t.uuid "unit_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["common_area_id", "data", "turno"], name: "index_bookings_on_common_area_data_turno_active", unique: true, where: "(cancelada_em IS NULL)"
+    t.index ["common_area_id"], name: "index_bookings_on_common_area_id"
+    t.index ["condominium_id"], name: "index_bookings_on_condominium_id"
+    t.index ["occupancy_id"], name: "index_bookings_on_occupancy_id"
+    t.index ["unit_id", "common_area_id", "competencia"], name: "index_bookings_on_unit_common_area_competencia_active", unique: true, where: "(cancelada_em IS NULL)"
+    t.index ["unit_id"], name: "index_bookings_on_unit_id"
   end
 
   create_table "buildings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -226,6 +245,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_17_000016) do
   add_foreign_key "avisos", "condominiums"
   add_foreign_key "avisos", "units"
   add_foreign_key "avisos", "users", column: "criado_por_id"
+  add_foreign_key "bookings", "common_areas"
+  add_foreign_key "bookings", "condominiums"
+  add_foreign_key "bookings", "occupancies"
+  add_foreign_key "bookings", "units"
   add_foreign_key "buildings", "condominiums"
   add_foreign_key "ciclo_cobrancas", "condominiums"
   add_foreign_key "cobrancas", "condominiums"
