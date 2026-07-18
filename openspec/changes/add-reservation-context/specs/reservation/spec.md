@@ -19,6 +19,13 @@ O sistema SHALL permitir que apenas um `User` com uma `Registry::Occupancy` ativ
 - **WHEN** um `User` cujo `Person` não tem nenhuma `Occupancy` ativa no `Condominium` tenta reservar um `CommonArea`
 - **THEN** a operação é rejeitada
 
+### Requirement: CommonArea e a unidade da Booking pertencem ao mesmo Condominium
+O sistema SHALL rejeitar a criação de uma `Booking` cujo `CommonArea` pertença a um `Condominium` diferente do `Condominium` da unidade da `Occupancy` vinculada.
+
+#### Scenario: Reserva rejeitada entre condomínios diferentes
+- **WHEN** uma tentativa de criar `Booking` referencia um `CommonArea` de um `Condominium` e uma `Occupancy` cuja `Unit` pertence a outro `Condominium`
+- **THEN** a operação é rejeitada
+
 ### Requirement: Booking usa turno fixo do dia
 Uma `Booking` SHALL ser feita para um `turno` dentre `manha`, `tarde` ou `noite` — não para um horário livre.
 
