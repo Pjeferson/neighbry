@@ -32,10 +32,10 @@
 
 ## 6. Testes
 
-- [ ] 6.1 Specs de modelo — validações de janela de data, `common_area.ativo?`, papel de `occupancy`, limite mensal por unidade, ambos os índices únicos parciais (incluindo teste de corrida/concorrência para criação simultânea no mesmo turno e para criação simultânea na mesma unidade/espaço/mês)
-- [ ] 6.2 Specs de serviço — `CreateBooking` (sucesso, rejeição por papel/janela/inatividade/conflito de turno/limite mensal por unidade), `CancelBooking` (sucesso, rejeição por autoria, liberação do limite mensal após cancelar)
-- [ ] 6.3 Specs de policy — `BookingPolicy` (create?/cancel?/list?)
-- [ ] 6.4 Request specs — criação, cancelamento, listagem (aberta a qualquer role), rejeição por Membership revogada
+- [x] 6.1 Specs de modelo — validações de janela de data, `common_area.ativo?`, papel de `occupancy`, limite mensal por unidade, ambos os índices únicos parciais (incluindo teste de corrida/concorrência para criação simultânea no mesmo turno e para criação simultânea na mesma unidade/espaço/mês)
+- [x] 6.2 Specs de serviço — `CreateBooking` (sucesso, rejeição por papel/janela/inatividade/conflito de turno/limite mensal por unidade), `CancelBooking` (sucesso, rejeição por autoria, liberação do limite mensal após cancelar)
+- [x] 6.3 Specs de policy — `BookingPolicy` (create?/cancel?/list?)
+- [x] 6.4 Request specs — criação, cancelamento, listagem (aberta a qualquer role), rejeição por Membership revogada
 
 ## 7. Validação E2E
 

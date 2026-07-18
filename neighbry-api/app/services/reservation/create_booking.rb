@@ -11,7 +11,6 @@ module Reservation
       return Failure(:unauthorized) unless occupancy
 
       booking = Booking.new(
-        condominium: unit.condominium,
         common_area: common_area,
         occupancy: occupancy,
         data: data,

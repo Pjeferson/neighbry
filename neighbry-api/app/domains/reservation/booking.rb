@@ -16,7 +16,10 @@ module Reservation
     validate :occupancy_is_owner_or_responsible
     validate :common_area_is_ativo
     validate :unit_has_no_active_booking_for_common_area_in_competencia
+    validate :common_area_has_no_active_booking_for_turno
+    validate :common_area_belongs_to_same_condominium_as_unit
 
+    before_validation :set_condominium_from_common_area
     before_validation :set_unit_from_occupancy
     before_validation :truncate_competencia_to_month_start
 
@@ -29,6 +32,10 @@ module Reservation
     end
 
     private
+
+    def set_condominium_from_common_area
+      self.condominium_id ||= common_area&.condominium_id
+    end
 
     def set_unit_from_occupancy
       self.unit_id ||= occupancy&.unit_id
@@ -65,6 +72,21 @@ module Reservation
       scope = Booking.where(unit_id: unit_id, common_area_id: common_area_id, competencia: competencia, cancelada_em: nil)
       scope = scope.where.not(id: id) if persisted?
       errors.add(:base, "unidade já tem uma reserva ativa para este espaço neste mês") if scope.exists?
+    end
+
+    def common_area_has_no_active_booking_for_turno
+      return if common_area_id.blank? || data.blank? || turno.blank?
+
+      scope = Booking.where(common_area_id: common_area_id, data: data, turno: turno, cancelada_em: nil)
+      scope = scope.where.not(id: id) if persisted?
+      errors.add(:base, "já existe uma reserva ativa para este espaço neste turno") if scope.exists?
+    end
+
+    def common_area_belongs_to_same_condominium_as_unit
+      return if common_area.nil? || unit.nil?
+      return if common_area.condominium_id == unit.condominium_id
+
+      errors.add(:common_area, "deve pertencer ao mesmo condomínio da unidade")
     end
   end
 end
