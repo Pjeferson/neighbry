@@ -1,7 +1,7 @@
 ## 1. Migrations
 
-- [ ] 1.1 `avisos` (condominium_id, titulo, corpo, tipo, building_id nullable, unit_id nullable, ativo default true, criado_por/user_id)
-- [ ] 1.2 `leituras` (aviso_id, user_id, confirmado_em nullable) — índice único em (aviso_id, user_id)
+- [x] 1.1 `avisos` (condominium_id, titulo, corpo, tipo, building_id nullable, unit_id nullable, ativo default true, criado_por/user_id)
+- [x] 1.2 `leituras` (aviso_id, user_id, confirmado_em nullable) — índice único em (aviso_id, user_id)
 
 ## 2. Domain models (app/domains/notice/)
 

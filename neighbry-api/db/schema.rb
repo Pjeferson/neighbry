@@ -10,9 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_17_000013) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_17_000015) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "avisos", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.boolean "ativo", default: true, null: false
+    t.uuid "building_id"
+    t.uuid "condominium_id", null: false
+    t.text "corpo", null: false
+    t.datetime "created_at", null: false
+    t.uuid "criado_por_id", null: false
+    t.string "tipo", null: false
+    t.string "titulo", null: false
+    t.uuid "unit_id"
+    t.datetime "updated_at", null: false
+    t.index ["building_id"], name: "index_avisos_on_building_id"
+    t.index ["condominium_id"], name: "index_avisos_on_condominium_id"
+    t.index ["criado_por_id"], name: "index_avisos_on_criado_por_id"
+    t.index ["unit_id"], name: "index_avisos_on_unit_id"
+  end
 
   create_table "buildings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "condominium_id", null: false
@@ -92,6 +109,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_17_000013) do
     t.datetime "exp", null: false
     t.string "jti", null: false
     t.index ["jti"], name: "index_jwt_denylists_on_jti", unique: true
+  end
+
+  create_table "leituras", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "aviso_id", null: false
+    t.datetime "confirmado_em"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "user_id", null: false
+    t.index ["aviso_id", "user_id"], name: "index_leituras_on_aviso_id_and_user_id", unique: true
+    t.index ["aviso_id"], name: "index_leituras_on_aviso_id"
+    t.index ["user_id"], name: "index_leituras_on_user_id"
   end
 
   create_table "memberships", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -181,6 +209,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_17_000013) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "avisos", "buildings"
+  add_foreign_key "avisos", "condominiums"
+  add_foreign_key "avisos", "units"
+  add_foreign_key "avisos", "users", column: "criado_por_id"
   add_foreign_key "buildings", "condominiums"
   add_foreign_key "ciclo_cobrancas", "condominiums"
   add_foreign_key "cobrancas", "condominiums"
@@ -191,6 +223,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_17_000013) do
   add_foreign_key "faturas", "condominiums"
   add_foreign_key "faturas", "units"
   add_foreign_key "invitations", "condominiums"
+  add_foreign_key "leituras", "avisos"
+  add_foreign_key "leituras", "users"
   add_foreign_key "memberships", "condominiums"
   add_foreign_key "memberships", "users"
   add_foreign_key "occupancies", "condominiums"
