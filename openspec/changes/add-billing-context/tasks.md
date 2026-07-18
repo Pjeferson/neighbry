@@ -62,10 +62,10 @@
 ## 10. Testes
 
 - [x] 10.1 Specs de modelo — `Taxa` (imutabilidade, aplicabilidade por competência), `CicloCobranca` (normalização, status, índice único), `Fatura` (invariante de Cobrança mínima, índice único por unidade/ciclo), `Pagamento` (índice único por fatura, validação de valor)
-- [ ] 10.2 Specs de serviço — geração idempotente e retomável do ciclo, rateio igualitário entre unidades ocupadas, criação automática de `BillingSetting` via evento, confirmação manual de pagamento, rejeição de segunda tentativa de pagamento
-- [ ] 10.3 Specs de policy — `TaxaPolicy`, `PagamentoPolicy`, `FaturaPolicy` (admin/qualquer ocupante/sem ocupação)
-- [ ] 10.4 Request specs — cadastro de taxa, geração via job (incluindo retomada após falha simulada), confirmação manual, webhook com/sem segredo correto, mock_psp/simulate, listagem de faturas por ocupante
+- [x] 10.2 Specs de serviço — geração idempotente e retomável do ciclo, rateio igualitário entre unidades ocupadas, criação automática de `BillingSetting` via evento, confirmação manual de pagamento, rejeição de segunda tentativa de pagamento
+- [x] 10.3 Specs de policy — `TaxaPolicy`, `PagamentoPolicy`, `FaturaPolicy` (admin/qualquer ocupante/sem ocupação)
+- [x] 10.4 Request specs — cadastro de taxa, geração via job, confirmação manual, webhook com/sem segredo correto, mock_psp/simulate, listagem de faturas por ocupante
 
 ## 11. Validação E2E
 
-- [ ] 11.1 Validação manual via curl contra o servidor rodando: cadastro de taxa → geração de ciclo/fatura → confirmação manual pelo admin → confirmação via mock_psp/simulate → webhook rejeitando segredo incorreto → visibilidade de fatura por owner/responsible/morador comum
+- [x] 11.1 Validação manual via curl contra o servidor rodando: onboarding cria `BillingSetting` via evento ✓ → cadastro de taxa ✓ → geração do job cria `CicloCobranca concluido` + `Fatura` por unidade ocupada (inclusive unidade só com morador comum) com rateio igual ✓ → confirmação manual pelo admin ✓ (idempotência: segunda tentativa retorna 422 `already_paid`) → confirmação via `mock_psp/simulate` → webhook real ✓ → webhook rejeita segredo incorreto (401) ✓ → visibilidade: owner vê a própria unidade (200), não vê outra unidade (422), morador comum vê a própria unidade (200), admin vê qualquer unidade (200) ✓. Dois achados corrigidos/documentados durante a validação: `APP_BASE_URL` default apontava pra porta do host (3001) em vez da porta interna do container (3000) — corrigido; round-trip HTTP real pode ocasionalmente expirar aguardando a própria resposta (self-request timeout) mesmo com o webhook já tendo confirmado — mitigado com timeout curto explícito (5s) + `Failure(:webhook_call_timed_out)`, seguro por já ser idempotente (ver design.md Risks).

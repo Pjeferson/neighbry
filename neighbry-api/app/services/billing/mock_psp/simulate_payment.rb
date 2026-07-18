@@ -16,23 +16,41 @@ module Billing
         transaction_id = "MOCK-#{Time.current.to_i}"
         payload = { fatura_id: fatura.id, transaction_id: transaction_id }
 
-        response = Net::HTTP.post(
-          webhook_uri,
-          payload.to_json,
-          { "Content-Type" => "application/json", "X-Webhook-Secret" => webhook_secret }
-        )
+        response = post_with_timeout(payload)
 
         if response.is_a?(Net::HTTPSuccess)
           Success(transaction_id)
         else
           Failure(:webhook_call_failed)
         end
+      rescue Net::OpenTimeout, Net::ReadTimeout
+        # Round-trip HTTP real (mesmo processo chamando a si mesmo) pode
+        # ocasionalmente travar aguardando a resposta mesmo quando o
+        # webhook já confirmou o pagamento no servidor (ver design.md
+        # Risco "self-request timeout"). ConfirmPayment já é idempotente,
+        # então uma nova tentativa do chamador é segura.
+        Failure(:webhook_call_timed_out)
       end
 
       private
 
+      def post_with_timeout(payload)
+        uri = webhook_uri
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.open_timeout = 5
+        http.read_timeout = 5
+
+        request = Net::HTTP::Post.new(uri, { "Content-Type" => "application/json", "X-Webhook-Secret" => webhook_secret })
+        request.body = payload.to_json
+
+        http.request(request)
+      end
+
       def webhook_uri
-        URI.join(ENV.fetch("APP_BASE_URL", "http://localhost:3001"), "/api/v1/billing/webhooks/payments")
+        # Chamada interna, container -> ele mesmo: usa a porta que o Puma
+        # escuta dentro do container (3000), não a porta mapeada no host
+        # (3001, documentada no CLAUDE.md) — ver config/puma.rb.
+        URI.join(ENV.fetch("APP_BASE_URL", "http://localhost:3000"), "/api/v1/billing/webhooks/payments")
       end
 
       def webhook_secret

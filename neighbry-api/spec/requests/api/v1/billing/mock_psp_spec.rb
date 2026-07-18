@@ -23,10 +23,10 @@ RSpec.describe "Billing::MockPsp", type: :request do
       fatura = create(:fatura, unit: unit, condominium: condominium)
       headers = auth_headers_for(admin)
 
-      expect(Net::HTTP).to receive(:post) do |uri, body, http_headers|
-        expect(uri.path).to eq("/api/v1/billing/webhooks/payments")
-        expect(JSON.parse(body)["fatura_id"]).to eq(fatura.id)
-        expect(http_headers["X-Webhook-Secret"]).to be_present
+      allow_any_instance_of(Net::HTTP).to receive(:request) do |_http, request|
+        expect(request.path).to eq("/api/v1/billing/webhooks/payments")
+        expect(JSON.parse(request.body)["fatura_id"]).to eq(fatura.id)
+        expect(request["X-Webhook-Secret"]).to be_present
         Net::HTTPOK.new("1.1", "200", "OK")
       end
 

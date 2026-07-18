@@ -88,6 +88,7 @@ Alternativa considerada: sem criação automática — admin configura manualmen
 - [Cron com trigger `>=` pode gerar o ciclo "atrasado" (ex: sistema fora do ar por vários dias) sem qualquer alerta] → Mitigação: fora de escopo agora; o índice único garante que não duplica, só que pode gerar depois do dia configurado.
 - [Condomínios já onboardados antes desta change nunca recebem `BillingSetting` automaticamente, porque o evento só dispara em novos onboardings] → Mitigação: cron já pula silenciosamente condomínios sem `BillingSetting` (comportamento decidido independentemente do evento); admin configura manualmente uma vez para condomínios pré-existentes.
 - [Unidade pode ser cobrada sem ninguém com `owner`/`responsible` pra pagar de fato, caso reste só morador comum] → Mitigação: decisão consciente de escopo (ver Decisão "Unidade ativa"), não é tratado como erro.
+- [Round-trip HTTP real do `mock_psp/simulate` para o webhook pode expirar aguardando a própria resposta (self-request dentro do mesmo processo Puma), mesmo quando o webhook já confirmou o pagamento no servidor — observado durante validação E2E: chamada interna completou em 80ms, mas o cliente `Net::HTTP` só desistiu após o timeout default de 60s] → Mitigação: `Net::HTTP` configurado com `open_timeout`/`read_timeout` de 5s e `Failure(:webhook_call_timed_out)` explícito; seguro porque `ConfirmPayment` já é idempotente — uma nova tentativa do admin não duplica o pagamento. Não ocorreria contra um PSP real (processo genuinamente externo).
 
 ## Migration Plan
 
