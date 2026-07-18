@@ -40,4 +40,27 @@ RSpec.describe "Notice::Avisos", type: :request do
       expect(response).to have_http_status(:unprocessable_content)
     end
   end
+
+  describe "PATCH /api/v1/notice/avisos/:id/deactivate" do
+    it "admin deactivates an Aviso" do
+      headers = auth_headers_for(admin)
+      aviso = create(:aviso, condominium: condominium, criado_por: admin)
+
+      patch "/api/v1/notice/avisos/#{aviso.id}/deactivate", headers: headers
+
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body.dig("data", "attributes", "ativo")).to be(false)
+    end
+
+    it "forbids a non-admin from deactivating an Aviso" do
+      aviso = create(:aviso, condominium: condominium, criado_por: admin)
+      resident = create(:user, password: "secret123")
+      create(:membership, user: resident, condominium: condominium, role: "resident", status: "active")
+      headers = auth_headers_for(resident)
+
+      patch "/api/v1/notice/avisos/#{aviso.id}/deactivate", headers: headers
+
+      expect(response).to have_http_status(:unprocessable_content)
+    end
+  end
 end

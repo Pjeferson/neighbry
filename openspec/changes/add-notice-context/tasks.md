@@ -21,8 +21,8 @@
 
 ## 5. Desativação de Aviso (admin-only)
 
-- [ ] 5.1 `Notice::DeactivateAviso` service — valida policy, marca `ativo: false`
-- [ ] 5.2 `PATCH /api/v1/notice/avisos/:id/deactivate` — controller + rota
+- [x] 5.1 `Notice::DeactivateAviso` service — valida policy, marca `ativo: false`
+- [x] 5.2 `PATCH /api/v1/notice/avisos/:id/deactivate` — controller + rota
 
 ## 6. Confirmação de leitura
 

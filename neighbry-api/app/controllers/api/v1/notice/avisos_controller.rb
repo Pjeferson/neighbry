@@ -26,6 +26,18 @@ module Api
           end
         end
 
+        def deactivate
+          aviso = ::Notice::Aviso.find_by!(id: params[:id], condominium_id: Tenancy::Current.condominium.id)
+
+          result = ::Notice::DeactivateAviso.new.call(actor: current_user, aviso: aviso)
+
+          if result.success?
+            render json: ::Notice::AvisoSerializer.new(result.value!).serializable_hash
+          else
+            render json: { error: error_payload(result.failure) }, status: :unprocessable_content
+          end
+        end
+
         private
 
         def error_payload(failure)
