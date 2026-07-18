@@ -39,6 +39,10 @@ Rails.application.routes.draw do
       end
 
       resources :service_providers, only: [:create]
+
+      namespace :billing do
+        resources :taxas, only: [:create]
+      end
     end
   end
 

@@ -19,10 +19,10 @@
 
 ## 3. Cadastro de Taxa (admin)
 
-- [ ] 3.1 `Billing::RegisterTaxa` service object (`Dry::Monads::Result`)
-- [ ] 3.2 `Billing::TaxaPolicy` — restringe cadastro a `Membership(role: admin)`
-- [ ] 3.3 `Billing::TaxaSerializer`
-- [ ] 3.4 `POST /api/v1/billing/taxas` — controller + rota
+- [x] 3.1 `Billing::RegisterTaxa` service object (`Dry::Monads::Result`)
+- [x] 3.2 `Billing::TaxaPolicy` — restringe cadastro a `Membership(role: admin)`
+- [x] 3.3 `Billing::TaxaSerializer`
+- [x] 3.4 `POST /api/v1/billing/taxas` — controller + rota
 
 ## 4. Configuração de dia de cobrança
 
