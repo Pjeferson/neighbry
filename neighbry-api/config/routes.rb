@@ -43,6 +43,9 @@ Rails.application.routes.draw do
       namespace :billing do
         resources :taxas, only: [:create]
         resource :settings, only: [:update]
+        resources :units, only: [] do
+          resources :faturas, only: [:index]
+        end
         resources :faturas, only: [] do
           patch :confirm_payment, on: :member
         end

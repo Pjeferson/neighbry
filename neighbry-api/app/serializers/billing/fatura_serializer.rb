@@ -6,6 +6,8 @@ module Billing
 
     attributes :status, :data_vencimento, :unit_id
 
+    has_many :cobrancas, serializer: :cobranca
+
     attribute :total do |fatura|
       fatura.total
     end

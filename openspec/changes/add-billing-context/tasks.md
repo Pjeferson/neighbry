@@ -55,9 +55,9 @@
 
 ## 9. Visibilidade de Fatura por Occupancy
 
-- [ ] 9.1 `Billing::FaturaPolicy` — admin vê todas as faturas do condomínio; qualquer `Person` com `Registry::Occupancy` ativa na `Unit` (qualquer papel) vê apenas as da própria `Unit`; sem `Occupancy` ativa em nenhuma `Unit` não vê nenhuma
-- [ ] 9.2 `Billing::FaturaSerializer` (com `Cobrança` aninhadas)
-- [ ] 9.3 `GET /api/v1/billing/faturas` — controller escopado pela policy + rota
+- [x] 9.1 `Billing::FaturaPolicy` — admin vê todas as faturas do condomínio; qualquer `Person` com `Registry::Occupancy` ativa na `Unit` (qualquer papel) vê apenas as da própria `Unit`; sem `Occupancy` ativa em nenhuma `Unit` não vê nenhuma
+- [x] 9.2 `Billing::FaturaSerializer` (com `Cobrança` aninhadas via `has_many :cobrancas`)
+- [x] 9.3 `GET /api/v1/billing/units/:unit_id/faturas` — controller escopado pela policy + rota (nested sob `Unit`, mesmo padrão de `units/:id/occupancies`)
 
 ## 10. Testes
 

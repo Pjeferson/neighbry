@@ -8,6 +8,17 @@ module Api
 
         before_action :authenticate_user!
 
+        def index
+          unit = Registry::Unit.find_by!(id: params[:unit_id], condominium_id: Tenancy::Current.condominium.id)
+
+          unless ::Billing::FaturaPolicy.new(current_user, unit).view?
+            return render json: { error: [:unauthorized] }, status: :unprocessable_content
+          end
+
+          faturas = ::Billing::Fatura.where(unit: unit).order(data_vencimento: :desc)
+          render json: ::Billing::FaturaSerializer.new(faturas).serializable_hash
+        end
+
         def confirm_payment
           fatura = ::Billing::Fatura.find_by!(id: params[:id], condominium_id: Tenancy::Current.condominium.id)
 
