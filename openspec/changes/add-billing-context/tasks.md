@@ -44,9 +44,9 @@
 
 ## 7. Webhook de pagamento e simulador de PSP mockado
 
-- [ ] 7.1 `Api::V1::Billing::Webhooks::PaymentsController` — autentica via segredo estático (env var, header dedicado), extrai `transaction_id` do payload, chama `Billing::ConfirmPayment`
-- [ ] 7.2 `Billing::MockPsp::SimulatePayment` service — gera `transaction_id` simulado (ex: `"MOCK-#{Time.current.to_i}"`), monta payload no formato de webhook e faz requisição HTTP real ao endpoint de webhook
-- [ ] 7.3 `POST /api/v1/billing/mock_psp/simulate` (admin autenticado) e `POST /api/v1/billing/webhooks/payments` (segredo estático) — controllers + rotas
+- [x] 7.1 `Api::V1::Billing::Webhooks::PaymentsController` — autentica via segredo estático (env var `BILLING_WEBHOOK_SECRET`, header `X-Webhook-Secret`, `ActiveSupport::SecurityUtils.secure_compare`), extrai `transaction_id` do payload, chama `Billing::ConfirmPayment`
+- [x] 7.2 `Billing::MockPsp::SimulatePayment` service — gera `transaction_id` simulado (`"MOCK-#{Time.current.to_i}"`), monta payload no formato de webhook e faz requisição HTTP real (`Net::HTTP.post`) ao endpoint de webhook
+- [x] 7.3 `POST /api/v1/billing/mock_psp/simulate` (admin autenticado) e `POST /api/v1/billing/webhooks/payments` (segredo estático) — controllers + rotas
 
 ## 8. Evento de domínio
 

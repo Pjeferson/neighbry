@@ -46,6 +46,8 @@ Rails.application.routes.draw do
         resources :faturas, only: [] do
           patch :confirm_payment, on: :member
         end
+        post "mock_psp/simulate", to: "mock_psp#simulate"
+        post "webhooks/payments", to: "webhooks/payments#create"
       end
     end
   end
