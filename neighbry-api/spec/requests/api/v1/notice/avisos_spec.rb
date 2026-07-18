@@ -63,4 +63,42 @@ RSpec.describe "Notice::Avisos", type: :request do
       expect(response).to have_http_status(:unprocessable_content)
     end
   end
+
+  describe "PATCH /api/v1/notice/avisos/:id/confirmar" do
+    it "destinatario confirms leitura" do
+      resident = create(:user, password: "secret123")
+      create(:membership, user: resident, condominium: condominium, role: "resident", status: "active")
+      aviso = create(:aviso, condominium: condominium, criado_por: admin)
+      create(:leitura, aviso: aviso, user: resident)
+      headers = auth_headers_for(resident)
+
+      patch "/api/v1/notice/avisos/#{aviso.id}/confirmar", headers: headers
+
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body.dig("data", "attributes", "confirmado_em")).to be_present
+    end
+
+    it "rejects confirmation from a non-destinatario" do
+      outsider = create(:user, password: "secret123")
+      create(:membership, user: outsider, condominium: condominium, role: "resident", status: "active")
+      aviso = create(:aviso, condominium: condominium, criado_por: admin)
+      headers = auth_headers_for(outsider)
+
+      patch "/api/v1/notice/avisos/#{aviso.id}/confirmar", headers: headers
+
+      expect(response).to have_http_status(:unprocessable_content)
+    end
+
+    it "rejects confirmation on a deactivated Aviso" do
+      resident = create(:user, password: "secret123")
+      create(:membership, user: resident, condominium: condominium, role: "resident", status: "active")
+      aviso = create(:aviso, condominium: condominium, criado_por: admin, ativo: false)
+      create(:leitura, aviso: aviso, user: resident)
+      headers = auth_headers_for(resident)
+
+      patch "/api/v1/notice/avisos/#{aviso.id}/confirmar", headers: headers
+
+      expect(response).to have_http_status(:unprocessable_content)
+    end
+  end
 end

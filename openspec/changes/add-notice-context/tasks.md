@@ -26,8 +26,8 @@
 
 ## 6. Confirmação de leitura
 
-- [ ] 6.1 `Notice::ConfirmLeitura` service — rejeita se `Aviso.ativo` for `false`; rejeita se não existir `Leitura` para o `User` (não-destinatário); idempotente (`UPDATE`, não `INSERT`, no-op se já confirmado)
-- [ ] 6.2 `PATCH /api/v1/notice/avisos/:id/confirmar` — controller + rota
+- [x] 6.1 `Notice::ConfirmLeitura` service — rejeita se `Aviso.ativo` for `false`; rejeita se não existir `Leitura` para o `User` (não-destinatário); idempotente (`UPDATE`, não `INSERT`, no-op se já confirmado)
+- [x] 6.2 `PATCH /api/v1/notice/avisos/:id/confirmar` — controller + rota
 
 ## 7. Listagem de avisos recebidos
 

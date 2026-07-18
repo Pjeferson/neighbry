@@ -56,6 +56,7 @@ Rails.application.routes.draw do
       namespace :notice do
         resources :avisos, only: [:create] do
           patch :deactivate, on: :member
+          patch :confirmar, on: :member
         end
       end
     end

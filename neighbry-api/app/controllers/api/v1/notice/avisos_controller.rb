@@ -38,6 +38,18 @@ module Api
           end
         end
 
+        def confirmar
+          aviso = ::Notice::Aviso.find_by!(id: params[:id], condominium_id: Tenancy::Current.condominium.id)
+
+          result = ::Notice::ConfirmLeitura.new.call(actor: current_user, aviso: aviso)
+
+          if result.success?
+            render json: ::Notice::LeituraSerializer.new(result.value!).serializable_hash
+          else
+            render json: { error: result.failure }, status: :unprocessable_content
+          end
+        end
+
         private
 
         def error_payload(failure)
