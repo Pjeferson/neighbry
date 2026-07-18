@@ -35,8 +35,8 @@
 
 ## 8. Painel de confirmação (admin-only)
 
-- [ ] 8.1 `Notice::PainelSerializer` (ou atributos calculados no serializer de Aviso) — total de destinatários, total de confirmados, lista de quem confirmou
-- [ ] 8.2 `GET /api/v1/notice/avisos/:id/painel` — controller escopado pela policy + rota
+- [x] 8.1 `Notice::PainelSerializer` — total de destinatários, total de confirmados, lista de quem confirmou
+- [x] 8.2 `GET /api/v1/notice/avisos/:id/painel` — controller escopado pela policy + rota
 
 ## 9. Testes
 

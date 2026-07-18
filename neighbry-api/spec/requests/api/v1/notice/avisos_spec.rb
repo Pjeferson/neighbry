@@ -141,4 +141,35 @@ RSpec.describe "Notice::Avisos", type: :request do
       expect(response.parsed_body["data"]).to be_empty
     end
   end
+
+  describe "GET /api/v1/notice/avisos/:id/painel" do
+    it "admin sees the confirmation counter" do
+      resident_a = create(:user, password: "secret123")
+      resident_b = create(:user, password: "secret123")
+      create(:membership, user: resident_a, condominium: condominium, role: "resident", status: "active")
+      create(:membership, user: resident_b, condominium: condominium, role: "resident", status: "active")
+      aviso = create(:aviso, condominium: condominium, criado_por: admin)
+      create(:leitura, aviso: aviso, user: resident_a, confirmado_em: Time.current)
+      create(:leitura, aviso: aviso, user: resident_b)
+      headers = auth_headers_for(admin)
+
+      get "/api/v1/notice/avisos/#{aviso.id}/painel", headers: headers
+
+      expect(response).to have_http_status(:ok)
+      attrs = response.parsed_body.dig("data", "attributes")
+      expect(attrs["total_destinatarios"]).to eq(2)
+      expect(attrs["total_confirmados"]).to eq(1)
+    end
+
+    it "forbids staff non-admin from seeing the painel" do
+      manager = create(:user, password: "secret123")
+      create(:membership, user: manager, condominium: condominium, role: "manager", status: "active")
+      aviso = create(:aviso, condominium: condominium, criado_por: admin)
+      headers = auth_headers_for(manager)
+
+      get "/api/v1/notice/avisos/#{aviso.id}/painel", headers: headers
+
+      expect(response).to have_http_status(:unprocessable_content)
+    end
+  end
 end

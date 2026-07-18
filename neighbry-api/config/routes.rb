@@ -57,6 +57,7 @@ Rails.application.routes.draw do
         resources :avisos, only: %i[create index] do
           patch :deactivate, on: :member
           patch :confirmar, on: :member
+          get :painel, on: :member
         end
       end
     end

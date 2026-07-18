@@ -59,6 +59,17 @@ module Api
           end
         end
 
+        def painel
+          aviso = ::Notice::Aviso.find_by!(id: params[:id], condominium_id: Tenancy::Current.condominium.id)
+
+          unless ::Notice::AvisoPolicy.new(current_user, aviso.condominium).view_painel?
+            return render json: { error: [:unauthorized] }, status: :unprocessable_content
+          end
+
+          aviso.leituras.load
+          render json: ::Notice::PainelSerializer.new(aviso).serializable_hash
+        end
+
         private
 
         def error_payload(failure)
