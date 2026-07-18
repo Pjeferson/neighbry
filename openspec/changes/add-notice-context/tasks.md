@@ -10,7 +10,7 @@
 
 ## 3. Cálculo de destinatários
 
-- [ ] 3.1 `Notice::ResolveDestinatarios` service — retorna array de `user_id` únicos conforme `tipo`: `todos`/`moradores`/`staff` via `Tenancy::Membership` (por `role`, `status: active`); `torre`/`unidade` via `Registry::Occupancy` ativa (qualquer papel) → `Person.user_id`, filtrando nulos e deduplicando
+- [x] 3.1 `Notice::ResolveDestinatarios` service — retorna array de `user_id` únicos conforme `tipo`: `todos`/`moradores`/`staff` via `Tenancy::Membership` (por `role`, `status: active`); `torre`/`unidade` via `Registry::Occupancy` ativa (qualquer papel) → `Person.user_id`, filtrando nulos e deduplicando
 
 ## 4. Criação de Aviso (admin-only)
 
