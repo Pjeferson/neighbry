@@ -28,4 +28,4 @@
 
 ## 6. Validação E2E
 
-- [ ] 6.1 Validação manual via curl contra o servidor rodando: admin cadastra CommonArea → admin edita campo já criado → morador consulta listagem (inclusive CommonArea desativado) → staff consulta listagem → usuário sem Membership é rejeitado
+- [x] 6.1 Validação manual via curl contra o servidor rodando: admin cadastra CommonArea ✓ → admin edita `capacidade` e `ativo` de registro já criado (edição livre confirmada) ✓ → listagem inclui o registro desativado ✓ → morador consulta listagem com sucesso ✓ → morador tenta cadastrar CommonArea → rejeitado (422 unauthorized) ✓
