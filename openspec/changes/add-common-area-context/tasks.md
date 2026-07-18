@@ -8,12 +8,12 @@
 
 ## 3. Cadastro e edição (admin-only)
 
-- [ ] 3.1 `CommonArea::AdminCheckable` module (mesmo padrão replicado em cada bounded context)
-- [ ] 3.2 `CommonArea::CommonAreaPolicy` — `create?`/`update?` restritos a `Membership(role: admin)`
-- [ ] 3.3 `CommonArea::RegisterCommonArea` service (`Dry::Monads::Result`)
-- [ ] 3.4 `CommonArea::UpdateCommonArea` service — atualização livre de qualquer campo, admin-only
-- [ ] 3.5 `CommonArea::CommonAreaSerializer`
-- [ ] 3.6 `POST /api/v1/common_areas` e `PATCH /api/v1/common_areas/:id` — controller + rotas
+- [x] 3.1 `CommonArea::AdminCheckable` module (mesmo padrão replicado em cada bounded context)
+- [x] 3.2 `CommonArea::CommonAreaPolicy` — `create?`/`update?` restritos a `Membership(role: admin)` (`list?` também incluído aqui, usado no Grupo 4)
+- [x] 3.3 `CommonArea::RegisterCommonArea` service (`Dry::Monads::Result`)
+- [x] 3.4 `CommonArea::UpdateCommonArea` service — atualização livre de qualquer campo, admin-only
+- [x] 3.5 `CommonArea::CommonAreaSerializer`
+- [x] 3.6 `POST /api/v1/common_areas` e `PATCH /api/v1/common_areas/:id` — controller + rotas
 
 ## 4. Listagem (leitura aberta)
 

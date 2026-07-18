@@ -53,6 +53,8 @@ Rails.application.routes.draw do
         post "webhooks/payments", to: "webhooks/payments#create"
       end
 
+      resources :common_areas, only: %i[create update]
+
       namespace :notice do
         resources :avisos, only: %i[create index] do
           patch :deactivate, on: :member
