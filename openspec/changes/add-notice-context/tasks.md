@@ -5,8 +5,8 @@
 
 ## 2. Domain models (app/domains/notice/)
 
-- [ ] 2.1 `Notice::Aviso` — enum `tipo: todos/moradores/staff/torre/unidade`; validação condicional de `building_id`/`unit_id` conforme `tipo`; validação de imutabilidade (só `ativo` editável após persistido)
-- [ ] 2.2 `Notice::Leitura` — pertence a `Aviso`; `confirmado?` método de conveniência
+- [x] 2.1 `Notice::Aviso` — enum `tipo: todos/moradores/staff/torre/unidade`; validação condicional de `building_id`/`unit_id` conforme `tipo`; validação de imutabilidade (só `ativo` editável após persistido)
+- [x] 2.2 `Notice::Leitura` — pertence a `Aviso`; `confirmado?` método de conveniência
 
 ## 3. Cálculo de destinatários
 
