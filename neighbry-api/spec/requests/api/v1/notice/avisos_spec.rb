@@ -101,4 +101,44 @@ RSpec.describe "Notice::Avisos", type: :request do
       expect(response).to have_http_status(:unprocessable_content)
     end
   end
+
+  describe "GET /api/v1/notice/avisos" do
+    it "lists active Aviso where the current_user is a destinatario, with confirmado_em" do
+      resident = create(:user, password: "secret123")
+      create(:membership, user: resident, condominium: condominium, role: "resident", status: "active")
+      aviso = create(:aviso, condominium: condominium, criado_por: admin)
+      create(:leitura, aviso: aviso, user: resident)
+      headers = auth_headers_for(resident)
+
+      get "/api/v1/notice/avisos", headers: headers
+
+      expect(response).to have_http_status(:ok)
+      data = response.parsed_body["data"]
+      expect(data.size).to eq(1)
+      expect(data.first.dig("attributes", "confirmado_em")).to be_nil
+    end
+
+    it "excludes deactivated Aviso" do
+      resident = create(:user, password: "secret123")
+      create(:membership, user: resident, condominium: condominium, role: "resident", status: "active")
+      aviso = create(:aviso, condominium: condominium, criado_por: admin, ativo: false)
+      create(:leitura, aviso: aviso, user: resident)
+      headers = auth_headers_for(resident)
+
+      get "/api/v1/notice/avisos", headers: headers
+
+      expect(response.parsed_body["data"]).to be_empty
+    end
+
+    it "excludes Aviso where the current_user is not a destinatario" do
+      resident = create(:user, password: "secret123")
+      create(:membership, user: resident, condominium: condominium, role: "resident", status: "active")
+      create(:aviso, condominium: condominium, criado_por: admin)
+      headers = auth_headers_for(resident)
+
+      get "/api/v1/notice/avisos", headers: headers
+
+      expect(response.parsed_body["data"]).to be_empty
+    end
+  end
 end

@@ -8,6 +8,15 @@ module Api
 
         before_action :authenticate_user!
 
+        def index
+          avisos = ::Notice::Aviso
+            .joins(:leituras)
+            .where(leituras: { user_id: current_user.id }, ativo: true, condominium_id: Tenancy::Current.condominium.id)
+            .includes(:leituras)
+
+          render json: ::Notice::AvisoSerializer.new(avisos, params: { current_user_id: current_user.id }).serializable_hash
+        end
+
         def create
           result = ::Notice::CreateAviso.new.call(
             actor: current_user,

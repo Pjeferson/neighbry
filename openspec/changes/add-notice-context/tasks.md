@@ -31,7 +31,7 @@
 
 ## 7. Listagem de avisos recebidos
 
-- [ ] 7.1 `GET /api/v1/notice/avisos` — lista `Aviso` ativos onde o `current_user` tem `Leitura`, incluindo se já confirmou ou não — controller + rota
+- [x] 7.1 `GET /api/v1/notice/avisos` — lista `Aviso` ativos onde o `current_user` tem `Leitura`, incluindo se já confirmou ou não — controller + rota
 
 ## 8. Painel de confirmação (admin-only)
 

@@ -54,7 +54,7 @@ Rails.application.routes.draw do
       end
 
       namespace :notice do
-        resources :avisos, only: [:create] do
+        resources :avisos, only: %i[create index] do
           patch :deactivate, on: :member
           patch :confirmar, on: :member
         end
