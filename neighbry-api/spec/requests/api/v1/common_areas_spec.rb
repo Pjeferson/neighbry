@@ -61,4 +61,44 @@ RSpec.describe "CommonAreas", type: :request do
       expect(response).to have_http_status(:unprocessable_content)
     end
   end
+
+  describe "GET /api/v1/common_areas" do
+    it "resident sees the listing, including inactive CommonArea" do
+      create(:common_area, condominium: condominium, nome: "Salão")
+      create(:common_area, condominium: condominium, nome: "Piscina", ativo: false)
+      resident = create(:user, password: "secret123")
+      create(:membership, user: resident, condominium: condominium, role: "resident", status: "active")
+      headers = auth_headers_for(resident)
+
+      get "/api/v1/common_areas", headers: headers
+
+      expect(response).to have_http_status(:ok)
+      data = response.parsed_body["data"]
+      expect(data.size).to eq(2)
+      expect(data.map { |d| d.dig("attributes", "ativo") }).to contain_exactly(true, false)
+    end
+
+    it "staff sees the listing" do
+      create(:common_area, condominium: condominium)
+      manager = create(:user, password: "secret123")
+      create(:membership, user: manager, condominium: condominium, role: "manager", status: "active")
+      headers = auth_headers_for(manager)
+
+      get "/api/v1/common_areas", headers: headers
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "forbids a User whose Membership was revoked after authenticating" do
+      create(:common_area, condominium: condominium)
+      resident = create(:user, password: "secret123")
+      membership = create(:membership, user: resident, condominium: condominium, role: "resident", status: "active")
+      headers = auth_headers_for(resident)
+      membership.update!(status: "revoked")
+
+      get "/api/v1/common_areas", headers: headers
+
+      expect(response).to have_http_status(:unprocessable_content)
+    end
+  end
 end

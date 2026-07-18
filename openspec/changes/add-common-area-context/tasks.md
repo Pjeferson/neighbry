@@ -17,14 +17,14 @@
 
 ## 4. Listagem (leitura aberta)
 
-- [ ] 4.1 `GET /api/v1/common_areas` — qualquer `Membership` ativo no condomínio, inclui `CommonArea` com `ativo: false` — controller + rota
+- [x] 4.1 `GET /api/v1/common_areas` — qualquer `Membership` ativo no condomínio, inclui `CommonArea` com `ativo: false` — controller + rota
 
 ## 5. Testes
 
-- [ ] 5.1 Specs de modelo — validações de presença
-- [ ] 5.2 Specs de serviço — `RegisterCommonArea`, `UpdateCommonArea` (admin-only, edição livre mesmo após criado)
-- [ ] 5.3 Specs de policy — `CommonAreaPolicy` (create?/update? admin-only)
-- [ ] 5.4 Request specs — cadastro, edição, listagem (aberta a qualquer role, inclui inativos), rejeição sem Membership ativo
+- [x] 5.1 Specs de modelo — validações de presença
+- [x] 5.2 Specs de serviço — `RegisterCommonArea`, `UpdateCommonArea` (admin-only, edição livre mesmo após criado)
+- [x] 5.3 Specs de policy — `CommonAreaPolicy` (create?/update? admin-only)
+- [x] 5.4 Request specs — cadastro, edição, listagem (aberta a qualquer role, inclui inativos), rejeição de Membership revogada
 
 ## 6. Validação E2E
 

@@ -7,6 +7,15 @@ module Api
 
       before_action :authenticate_user!
 
+      def index
+        unless ::CommonArea::CommonAreaPolicy.new(current_user, Tenancy::Current.condominium).list?
+          return render json: { error: [:unauthorized] }, status: :unprocessable_content
+        end
+
+        common_areas = ::CommonArea::CommonArea.where(condominium_id: Tenancy::Current.condominium.id)
+        render json: ::CommonArea::CommonAreaSerializer.new(common_areas).serializable_hash
+      end
+
       def create
         result = ::CommonArea::RegisterCommonArea.new.call(
           actor: current_user,
