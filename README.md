@@ -1,18 +1,39 @@
 # Neighbry
 
-Sistema de gestão condominial desenvolvido como projeto de aprendizado, com foco em **DDD (Domain-Driven Design)** e conceitos de **DDIA (Designing Data-Intensive Applications)**.
+Sistema de gestão condominial construído como projeto de aprendizado — a meta não é entregar um produto, é praticar **DDD (Domain-Driven Design)** e conceitos de **DDIA (Designing Data-Intensive Applications)** num contexto realista, com um domínio rico o suficiente pra render decisões de modelagem de verdade.
 
-Administração de condomínios com múltiplas torres, cobrança de taxas rateadas por metragem de unidade, comunicação síndico↔morador, e controle de acesso (com reconhecimento facial mockado).
+A ideia central: administração de condomínios com múltiplas torres, cobrança de taxas rateadas, comunicação síndico↔morador e cadastro de espaços comuns — modelado como um **Rails Modular Monolith**, onde cada bounded context vive isolado por namespace Ruby e só se comunica com os outros via Domain Events ou leitura direta (nunca escrita) entre módulos. É a mesma fronteira que existiria se, um dia, algum desses módulos virasse um serviço separado.
 
-Ver `openspec/project.md` para a especificação completa do domínio (bounded contexts, aggregates, invariantes, fluxos principais).
+Ver `openspec/project.md` para a especificação completa do domínio (bounded contexts, aggregates, invariantes, fluxos principais) e `openspec/specs/` para o comportamento formal, requirement por requirement, de cada capability já implementada.
+
+---
+
+## O que já existe
+
+Cinco bounded contexts implementados, testados e arquivados no OpenSpec (histórico completo de cada um em `openspec/changes/archive/`):
+
+| Bounded Context | O que faz |
+|---|---|
+| **Tenancy** | Multi-tenancy por subdomínio, convite/aceite de acesso, papéis (admin/manager/doorman/resident) |
+| **Registry** | Torres, unidades, pessoas e ocupações — hierarquia de autoridade (admin > proprietário > responsável > morador) |
+| **Billing** | Taxas, geração mensal idempotente de cobrança, pagamento manual ou via simulação de webhook de PSP |
+| **Notice** | Avisos direcionados (condomínio inteiro, moradores, staff, uma torre ou uma unidade) com confirmação de leitura |
+| **CommonArea** | Catálogo de espaços comuns do condomínio |
+
+**Access** (controle de entrada/saída com reconhecimento facial mockado) foi deliberadamente adiado para uma v2 — está documentado em `openspec/project.md`, mas fora do escopo atual.
+
+### Alguns destaques técnicos
+
+- **Domain Events entre módulos**: `Tenancy` publica eventos de onboarding/convite sem saber quem escuta; `Registry` e `Billing` reagem a eles de forma totalmente desacoplada.
+- **Geração de cobrança mensal idempotente e retomável**: o job pode rodar mais de uma vez, cair no meio, e retomar de onde parou sem duplicar nada — só com índices únicos e um status de ciclo, sem lock distribuído.
+- **Simulação de PSP com round-trip HTTP real**: em vez de uma chamada Ruby direta, o "pagamento simulado" faz uma requisição HTTP de verdade pro endpoint de webhook — o mesmo que existiria em produção com um PSP real, autenticado por segredo estático em vez de sessão de usuário.
+- **Fluxo de exploração → proposta → implementação → arquivamento** via [OpenSpec](https://github.com/anthropics/openspec), com specs formais (`SHALL`/cenários `WHEN`/`THEN`) por capability, validadas antes de cada change ser arquivada.
 
 ---
 
 ## Arquitetura
 
-Rails Modular Monolith: um único backend (`neighbry-api`), organizado internamente em módulos com fronteiras explícitas por bounded context — sem serviços separados, comunicação entre módulos via Domain Events publicados internamente.
-
-Bounded contexts planejados: **Registry** (torres, unidades, pessoas), **Billing** (taxas, rateio, faturas, pagamentos), **Notice** (avisos e confirmação de leitura), **Access** (entrada/saída, reconhecimento facial mock), **CommonArea** (cadastro de espaços comuns).
+Rails Modular Monolith: um único backend (`neighbry-api`), organizado internamente em módulos com fronteiras explícitas por bounded context — sem serviços separados, comunicação entre módulos via Domain Events publicados internamente (`ActiveSupport::Notifications`) ou leitura direta e pontual do model de outro módulo (nunca escrita).
 
 ---
 
@@ -72,4 +93,4 @@ neighbry/
 
 ## Status atual
 
-Projeto em fase inicial: infraestrutura base migrada de um esqueleto anterior para a arquitetura de monolito descrita acima (auth via Devise/JWT funcional). `Tenancy` é o primeiro bounded context implementado (multi-tenant: `Condominium`, `Membership`, `Invitation`, login por subdomínio). `Registry` (Building/Unit/Person/Occupancy) é o próximo planejado — acompanhar `openspec/changes/` para o histórico de mudanças em andamento.
+Backend com cinco bounded contexts implementados e testados (`Tenancy`, `Registry`, `Billing`, `Notice`, `CommonArea`); `Access` fica para v2. Frontend React ainda não foi iniciado — próximo passo natural do projeto. Acompanhe `openspec/changes/archive/` para o histórico completo de cada change já implementada, com proposta, design técnico e especificação formal de cada uma.
