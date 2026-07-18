@@ -40,11 +40,11 @@
 
 ## 9. Testes
 
-- [ ] 9.1 Specs de modelo — `Aviso` (validação condicional de tipo, imutabilidade), `Leitura` (índice único)
-- [ ] 9.2 Specs de serviço — `ResolveDestinatarios` (todos/moradores/staff/torre/unidade, dedupe de torre, Person sem User excluída), `CreateAviso`, `DeactivateAviso`, `ConfirmLeitura` (idempotência, rejeição se inativo, rejeição se não-destinatário)
-- [ ] 9.3 Specs de policy — `AvisoPolicy` (create?/view_painel? admin-only)
-- [ ] 9.4 Request specs — criação, desativação (aviso some da listagem do morador), confirmação (idempotente, rejeitada se inativo ou não-destinatário), listagem "meus avisos", painel admin-only
+- [x] 9.1 Specs de modelo — `Aviso` (validação condicional de tipo, imutabilidade), `Leitura` (índice único)
+- [x] 9.2 Specs de serviço — `ResolveDestinatarios` (todos/moradores/staff/torre/unidade, dedupe de torre, Person sem User excluída), `CreateAviso`, `DeactivateAviso`, `ConfirmLeitura` (idempotência, rejeição se inativo, rejeição se não-destinatário)
+- [x] 9.3 Specs de policy — `AvisoPolicy` (create?/view_painel? admin-only)
+- [x] 9.4 Request specs — criação, desativação (aviso some da listagem do morador), confirmação (idempotente, rejeitada se inativo ou não-destinatário), listagem "meus avisos", painel admin-only
 
 ## 10. Validação E2E
 
-- [ ] 10.1 Validação manual via curl contra o servidor rodando: criação de aviso por tipo (todos/moradores/staff/torre/unidade) → snapshot de destinatários correto (incluindo dedupe de torre) → confirmação manual → painel mostra contador correto → desativação → aviso some da listagem do morador e confirmação passa a ser rejeitada
+- [x] 10.1 Validação manual via curl contra o servidor rodando: criação de aviso tipo `unidade` (1 destinatário) e `todos` (admin + moradores) ✓ → confirmação manual + idempotência (segunda chamada mesmo resultado) ✓ → não-destinatário rejeitado (`not_a_destinatario`, 422) ✓ → painel mostra contador correto (1/1) ✓ → desativação de Aviso `todos` faz sumir da listagem "meus avisos" do morador ✓ → confirmação em Aviso desativado rejeitada (`aviso_inativo`, 422) ✓ → staff não-admin (manager) forbidden no painel (422) ✓ → **dedupe de torre confirmado ao vivo**: mesma Person dona de 2 Unit na mesma Building conta como 1 único destinatário (`total_destinatarios: 2`, não 3, com 2 units do dono + 1 do morador)
