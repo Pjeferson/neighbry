@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_17_000015) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_17_000016) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -59,6 +59,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_17_000015) do
     t.index ["condominium_id"], name: "index_cobrancas_on_condominium_id"
     t.index ["fatura_id"], name: "index_cobrancas_on_fatura_id"
     t.index ["taxa_id"], name: "index_cobrancas_on_taxa_id"
+  end
+
+  create_table "common_areas", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.boolean "ativo", default: true, null: false
+    t.integer "capacidade", null: false
+    t.uuid "condominium_id", null: false
+    t.datetime "created_at", null: false
+    t.text "descricao"
+    t.string "horario_funcionamento"
+    t.string "nome", null: false
+    t.text "regras_uso"
+    t.datetime "updated_at", null: false
+    t.index ["condominium_id"], name: "index_common_areas_on_condominium_id"
   end
 
   create_table "condominium_billing_settings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -218,6 +231,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_17_000015) do
   add_foreign_key "cobrancas", "condominiums"
   add_foreign_key "cobrancas", "faturas"
   add_foreign_key "cobrancas", "taxas"
+  add_foreign_key "common_areas", "condominiums"
   add_foreign_key "condominium_billing_settings", "condominiums"
   add_foreign_key "faturas", "ciclo_cobrancas"
   add_foreign_key "faturas", "condominiums"

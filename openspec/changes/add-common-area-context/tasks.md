@@ -1,10 +1,10 @@
 ## 1. Migration
 
-- [ ] 1.1 `common_areas` (condominium_id, nome, descricao, capacidade, horario_funcionamento, regras_uso, ativo default true)
+- [x] 1.1 `common_areas` (condominium_id, nome, descricao, capacidade, horario_funcionamento, regras_uso, ativo default true)
 
 ## 2. Domain model
 
-- [ ] 2.1 `CommonArea::CommonArea` — validações de presença (`nome`, `capacidade`); sem restrição de imutabilidade
+- [x] 2.1 `CommonArea::CommonArea` — validações de presença (`nome`, `capacidade`); sem restrição de imutabilidade
 
 ## 3. Cadastro e edição (admin-only)
 
