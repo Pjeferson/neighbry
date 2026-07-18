@@ -16,19 +16,19 @@
 
 ## 3. Criação de reserva (dono/responsável)
 
-- [ ] 3.1 `Reservation::BookingPolicy` — `create?` restrito a `User` com `Occupancy` ativa (`owner` ou `responsible`) na unidade correspondente; `list?` aberto a qualquer `Membership` ativo; `cancel?` restrito ao autor da `Booking`
-- [ ] 3.2 `Reservation::CreateBooking` service (`Dry::Monads::Result`) — cria `Booking`, faz `rescue ActiveRecord::RecordNotUnique`/`RecordInvalid` para corrida concorrente nos dois índices únicos parciais (turno e limite mensal por unidade — mesmo padrão de `Billing::GenerateBillingCycle`)
-- [ ] 3.3 `Reservation::BookingSerializer`
-- [ ] 3.4 `POST /api/v1/reservations` — controller + rota
+- [x] 3.1 `Reservation::BookingPolicy` — `create?` restrito a `User` com `Occupancy` ativa (`owner` ou `responsible`) na unidade correspondente; `list?` aberto a qualquer `Membership` ativo; `cancel?` restrito ao autor da `Booking`
+- [x] 3.2 `Reservation::CreateBooking` service (`Dry::Monads::Result`) — cria `Booking`, faz `rescue ActiveRecord::RecordNotUnique`/`RecordInvalid` para corrida concorrente nos dois índices únicos parciais (turno e limite mensal por unidade — mesmo padrão de `Billing::GenerateBillingCycle`)
+- [x] 3.3 `Reservation::BookingSerializer`
+- [x] 3.4 `POST /api/v1/reservations` — controller + rota
 
 ## 4. Cancelamento (self-service)
 
-- [ ] 4.1 `Reservation::CancelBooking` service — chama `Booking#cancel!`, valida autoria via policy
-- [ ] 4.2 `DELETE /api/v1/reservations/:id` — controller + rota
+- [x] 4.1 `Reservation::CancelBooking` service — chama `Booking#cancel!`, valida autoria via policy
+- [x] 4.2 `DELETE /api/v1/reservations/:id` — controller + rota
 
 ## 5. Listagem (leitura aberta)
 
-- [ ] 5.1 `GET /api/v1/reservations` — qualquer `Membership` ativo no condomínio — controller + rota
+- [x] 5.1 `GET /api/v1/reservations` — qualquer `Membership` ativo no condomínio — controller + rota
 
 ## 6. Testes
 

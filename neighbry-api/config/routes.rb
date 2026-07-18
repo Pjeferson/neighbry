@@ -55,6 +55,8 @@ Rails.application.routes.draw do
 
       resources :common_areas, only: %i[create update index]
 
+      resources :reservations, only: %i[create index destroy]
+
       namespace :notice do
         resources :avisos, only: %i[create index] do
           patch :deactivate, on: :member
