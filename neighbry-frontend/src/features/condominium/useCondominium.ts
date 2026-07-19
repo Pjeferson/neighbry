@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { HTTPError } from "ky";
 import { api } from "@/lib/api";
+import { normalizeSlug } from "@/lib/slugify";
 
 interface OnboardCondominiumInput {
   condominiumName: string;
@@ -42,4 +43,27 @@ async function extractErrorMessage(error: unknown): Promise<string> {
     if (body?.errors?.length) return body.errors.join(", ");
   }
   return "Não foi possível criar o condomínio. Verifique os dados.";
+}
+
+type CondominiumLookupResult =
+  | { slug: string; exists: true; name: string }
+  | { slug: string; exists: false };
+
+export function useFindCondominium() {
+  return useMutation({
+    mutationFn: async (rawSlug: string): Promise<CondominiumLookupResult> => {
+      const slug = normalizeSlug(rawSlug);
+
+      try {
+        const response = await api.get(`api/v1/condominiums/${slug}`);
+        const body = await response.json<{ exists: true; name: string }>();
+        return { slug, ...body };
+      } catch (error) {
+        if (error instanceof HTTPError && error.response.status === 404) {
+          return { slug, exists: false };
+        }
+        throw error;
+      }
+    },
+  });
 }

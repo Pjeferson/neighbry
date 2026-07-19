@@ -19,10 +19,10 @@
 
 ## 4. Frontend — localizar Condominium existente (host genérico)
 
-- [ ] 4.1 Seção/tela "já tem conta? informe o identificador do seu condomínio"
-- [ ] 4.2 Normaliza o slug digitado (trim + lowercase) antes de qualquer uso
-- [ ] 4.3 Hook para `GET /api/v1/condominiums/:slug` — trata existente vs não encontrado
-- [ ] 4.4 Redirect para `<slug>.<host>/login` quando encontrado; erro inline quando não
+- [x] 4.1 Seção/tela "já tem conta? informe o identificador do seu condomínio"
+- [x] 4.2 Normaliza o slug digitado (trim + lowercase) antes de qualquer uso
+- [x] 4.3 Hook para `GET /api/v1/condominiums/:slug` — trata existente vs não encontrado
+- [x] 4.4 Redirect para `<slug>.<host>/login` quando encontrado; erro inline quando não
 
 ## 5. Frontend — login (subdomínio do tenant)
 
