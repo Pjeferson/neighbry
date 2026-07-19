@@ -31,7 +31,7 @@ export function useOnboardCondominium() {
         });
         return await response.json<OnboardCondominiumResponse>();
       } catch (error) {
-        throw new Error(await extractErrorMessage(error));
+        throw new Error(await extractErrorMessage(error), { cause: error });
       }
     },
   });

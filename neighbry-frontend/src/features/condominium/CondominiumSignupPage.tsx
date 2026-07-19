@@ -26,7 +26,13 @@ export function CondominiumSignupPage() {
 
   function handleSlugChange(value: string) {
     setSlugTouched(true);
-    setCondominiumSlug(slugify(value));
+    // Diferente de handleNameChange: aqui é edição direta, tecla a tecla —
+    // usar slugify() completo removeria hífen no final a cada caractere
+    // digitado (ex: "meu-" vira "meu" antes do usuário continuar
+    // digitando), impedindo digitar um hífen no meio do identificador. Só
+    // impõe minúsculo e o alfabeto permitido; formato final é validado no
+    // backend, com erro exibido normalmente se ficar malformado.
+    setCondominiumSlug(value.toLowerCase().replace(/[^a-z0-9-]/g, ""));
   }
 
   function handleSubmit(e: React.FormEvent) {

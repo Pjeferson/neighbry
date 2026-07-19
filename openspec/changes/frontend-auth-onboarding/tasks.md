@@ -38,10 +38,10 @@
 
 ## 7. Testes de frontend
 
-- [ ] 7.1 `CondominiumSignupPage.test.tsx` — sucesso, erro de validação (ex: slug duplicado), redirect chamado com a URL certa
-- [ ] 7.2 Teste da tela de localizar Condominium — encontrado (redirect), não encontrado (erro inline)
+- [x] 7.1 `CondominiumSignupPage.test.tsx` — sucesso, erro de validação (ex: slug duplicado), redirect chamado com a URL certa
+- [x] 7.2 Teste da tela de localizar Condominium — encontrado (redirect), não encontrado (erro inline)
 - [x] 7.3 `LoginPage.test.tsx` reescrita — sucesso, e os 3 casos de erro com mensagens distintas (inevitável já no Grupo 5 — a reescrita da página quebrava os testes antigos)
-- [ ] 7.4 Teste da base de URL dinâmica em `api.ts`
+- [x] 7.4 Teste da base de URL dinâmica em `api.ts`
 
 ## 8. Validação E2E
 

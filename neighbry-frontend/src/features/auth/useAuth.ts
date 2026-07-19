@@ -33,7 +33,7 @@ export function useAuth() {
         const body: AuthResponse = await response.json();
         return { token, user: body.user };
       } catch (error) {
-        throw new Error(await extractLoginErrorMessage(error));
+        throw new Error(await extractLoginErrorMessage(error), { cause: error });
       }
     },
     onSuccess: ({ token, user }) => {
