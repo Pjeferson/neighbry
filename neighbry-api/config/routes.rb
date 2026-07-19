@@ -16,7 +16,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :condominiums, only: [:create]
+      resources :condominiums, only: %i[create show], param: :slug
 
       resources :invitations, only: [:create] do
         post :accept, on: :collection

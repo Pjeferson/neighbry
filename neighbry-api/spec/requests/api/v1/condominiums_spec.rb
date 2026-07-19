@@ -44,4 +44,38 @@ RSpec.describe "Condominiums", type: :request do
       expect(Tenancy::Membership.count).to eq(0)
     end
   end
+
+  describe "GET /api/v1/condominiums/:slug" do
+    it "confirms existence and returns the name for an existing slug" do
+      create(:condominium, slug: "acme", name: "Condomínio Acme")
+
+      get "/api/v1/condominiums/acme", headers: json_headers
+
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body).to eq({ "exists" => true, "name" => "Condomínio Acme" })
+    end
+
+    it "returns not found for a slug that does not exist" do
+      get "/api/v1/condominiums/does-not-exist", headers: json_headers
+
+      expect(response).to have_http_status(:not_found)
+      expect(response.parsed_body).to eq({ "exists" => false })
+    end
+
+    it "does not require a tenant subdomain" do
+      create(:condominium, slug: "acme")
+
+      get "/api/v1/condominiums/acme", headers: json_headers.merge("HOST" => "www.example.com")
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "does not expose members, units or billing data" do
+      create(:condominium, slug: "acme")
+
+      get "/api/v1/condominiums/acme", headers: json_headers
+
+      expect(response.parsed_body.keys).to contain_exactly("exists", "name")
+    end
+  end
 end

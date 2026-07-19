@@ -1,9 +1,9 @@
 ## 1. Backend — endpoint de existência de Condominium e CORS
 
-- [ ] 1.1 Rota `GET /api/v1/condominiums/:slug` (`param: :slug`, sem `ResolvesTenant`)
-- [ ] 1.2 `Api::V1::CondominiumsController#show` — busca por slug, retorna `{ exists: true, name: }` (200) ou `{ exists: false }` (404); nenhum outro dado exposto
-- [ ] 1.3 Request specs — slug existente, slug inexistente, resposta não vaza dados sensíveis
-- [ ] 1.4 `config/initializers/cors.rb` — trocar origin fixo por regex aceitando host genérico e qualquer subdomínio `*.localhost:5173` em dev
+- [x] 1.1 Rota `GET /api/v1/condominiums/:slug` (`param: :slug`, sem `ResolvesTenant`)
+- [x] 1.2 `Api::V1::CondominiumsController#show` — busca por slug, retorna `{ exists: true, name: }` (200) ou `{ exists: false }` (404); nenhum outro dado exposto
+- [x] 1.3 Request specs — slug existente, slug inexistente, resposta não vaza dados sensíveis
+- [x] 1.4 `config/initializers/cors.rb` — trocar origin fixo por regex aceitando host genérico e qualquer subdomínio `*.localhost:5173` em dev
 
 ## 2. Frontend — fundação
 

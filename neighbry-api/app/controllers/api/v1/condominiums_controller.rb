@@ -3,6 +3,20 @@
 module Api
   module V1
     class CondominiumsController < ApplicationController
+      # Busca pública por slug — deliberadamente sem ResolvesTenant: existe
+      # justamente para ser chamada de fora de qualquer subdomínio de tenant
+      # (host genérico), pra descobrir se um condomínio existe antes de
+      # navegar pro subdomínio dele. Ver design.md (frontend-auth-onboarding).
+      def show
+        condominium = Tenancy::Condominium.find_by(slug: params[:slug])
+
+        if condominium
+          render json: { exists: true, name: condominium.name }, status: :ok
+        else
+          render json: { exists: false }, status: :not_found
+        end
+      end
+
       def create
         result = Tenancy::OnboardCondominium.new.call(
           condominium_name: params[:condominium_name],
