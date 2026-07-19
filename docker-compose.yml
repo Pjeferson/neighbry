@@ -72,8 +72,6 @@ services:
       context: neighbry-frontend
     ports:
       - "5173:5173"
-    environment:
-      VITE_API_URL: http://localhost:3001
     volumes:
       - ./neighbry-frontend:/app
       - node_modules-neighbry-frontend:/app/node_modules

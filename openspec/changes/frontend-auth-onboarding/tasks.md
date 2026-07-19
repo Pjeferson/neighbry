@@ -7,8 +7,8 @@
 
 ## 2. Frontend — fundação
 
-- [ ] 2.1 Gerar componentes shadcn/ui: Button, Input, Label, Card (`components.json` já configurado)
-- [ ] 2.2 Reescrever `api.ts` — base da API derivada de `window.location` (troca de porta), com `VITE_API_URL` como override
+- [x] 2.1 Gerar componentes shadcn/ui: Button, Input, Label, Card (`components.json` já configurado)
+- [x] 2.2 Reescrever `api.ts` — base da API derivada de `window.location` (troca de porta), com `VITE_API_URL` como override
 
 ## 3. Frontend — cadastro de Condominium (host genérico)
 
