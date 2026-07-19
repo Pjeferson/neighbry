@@ -12,10 +12,10 @@
 
 ## 3. Frontend — cadastro de Condominium (host genérico)
 
-- [ ] 3.1 `CondominiumSignupPage` — formulário (nome do condomínio, slug, nome do admin, email do admin, senha do admin) usando os componentes shadcn novos
-- [ ] 3.2 Campo de slug auto-sugerido a partir do nome (slugificado), editável manualmente; para de re-sincronizar após edição manual
-- [ ] 3.3 Hook de mutação para `POST /api/v1/condominiums`
-- [ ] 3.4 Redirect (`window.location.href`) para `<slug>.<host>/login` após sucesso
+- [x] 3.1 `CondominiumSignupPage` — formulário (nome do condomínio, slug, nome do admin, email do admin, senha do admin) usando os componentes shadcn novos
+- [x] 3.2 Campo de slug auto-sugerido a partir do nome (slugificado), editável manualmente; para de re-sincronizar após edição manual
+- [x] 3.3 Hook de mutação para `POST /api/v1/condominiums`
+- [x] 3.4 Redirect (`window.location.href`) para `<slug>.<host>/login` após sucesso
 
 ## 4. Frontend — localizar Condominium existente (host genérico)
 
