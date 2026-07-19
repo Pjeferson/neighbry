@@ -33,7 +33,7 @@
 ## 6. Frontend — roteamento por host
 
 - [x] 6.1 Util para detectar se a requisição atual está no host genérico ou num subdomínio de tenant (`lib/tenant.ts`, criado no Grupo 3 pra servir o redirect de cadastro)
-- [ ] 6.2 Ajustar `routes/` — cadastro/localização de Condominium só acessíveis no host genérico; `/login` só no subdomínio (redireciona para o host genérico se acessado sem subdomínio)
+- [x] 6.2 Ajustar `routes/` — cadastro/localização de Condominium só acessíveis no host genérico; `/login` só no subdomínio (redireciona para o host genérico se acessado sem subdomínio)
 - [x] 6.3 Remover `RegisterPage` antiga e `useAuth.signUp` (inevitável já no Grupo 5 — `useAuth.signUp` removido quebraria `RegisterPage` de qualquer forma)
 
 ## 7. Testes de frontend

@@ -22,3 +22,15 @@ export function tenantUrl(slug: string, path: string): string {
 
   return `${protocol}//${slug}.${APEX_HOST}${portSuffix}${path}`;
 }
+
+// Simétrico a tenantUrl: monta uma URL de volta pro host genérico (sem
+// subdomínio). Usado quando o subdomínio atual não corresponde a nenhum
+// Condominium — não dá pra usar o router do SPA (troca de origin), nem dá
+// pra confiar em isGenericHost() do lado de destino porque quem está
+// chamando ainda está no subdomínio inválido.
+export function genericHostUrl(path: string): string {
+  const { protocol, port } = window.location;
+  const portSuffix = port ? `:${port}` : "";
+
+  return `${protocol}//${APEX_HOST}${portSuffix}${path}`;
+}

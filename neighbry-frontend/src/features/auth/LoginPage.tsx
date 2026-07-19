@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { getTenantSlug } from "@/lib/tenant";
+import { getTenantSlug, genericHostUrl } from "@/lib/tenant";
 import { useCondominiumInfo } from "@/features/condominium/useCondominium";
 import { useAuth } from "./useAuth";
 
@@ -28,8 +28,11 @@ export function LoginPage() {
             <p className="text-sm text-gray-500">
               Não existe nenhum condomínio nesse endereço.
             </p>
-            {/* TODO(TASK-6.2): trocar por <Link to="/find"> quando existir um domínio genérico acessível daqui */}
-            <a href="/find" className="text-sm text-blue-600 hover:underline">
+            {/* Navegação de página inteira, propositalmente: estamos num
+                subdomínio que não corresponde a nenhum Condominium, então
+                não dá pra usar o router do SPA (troca de origin) nem
+                confiar em isGenericHost() do lado de destino. */}
+            <a href={genericHostUrl("/find")} className="text-sm text-blue-600 hover:underline">
               Localizar meu condomínio
             </a>
           </CardContent>

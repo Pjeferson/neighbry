@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -68,8 +69,10 @@ export function FindCondominiumPage() {
           </form>
 
           <p className="text-sm text-center text-gray-500 mt-6">
-            {/* TODO(TASK-6.2): trocar por <Link to="/register"> quando a rota existir */}
-            Ainda não tem conta? <a href="/register" className="text-blue-600 hover:underline">Cadastre seu condomínio</a>
+            Ainda não tem conta?{" "}
+            <Link to="/register" className="text-blue-600 hover:underline">
+              Cadastre seu condomínio
+            </Link>
           </p>
         </CardContent>
       </Card>
