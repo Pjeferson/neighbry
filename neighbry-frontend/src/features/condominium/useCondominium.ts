@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { HTTPError } from "ky";
 import { api } from "@/lib/api";
 import { normalizeSlug } from "@/lib/slugify";
@@ -65,5 +65,21 @@ export function useFindCondominium() {
         throw error;
       }
     },
+  });
+}
+
+// Usado pela tela de login (dentro do subdomínio do tenant) para exibir o
+// nome do Condominium e detectar de forma amigável um subdomínio que não
+// corresponde a nenhum Condominium — dispara sozinho ao montar, diferente
+// de useFindCondominium (acionado pelo usuário no host genérico).
+export function useCondominiumInfo(slug: string | null) {
+  return useQuery({
+    queryKey: ["condominium", slug],
+    queryFn: async () => {
+      const response = await api.get(`api/v1/condominiums/${slug}`);
+      return response.json<{ exists: true; name: string }>();
+    },
+    enabled: slug !== null,
+    retry: false,
   });
 }

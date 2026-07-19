@@ -1,9 +1,16 @@
 import { useState } from "react";
-import { Link } from "@tanstack/react-router";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { getTenantSlug } from "@/lib/tenant";
+import { useCondominiumInfo } from "@/features/condominium/useCondominium";
 import { useAuth } from "./useAuth";
 
 export function LoginPage() {
   const { signIn } = useAuth();
+  const slug = getTenantSlug();
+  const condominium = useCondominiumInfo(slug);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -12,65 +19,69 @@ export function LoginPage() {
     signIn.mutate({ email, password });
   }
 
+  if (condominium.isError) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <Card className="w-full max-w-sm">
+          <CardContent className="pt-6 text-center space-y-2">
+            <h1 className="text-lg font-semibold text-gray-900">Condomínio não encontrado</h1>
+            <p className="text-sm text-gray-500">
+              Não existe nenhum condomínio nesse endereço.
+            </p>
+            {/* TODO(TASK-6.2): trocar por <Link to="/find"> quando existir um domínio genérico acessível daqui */}
+            <a href="/find" className="text-sm text-blue-600 hover:underline">
+              Localizar meu condomínio
+            </a>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="w-full max-w-sm bg-white rounded-xl shadow p-8 space-y-6">
-        <div>
+      <Card className="w-full max-w-sm">
+        <CardHeader>
           <h1 className="text-2xl font-bold text-gray-900">Neighbry</h1>
-          <p className="text-sm text-gray-500 mt-1">Acesse sua conta</p>
-        </div>
+          <p className="text-sm text-gray-500 mt-1">
+            {condominium.data ? `Entrando em ${condominium.data.name}` : "Acesse sua conta"}
+          </p>
+        </CardHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-1">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
 
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-              Senha
-            </label>
-            <input
-              id="password"
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
+            <div className="space-y-1">
+              <Label htmlFor="password">Senha</Label>
+              <Input
+                id="password"
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
 
-          {signIn.error && (
-            <p className="text-sm text-red-600">
-              Email ou senha inválidos
-            </p>
-          )}
+            {signIn.error && (
+              <p className="text-sm text-red-600">{signIn.error.message}</p>
+            )}
 
-          <button
-            type="submit"
-            disabled={signIn.isPending}
-            className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-medium rounded-lg py-2 text-sm transition-colors"
-          >
-            {signIn.isPending ? "Entrando..." : "Entrar"}
-          </button>
-        </form>
-
-        <p className="text-sm text-center text-gray-500">
-          Não tem conta?{" "}
-          <Link to="/register" className="text-blue-600 hover:underline">
-            Cadastre-se
-          </Link>
-        </p>
-      </div>
+            <Button type="submit" disabled={signIn.isPending} className="w-full">
+              {signIn.isPending ? "Entrando..." : "Entrar"}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
     </div>
   );
 }

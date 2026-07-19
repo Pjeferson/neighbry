@@ -1,5 +1,5 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { RegisterPage } from "@/features/auth/RegisterPage";
+import { CondominiumSignupPage } from "@/features/condominium/CondominiumSignupPage";
 
 export const Route = createFileRoute("/register")({
   beforeLoad: () => {
@@ -7,5 +7,5 @@ export const Route = createFileRoute("/register")({
       throw redirect({ to: "/" });
     }
   },
-  component: RegisterPage,
+  component: CondominiumSignupPage,
 });

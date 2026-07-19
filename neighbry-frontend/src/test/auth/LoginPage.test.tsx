@@ -16,9 +16,13 @@ const successHandler = http.post(`${API}/api/v1/auth/sign_in`, () =>
   )
 );
 
-const unauthorizedHandler = http.post(`${API}/api/v1/auth/sign_in`, () =>
-  HttpResponse.json({ error: "Invalid credentials" }, { status: 401 })
-);
+function signInErrorHandler(error: string) {
+  return http.post(`${API}/api/v1/auth/sign_in`, () => HttpResponse.json({ error }, { status: 401 }));
+}
+
+// getTenantSlug() é null em jsdom (hostname "localhost", sem subdomínio),
+// então useCondominiumInfo fica enabled: false e nenhuma chamada acontece
+// — LoginPage renderiza o estado "sem tenant conhecido" (título genérico).
 
 beforeEach(() => {
   localStorage.clear();
@@ -31,11 +35,6 @@ describe("LoginPage", () => {
     expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/senha/i)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /entrar/i })).toBeInTheDocument();
-  });
-
-  it("renders link to register page", () => {
-    render(<LoginPage />);
-    expect(screen.getByRole("link", { name: /cadastre-se/i })).toBeInTheDocument();
   });
 
   it("submits credentials and stores user on success", async () => {
@@ -54,8 +53,8 @@ describe("LoginPage", () => {
     expect(localStorage.getItem("neighbry_token")).toBe("fake-jwt-token");
   });
 
-  it("shows error message on invalid credentials", async () => {
-    server.use(unauthorizedHandler);
+  it("shows a specific message for invalid credentials", async () => {
+    server.use(signInErrorHandler("invalid_credentials"));
     const user = userEvent.setup();
     render(<LoginPage />);
 
@@ -65,6 +64,20 @@ describe("LoginPage", () => {
 
     await waitFor(() => {
       expect(screen.getByText(/email ou senha inválidos/i)).toBeInTheDocument();
+    });
+  });
+
+  it("shows a specific message when the user has no membership in this tenant", async () => {
+    server.use(signInErrorHandler("no_active_membership_for_tenant"));
+    const user = userEvent.setup();
+    render(<LoginPage />);
+
+    await user.type(screen.getByLabelText(/email/i), "demo@neighbry.com");
+    await user.type(screen.getByLabelText(/senha/i), "password123");
+    await user.click(screen.getByRole("button", { name: /entrar/i }));
+
+    await waitFor(() => {
+      expect(screen.getByText(/você não tem acesso a este condomínio/i)).toBeInTheDocument();
     });
   });
 
