@@ -20,8 +20,8 @@
 
 ## 4. Frontend — Sidebar por persona
 
-- [ ] 4.1 `Sidebar` reescrita — 5 itens (Unidades/Minha Unidade, Avisos, Faturas, Espaços, Reservas), filtrados e ordenados por persona conforme a matriz do design.md
-- [ ] 4.2 Itens sem tela implementada ainda ficam desabilitados/placeholder ("em breve"), exceto "Espaços"
+- [x] 4.1 `Sidebar` reescrita — 5 itens (Unidades/Minha Unidade, Avisos, Faturas, Espaços, Reservas), filtrados e ordenados por persona conforme a matriz do design.md
+- [x] 4.2 Itens sem tela implementada ainda ficam desabilitados/placeholder ("em breve"), exceto "Espaços"
 
 ## 5. Frontend — CommonArea admin (CRUD)
 
