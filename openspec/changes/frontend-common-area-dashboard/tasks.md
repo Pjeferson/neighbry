@@ -52,8 +52,8 @@
 
 ## 9. Testes de backend (rename)
 
-- [ ] 9.1 Rodar suíte completa após o rename — nenhuma referência residual a `"doorman"` deve quebrar
-- [ ] 9.2 Specs cobrindo `RegisterServiceProvider` concedendo `role: "service_provider"` (não `"resident"`)
+- [x] 9.1 Rodar suíte completa após o rename — nenhuma referência residual a `"doorman"` deve quebrar (as únicas restantes são nas specs principais de `openspec/specs/`, atualizadas na sincronização do arquivamento)
+- [x] 9.2 Specs cobrindo `RegisterServiceProvider` concedendo `role: "service_provider"` (não `"resident"`)
 
 ## 10. Validação E2E
 

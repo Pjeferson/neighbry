@@ -93,6 +93,16 @@ RSpec.describe Registry::RegisterServiceProvider do
       expect(result.value!.pending_invitation_id).to be_present
     end
 
+    it "grants role: service_provider, not resident" do
+      result = service.call(
+        actor: admin_user, condominium: condominium, person_attributes: person_attrs,
+        grant_access: true, email: "prestador@example.com"
+      )
+
+      invitation = Tenancy::Invitation.find(result.value!.pending_invitation_id)
+      expect(invitation).to be_service_provider
+    end
+
     it "rejects granting access to an email that already has a Membership" do
       existing_user = create(:user, email: "ja-membro@example.com")
       create(:membership, user: existing_user, condominium: create(:condominium), role: "resident", status: "active")
