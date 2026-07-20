@@ -18,12 +18,12 @@ RSpec.describe Notice::ResolveDestinatarios do
     it "includes admin, staff and moradores" do
       admin = membership_user("admin")
       manager = membership_user("manager")
-      doorman = membership_user("doorman")
+      service_provider = membership_user("service_provider")
       resident = membership_user("resident")
 
       result = service.call(tipo: "todos", condominium_id: condominium.id)
 
-      expect(result).to contain_exactly(admin.id, manager.id, doorman.id, resident.id)
+      expect(result).to contain_exactly(admin.id, manager.id, service_provider.id, resident.id)
     end
   end
 
@@ -39,15 +39,15 @@ RSpec.describe Notice::ResolveDestinatarios do
   end
 
   describe "tipo: staff" do
-    it "includes admin, manager and doorman, excludes resident" do
+    it "includes admin, manager and service_provider, excludes resident" do
       admin = membership_user("admin")
       manager = membership_user("manager")
-      doorman = membership_user("doorman")
+      service_provider = membership_user("service_provider")
       membership_user("resident")
 
       result = service.call(tipo: "staff", condominium_id: condominium.id)
 
-      expect(result).to contain_exactly(admin.id, manager.id, doorman.id)
+      expect(result).to contain_exactly(admin.id, manager.id, service_provider.id)
     end
   end
 

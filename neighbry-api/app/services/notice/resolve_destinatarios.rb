@@ -6,7 +6,7 @@ module Notice
   # design.md Decisão "Destinatários calculados por dois caminhos
   # diferentes, conforme o tipo").
   class ResolveDestinatarios
-    STAFF_ROLES = %w[admin manager doorman].freeze
+    STAFF_ROLES = %w[admin manager service_provider].freeze
 
     def call(tipo:, condominium_id:, building_id: nil, unit_id: nil)
       case tipo.to_s

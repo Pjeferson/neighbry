@@ -6,7 +6,7 @@ module Tenancy
 
     has_secure_token :token
 
-    enum :role, { admin: "admin", manager: "manager", doorman: "doorman", resident: "resident" }, validate: true
+    enum :role, { admin: "admin", manager: "manager", service_provider: "service_provider", resident: "resident" }, validate: true
 
     validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
     validates :expires_at, presence: true

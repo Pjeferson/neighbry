@@ -5,7 +5,7 @@ module Tenancy
     belongs_to :user
     belongs_to :condominium
 
-    enum :role, { admin: "admin", manager: "manager", doorman: "doorman", resident: "resident" }, validate: true
+    enum :role, { admin: "admin", manager: "manager", service_provider: "service_provider", resident: "resident" }, validate: true
     enum :status, { active: "active", revoked: "revoked" }, validate: true
 
     validates :user_id, uniqueness: true

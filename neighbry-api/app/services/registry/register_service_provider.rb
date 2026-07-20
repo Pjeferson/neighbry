@@ -19,7 +19,7 @@ module Registry
       if grant_access
         return Failure(:email_already_member) if email_already_member?(email)
 
-        invite_result = Tenancy::InviteMember.new.call(condominium: condominium, email: email, role: "resident")
+        invite_result = Tenancy::InviteMember.new.call(condominium: condominium, email: email, role: "service_provider")
         return Failure(invite_result.failure) unless invite_result.success?
 
         invitation = invite_result.value!

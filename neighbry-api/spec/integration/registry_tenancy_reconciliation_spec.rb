@@ -53,7 +53,7 @@ RSpec.describe "Registry <-> Tenancy reconciliation" do
   end
 
   it "does not affect Registry when an unrelated (staff) invitation is accepted" do
-    staff_invitation = Tenancy::InviteMember.new.call(condominium: condominium, email: "porteiro@example.com", role: "doorman").value!
+    staff_invitation = Tenancy::InviteMember.new.call(condominium: condominium, email: "porteiro@example.com", role: "service_provider").value!
 
     expect do
       Tenancy::AcceptInvitation.new.call(token: staff_invitation.token, password: "password123", name: "Porteiro")

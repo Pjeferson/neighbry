@@ -1,10 +1,10 @@
 ## 1. Backend — rename doorman → service_provider
 
-- [ ] 1.1 `Tenancy::Membership#role` enum — `doorman` vira `service_provider`
-- [ ] 1.2 `Tenancy::Invitation#role` enum — mesmo rename (enum duplicado)
-- [ ] 1.3 `Registry::RegisterServiceProvider` — concede `role: "service_provider"` (não mais `"resident"` hardcoded) ao chamar `Tenancy::InviteMember`
-- [ ] 1.4 `Notice::ResolveDestinatarios::STAFF_ROLES` — `%w[admin manager doorman]` vira `%w[admin manager service_provider]`
-- [ ] 1.5 Atualizar specs de teste existentes que citam `doorman`: `spec/domains/tenancy/membership_spec.rb`, `spec/services/notice/resolve_destinatarios_spec.rb`, `spec/integration/registry_tenancy_reconciliation_spec.rb`
+- [x] 1.1 `Tenancy::Membership#role` enum — `doorman` vira `service_provider`
+- [x] 1.2 `Tenancy::Invitation#role` enum — mesmo rename (enum duplicado)
+- [x] 1.3 `Registry::RegisterServiceProvider` — concede `role: "service_provider"` (não mais `"resident"` hardcoded) ao chamar `Tenancy::InviteMember`
+- [x] 1.4 `Notice::ResolveDestinatarios::STAFF_ROLES` — `%w[admin manager doorman]` vira `%w[admin manager service_provider]`
+- [x] 1.5 Atualizar specs de teste existentes que citam `doorman`: `spec/domains/tenancy/membership_spec.rb`, `spec/services/notice/resolve_destinatarios_spec.rb`, `spec/integration/registry_tenancy_reconciliation_spec.rb`
 
 ## 2. Backend — role na resposta de login
 

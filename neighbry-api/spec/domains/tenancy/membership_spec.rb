@@ -11,7 +11,7 @@ RSpec.describe Tenancy::Membership, type: :model do
 
   describe "role" do
     it "accepts the defined roles" do
-      %w[admin manager doorman resident].each do |role|
+      %w[admin manager service_provider resident].each do |role|
         membership.role = role
         expect(membership).to be_valid
       end
