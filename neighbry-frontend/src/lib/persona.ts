@@ -18,5 +18,13 @@ export function getPersona(role: Role): Persona {
       return "service_provider";
     case "resident":
       return "resident";
+    default:
+      // `role` é confiável no tipo, mas não em runtime: sessão persistida
+      // no localStorage de antes deste campo existir (ou de um valor de
+      // role desde então removido/renomeado) chega aqui sem bater em
+      // nenhum case. Cair pra "resident" (persona menos privilegiada) em
+      // vez de retornar undefined evita quebrar toda a UI autenticada
+      // (Sidebar indexa NAV_ITEMS_BY_PERSONA por este retorno).
+      return "resident";
   }
 }

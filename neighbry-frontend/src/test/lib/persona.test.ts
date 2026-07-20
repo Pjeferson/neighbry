@@ -17,4 +17,12 @@ describe("getPersona", () => {
   it("maps resident to the resident persona", () => {
     expect(getPersona("resident")).toBe("resident");
   });
+
+  it("falls back to the resident persona for a stale/unknown role value", () => {
+    // Simula sessão persistida no localStorage com um valor de role que
+    // não existe mais (ex: "doorman", antes do rename) ou nenhum valor —
+    // TypeScript garante o tipo em compile time, não em runtime.
+    expect(getPersona("doorman" as never)).toBe("resident");
+    expect(getPersona(undefined as never)).toBe("resident");
+  });
 });
