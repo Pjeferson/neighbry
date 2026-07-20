@@ -33,9 +33,9 @@
 
 ## 6. Frontend — CommonArea morador/prestador (catálogo)
 
-- [ ] 6.1 `ResidentCommonAreaView` — catálogo em cards, somente leitura: nome, capacidade, horário, regras de uso, status
-- [ ] 6.2 Reaproveitada tal qual para a persona `service_provider` (mesma view, sem ações administrativas)
-- [ ] 6.3 Estado vazio ("nenhum espaço cadastrado ainda") e de carregamento (texto simples, sem skeleton)
+- [x] 6.1 `ResidentCommonAreaView` — catálogo em cards, somente leitura: nome, capacidade, horário, regras de uso, status
+- [x] 6.2 Reaproveitada tal qual para a persona `service_provider` (mesma view, sem ações administrativas) — mesmo componente, decisão de qual renderizar fica pra composição por rota (Grupo 7)
+- [x] 6.3 Estado vazio ("nenhum espaço cadastrado ainda") e de carregamento (texto simples, sem skeleton)
 
 ## 7. Frontend — rota e composição por persona
 
