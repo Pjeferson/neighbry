@@ -19,6 +19,16 @@ RSpec.describe "Auth", type: :request do
       expect(response.headers["Authorization"]).to match(/\ABearer .+\z/)
     end
 
+    it "includes the Membership role in the response body" do
+      create(:membership, user: user, condominium: condominium, role: "manager", status: "active")
+
+      post "/api/v1/auth/sign_in",
+           params:  { user: { email: user.email, password: "secret123" } }.to_json,
+           headers: tenant_headers
+
+      expect(response.parsed_body["role"]).to eq("manager")
+    end
+
     it "returns 401 on wrong password" do
       create(:membership, user: user, condominium: condominium, status: "active")
 

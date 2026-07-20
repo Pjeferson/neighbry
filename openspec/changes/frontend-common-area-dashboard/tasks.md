@@ -8,8 +8,8 @@
 
 ## 2. Backend — role na resposta de login
 
-- [ ] 2.1 `Api::V1::Auth::SessionsController#create` — inclui `role` da `Membership` na resposta de sucesso
-- [ ] 2.2 Request/model specs cobrindo a resposta com `role`
+- [x] 2.1 `Api::V1::Auth::SessionsController#create` — inclui `role` da `Membership` na resposta de sucesso
+- [x] 2.2 Request/model specs cobrindo a resposta com `role`
 
 ## 3. Frontend — fundação de persona
 

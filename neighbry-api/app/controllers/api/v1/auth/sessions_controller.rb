@@ -26,6 +26,7 @@ module Api
             return render json: { error: "no_active_membership_for_tenant" }, status: :unauthorized
           end
 
+          @membership = membership
           sign_in(resource_name, resource)
           respond_with resource
         end
@@ -35,7 +36,8 @@ module Api
         def respond_with(resource, _opts = {})
           render json: {
             message: "Logged in successfully",
-            user: { id: resource.id, email: resource.email, name: resource.name }
+            user: { id: resource.id, email: resource.email, name: resource.name },
+            role: @membership.role
           }, status: :ok
         end
 
