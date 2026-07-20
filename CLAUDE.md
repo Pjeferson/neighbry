@@ -234,3 +234,26 @@ Seguir Conventional Commits com referência de task.
 6. **Commits atômicos** ao final de cada tarefa concluída.
 7. **Tarefas são rastreadas via OpenSpec** (`openspec/changes/<nome>/tasks.md`) — marque os checkboxes conforme concluir cada uma.
 8. **Módulos são isolados** — nunca criar dependência direta de código entre bounded contexts (Registry, Billing, Notice, Access, CommonArea). Comunicação apenas via Domain Events internos.
+
+---
+
+## Execução autônoma (Ralph loop)
+
+`RALPH.md` (raiz do projeto) é o prompt de entrada de um loop autônomo que
+implementa, uma de cada vez, todas as changes OpenSpec já propostas e
+commitadas, na ordem definida em `openspec/project.md` (seção "Ordem de
+implementação (Ralph loop)"). Pré-requisito: essa seção precisa existir em
+`project.md`, com a lista de nomes de change, antes de rodar.
+
+**Comando** (modo autônomo, self-paced — sem intervalo fixo):
+```
+/loop Leia e siga as instruções em RALPH.md até concluir todas as changes da lista.
+```
+
+Modo com intervalo fixo, se preferir retomada periódica em vez de contínua:
+```
+/loop 30m Leia e siga as instruções em RALPH.md.
+```
+
+`/loop` é um skill nativo do Claude Code (não confundir com skills de
+outras ferramentas/IDEs eventualmente instaladas na mesma máquina).
