@@ -60,7 +60,7 @@ Quando um `Aviso` é desativado (`ativo: false`), o sistema SHALL deixar de exib
 - **THEN** o `Aviso` desativado e suas confirmações continuam acessíveis
 
 ### Requirement: Destinatários de todos, moradores e staff são resolvidos por Membership
-Para `Aviso` com `tipo: todos`, o sistema SHALL considerar destinatário todo `User` com `Tenancy::Membership(status: active)` no `Condominium`. Para `tipo: moradores`, apenas `Membership(role: resident, status: active)`. Para `tipo: staff`, apenas `Membership(role: admin | manager | doorman, status: active)`.
+Para `Aviso` com `tipo: todos`, o sistema SHALL considerar destinatário todo `User` com `Tenancy::Membership(status: active)` no `Condominium`. Para `tipo: moradores`, apenas `Membership(role: resident, status: active)`. Para `tipo: staff`, apenas `Membership(role: admin | manager | service_provider, status: active)`.
 
 #### Scenario: Aviso tipo todos inclui staff e moradores
 - **WHEN** um `Aviso` com `tipo: todos` é criado num `Condominium` com admins, staff e moradores ativos
@@ -70,9 +70,9 @@ Para `Aviso` com `tipo: todos`, o sistema SHALL considerar destinatário todo `U
 - **WHEN** um `Aviso` com `tipo: moradores` é criado
 - **THEN** apenas `User` com `Membership(role: resident)` são incluídos como destinatários
 
-#### Scenario: Aviso tipo staff inclui admin, manager e doorman
+#### Scenario: Aviso tipo staff inclui admin, manager e service_provider
 - **WHEN** um `Aviso` com `tipo: staff` é criado
-- **THEN** `User` com `Membership(role: admin)`, `Membership(role: manager)` e `Membership(role: doorman)` são todos incluídos como destinatários
+- **THEN** `User` com `Membership(role: admin)`, `Membership(role: manager)` e `Membership(role: service_provider)` são todos incluídos como destinatários
 
 ### Requirement: Destinatários de torre e unidade são resolvidos por Occupancy ativa
 Para `Aviso` com `tipo: unidade`, o sistema SHALL considerar destinatário todo `User` vinculado (via `Person.user_id`) a uma `Registry::Occupancy` ativa na `Unit` referenciada, independente do papel (`owner`, `responsible` ou morador comum). Para `tipo: torre`, o mesmo critério aplicado a todas as `Unit` do `Building` referenciado. `Person` sem `user_id` (sem acesso concedido) SHALL NOT gerar destinatário.
@@ -140,5 +140,5 @@ O sistema SHALL permitir que apenas um `User` com `Tenancy::Membership` de `role
 - **THEN** a consulta é permitida e retorna o total de destinatários e o total de confirmações
 
 #### Scenario: Staff não-admin não acessa o painel de confirmação
-- **WHEN** um `User` com `Membership(role: manager)` ou `Membership(role: doorman)` tenta consultar o painel de confirmação de um `Aviso`
+- **WHEN** um `User` com `Membership(role: manager)` ou `Membership(role: service_provider)` tenta consultar o painel de confirmação de um `Aviso`
 - **THEN** a consulta é rejeitada
