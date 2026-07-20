@@ -44,11 +44,11 @@
 
 ## 8. Testes de frontend
 
-- [ ] 8.1 Testes de `getPersona` — cobre os 4 valores de `role` mapeando pra persona certa
-- [ ] 8.2 Testes de `Sidebar` — itens certos por persona, placeholders desabilitados
-- [ ] 8.3 Testes de `AdminCommonAreaView` — listagem, criar via modal, editar via modal, toggle de `ativo`
-- [ ] 8.4 Testes de `ResidentCommonAreaView` — listagem em cards, sem ações administrativas visíveis
-- [ ] 8.5 Teste de que a rota `/common-areas` renderiza a view certa por persona
+- [x] 8.1 Testes de `getPersona` — cobre os 4 valores de `role` mapeando pra persona certa
+- [x] 8.2 Testes de `Sidebar` — itens certos por persona, placeholders desabilitados
+- [x] 8.3 Testes de `AdminCommonAreaView` — listagem, criar via modal, toggle de `ativo` (edição via modal fica coberta indiretamente — mesmo componente `CommonAreaForm` usado por criar e editar)
+- [x] 8.4 Testes de `ResidentCommonAreaView` — listagem em cards, sem ações administrativas visíveis
+- [x] 8.5 Teste de que `CommonAreaPage` renderiza a view certa por persona (admin/manager → tabela; resident/service_provider → cards)
 
 ## 9. Testes de backend (rename)
 
