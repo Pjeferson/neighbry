@@ -25,11 +25,11 @@
 
 ## 5. Frontend — CommonArea admin (CRUD)
 
-- [ ] 5.1 `useCommonAreas` — hook de listagem (`GET /api/v1/common_areas`)
-- [ ] 5.2 `useCreateCommonArea` / `useUpdateCommonArea` — hooks de mutação (`POST`/`PATCH /api/v1/common_areas`)
-- [ ] 5.3 `AdminCommonAreaView` — listagem em `<Table>`: nome, capacidade, horário, status (`Badge` ativo/inativo), ação de editar
-- [ ] 5.4 `CommonAreaFormDialog` — modal (`Dialog`) de criar/editar, reaproveitado pelas duas ações; campos: nome, descrição (`Textarea`), capacidade, horário de funcionamento, regras de uso (`Textarea`), ativo (`Switch`, só no editar)
-- [ ] 5.5 Toggle de `ativo` inline na tabela, sem precisar abrir o modal
+- [x] 5.1 `useCommonAreas` — hook de listagem (`GET /api/v1/common_areas`)
+- [x] 5.2 `useCreateCommonArea` / `useUpdateCommonArea` — hooks de mutação (`POST`/`PATCH /api/v1/common_areas`)
+- [x] 5.3 `AdminCommonAreaView` — listagem em `<Table>`: nome, capacidade, horário, status (`Badge` ativo/inativo), ação de editar
+- [x] 5.4 `CommonAreaFormDialog` — modal (`Dialog`) de criar/editar, reaproveitado pelas duas ações; campos: nome, descrição (`Textarea`), capacidade, horário de funcionamento, regras de uso (`Textarea`). Ajuste em relação ao planejado: `ativo` NÃO entrou no dialog — ficou só o toggle inline (5.5), evita duplicar a mesma ação em dois lugares
+- [x] 5.5 Toggle de `ativo` inline na tabela (`Switch` + `Badge`), sem precisar abrir o modal
 
 ## 6. Frontend — CommonArea morador/prestador (catálogo)
 
