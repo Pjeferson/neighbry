@@ -1,4 +1,4 @@
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { IconLogout } from "@tabler/icons-react";
 import { useAuthStore } from "@/store/authStore";
 import { getPersona } from "@/lib/persona";
@@ -25,15 +25,14 @@ export function Sidebar() {
       <nav className="flex flex-col gap-0.5">
         {items.map((item) =>
           item.href ? (
-            /* TODO(TASK-7): trocar por <Link> quando as rotas das demais
-               abas existirem — hoje só "Espaços" tem rota de verdade. */
-            <a
+            <Link
               key={item.label}
-              href={item.href}
+              to={item.href}
               className="flex w-full items-center px-4 py-[7px] text-[13px] text-[#374151] transition-colors hover:bg-white hover:text-[#111827]"
+              activeProps={{ className: "bg-white text-[#111827] font-medium" }}
             >
               {item.label}
-            </a>
+            </Link>
           ) : (
             <span
               key={item.label}

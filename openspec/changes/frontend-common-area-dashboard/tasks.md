@@ -39,8 +39,8 @@
 
 ## 7. Frontend — rota e composição por persona
 
-- [ ] 7.1 Rota `/common-areas` (dentro de `_authenticated`) — escolhe `AdminCommonAreaView` ou `ResidentCommonAreaView` a partir da persona do usuário logado
-- [ ] 7.2 Dashboard placeholder (`_authenticated/index.tsx`) ganha link/redirect pra a primeira tela funcional de cada persona (opcional — avaliar durante a implementação)
+- [x] 7.1 Rota `/common-areas` (dentro de `_authenticated`) — escolhe `AdminCommonAreaView` ou `ResidentCommonAreaView` a partir da persona do usuário logado
+- [x] 7.2 Dashboard placeholder (`_authenticated/index.tsx`) — redireciona direto pra `/common-areas` (única tela funcional hoje) em vez de mostrar um placeholder morto
 
 ## 8. Testes de frontend
 
