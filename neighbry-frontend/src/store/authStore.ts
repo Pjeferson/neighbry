@@ -2,10 +2,13 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { clearToken } from "@/lib/api";
 
+export type Role = "admin" | "manager" | "service_provider" | "resident";
+
 interface User {
   id: string;
   email: string;
   name: string;
+  role: Role;
 }
 
 interface AuthState {

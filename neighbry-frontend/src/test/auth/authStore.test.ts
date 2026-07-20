@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { useAuthStore } from "@/store/authStore";
 
-const user = { id: "u-1", email: "demo@neighbry.com", name: "Demo" };
+const user = { id: "u-1", email: "demo@neighbry.com", name: "Demo", role: "resident" as const };
 
 beforeEach(() => {
   localStorage.clear();

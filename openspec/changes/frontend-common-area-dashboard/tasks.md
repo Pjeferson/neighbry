@@ -13,10 +13,10 @@
 
 ## 3. Frontend — fundação de persona
 
-- [ ] 3.1 `authStore` — `User` ganha campo `role`
-- [ ] 3.2 `useAuth.signIn` — captura `role` da resposta de login e passa pro store
-- [ ] 3.3 `lib/persona.ts` (ou equivalente) — função pura `getPersona(role)` mapeando `admin|manager -> "admin"`, `service_provider -> "service_provider"`, `resident -> "resident"`
-- [ ] 3.4 Gerar componentes shadcn/ui novos: `Table`, `Badge`, `Dialog`, `Textarea`, `Switch`
+- [x] 3.1 `authStore` — `User` ganha campo `role`
+- [x] 3.2 `useAuth.signIn` — captura `role` da resposta de login e passa pro store
+- [x] 3.3 `lib/persona.ts` (ou equivalente) — função pura `getPersona(role)` mapeando `admin|manager -> "admin"`, `service_provider -> "service_provider"`, `resident -> "resident"`
+- [x] 3.4 Gerar componentes shadcn/ui novos: `Table`, `Badge`, `Dialog`, `Textarea`, `Switch`
 
 ## 4. Frontend — Sidebar por persona
 

@@ -2,9 +2,9 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
 import { HTTPError } from "ky";
 import { api, setToken } from "@/lib/api";
-import { useAuthStore } from "@/store/authStore";
+import { useAuthStore, type Role } from "@/store/authStore";
 
-interface User {
+interface UserResponse {
   id: string;
   email: string;
   name: string;
@@ -12,7 +12,8 @@ interface User {
 
 interface AuthResponse {
   message: string;
-  user: User;
+  user: UserResponse;
+  role: Role;
 }
 
 const LOGIN_ERROR_MESSAGES: Record<string, string> = {
@@ -31,7 +32,7 @@ export function useAuth() {
         const response = await api.post("api/v1/auth/sign_in", { json: { user: data } });
         const token = response.headers.get("Authorization")?.replace("Bearer ", "");
         const body: AuthResponse = await response.json();
-        return { token, user: body.user };
+        return { token, user: { ...body.user, role: body.role } };
       } catch (error) {
         throw new Error(await extractLoginErrorMessage(error), { cause: error });
       }
